@@ -7,7 +7,7 @@ namespace Library.DAL.Data
     {
         internal static void SeedData(ModelBuilder builder)
         {
-            // Սերմանման կատեգորիաներ
+            // Categories
             builder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "science" },
                 new Category { Id = 2, Name = "fiction" },

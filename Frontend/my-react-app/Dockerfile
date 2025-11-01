@@ -2,7 +2,7 @@
 FROM node:20 AS build
 WORKDIR /app
 
-# 💥 Clear all potential credentials and config
+# Clear all potential credentials and config
 RUN rm -f /root/.npmrc /app/.npmrc
 RUN npm config set registry https://registry.npmjs.org/
 RUN npm config delete //registry.npmjs.org/:_authToken || true
@@ -12,7 +12,7 @@ RUN npm config delete password || true
 RUN npm config delete email || true
 RUN npm config delete always-auth || true
 
-# 🚫 Ensure environment does not force auth
+# Ensure environment does not force auth
 ENV NPM_CONFIG_ALWAYS_AUTH=false
 ENV NPM_TOKEN=""
 ENV NODE_AUTH_TOKEN=""

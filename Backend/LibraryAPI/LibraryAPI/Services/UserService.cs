@@ -25,14 +25,10 @@ public class UserService : IUserService
     public string Register(RegisterModel registrationRequestDto)
     {
         // Perform user registration logic here
-        // Create a new ApplicationUser and add it to the UserManager
         var user = new ApplicationUser
         {
             FirstName = registrationRequestDto.FirstName,
             LastName = registrationRequestDto.LastName,
-            //DateOfBirth = registrationRequestDto.DateOfBirth,
-            //PhoneNumber = registrationRequestDto.PhoneNumber,
-            //StreetAddress = registrationRequestDto.StreetAddress,
             UserName = registrationRequestDto.Email.ToLower(),
             Email = registrationRequestDto.Email,
             NormalizedEmail = registrationRequestDto.Email.ToUpper(),
@@ -50,8 +46,7 @@ public class UserService : IUserService
                 {
                     Email = userToReturn.Email,
                     Id = userToReturn.Id,
-                    FirstName = userToReturn.FirstName,
-                    //PhoneNumber = userToReturn.PhoneNumber
+                    FirstName = userToReturn.FirstName
                 };
 
                 return string.Empty;
@@ -77,10 +72,7 @@ public class UserService : IUserService
             Email = user.Email,
             Id = user.Id,
             FirstName = user.FirstName,
-            //PhoneNumber = user.PhoneNumber,
-            LastName = user.LastName,
-            //DateOfBirth = user.DateOfBirth,
-            //StreetAddress = user.StreetAddress,
+            LastName = user.LastName
         };
     }
 
@@ -105,10 +97,7 @@ public class UserService : IUserService
             Email = user.Email,
             Id = user.Id,
             FirstName = user.FirstName,
-            //PhoneNumber = user.PhoneNumber,
-            LastName = user.LastName,
-            //DateOfBirth = user.DateOfBirth,
-            //StreetAddress = user.StreetAddress,
+            LastName = user.LastName
 
         };
         LoginResponseDto loginResponseDto = new LoginResponseDto()

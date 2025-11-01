@@ -17,7 +17,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         base.OnModelCreating(builder);
 
         // ----------------------------
-        // Primary Keys (Fluent API)
+        // Primary Keys
         // ----------------------------
 
         builder.Entity<Author>()
