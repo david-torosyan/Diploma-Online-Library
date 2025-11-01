@@ -10,27 +10,27 @@ This project also includes **Docker Compose** for simple multi-service deploymen
 ## 🏗️ Project Structure
 Online Library/
 ├── Backend/
-│ └── LibraryAPI/
-│ ├── LibraryAPI.sln
-│ ├── Library.DAL/
-│ └── LibraryAPI/
-│ ├── Controllers/
-│ ├── Models/
-│ ├── Services/
-│ └── Program.cs
+│   └── LibraryAPI/
+│       ├── LibraryAPI.sln
+│       ├── Library.DAL/
+│       └── LibraryAPI/
+│           ├── Controllers/
+│           ├── Models/
+│           ├── Services/
+│           └── Program.cs
 │
 ├── Frontend/
-│ └── my-react-app/
-│ ├── src/
-│ ├── public/
-│ ├── package.json
-│ └── tsconfig.json
+│   └── my-react-app/
+│       ├── src/
+│       ├── public/
+│       ├── package.json
+│       └── tsconfig.json
 │
 ├── docker-compose.yml
 ├── START_Applications.bat
 ├── START_Containers.bat
 └── STOP_Clean_Containers.bat
----
+
 
 ## 🚀 Features
 
