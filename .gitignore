@@ -1,0 +1,26 @@
+# Node modules
+node_modules/
+
+# .NET build artifacts
+bin/
+obj/
+.vs/
+
+# User-specific files
+*.user
+
+# Database and log files
+*.db
+*.log
+
+# App settings (exclude sensitive configuration)
+LibraryAPI/LibraryAPI/appsettings.*.json
+
+# React environment variables
+Frontend/my-react-app/.env
+
+# Build outputs
+**/dist/
+
+# Environment files in any subdirectory
+**/.env
