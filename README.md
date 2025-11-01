@@ -8,6 +8,7 @@ This project also includes **Docker Compose** for simple multi-service deploymen
 ---
 
 ## 🏗️ Project Structure
+```
 Online Library/
 ├── Backend/
 │   └── LibraryAPI/
@@ -30,7 +31,7 @@ Online Library/
 ├── START_Applications.bat
 ├── START_Containers.bat
 └── STOP_Clean_Containers.bat
-
+```
 
 ## 🚀 Features
 
