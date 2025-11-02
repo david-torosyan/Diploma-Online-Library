@@ -7,7 +7,7 @@ namespace Library.DAL.Data
     {
         internal static void SeedData(ModelBuilder builder)
         {
-            // Categories
+            #region Categories
             builder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "science" },
                 new Category { Id = 2, Name = "fiction" },
@@ -19,8 +19,9 @@ namespace Library.DAL.Data
                 new Category { Id = 8, Name = "technology" },
                 new Category { Id = 9, Name = "art" },
                 new Category { Id = 10, Name = "travel" });
+            #endregion
 
-            // Seed Authors
+            #region Seed Authors
             builder.Entity<Author>().HasData(
                 new Author { Id = 1, FullName = "Navjot S. Sodhi" },
                 new Author { Id = 2, FullName = "Paul R. Ehrlich" },
@@ -139,8 +140,9 @@ namespace Library.DAL.Data
                 new Author { Id = 115, FullName = "Christopher D. Hines" },
                 new Author { Id = 116, FullName = "United Nations Environment Programme" },
                 new Author { Id = 117, FullName = "World Tourism Organization" });
+            #endregion
 
-            // Seed Books
+            #region Seed Books
             builder.Entity<Book>().HasData(
                 new Book
                 {
@@ -1416,6 +1418,7 @@ namespace Library.DAL.Data
                      BookURL = "https://www.europarc.org/wp-content/uploads/2015/05/2012_Parks_and_Benefits_Guide_to_sustainable_tourism_in_Protected_Areas.pdf",
                      ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuN00TpctnWSLzvYdA_2rk8RxHDn9MM2hUwA&s"
                  });
+            #endregion
         }
     }
 }
