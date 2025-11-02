@@ -33,7 +33,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="navbar navbar-expand-lg navbar-dark bg-primary px-4 py-2">
+      <header className="navbar navbar-expand-lg navbar-dark bg-success px-4 py-2">
         <a className="navbar-brand fw-bold text-white" href="/">
           {t("appName")}
         </a>

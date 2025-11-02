@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import config from "../config/config.json";
 import BookDetailFromAi from "../pages/BookDetailFromAi";
 
+import backgroundImage from "../assets/grand-library.jpg";
+
 const SearchDrawer: React.FC = () => {
   const { t } = useTranslation();
 
@@ -19,21 +21,17 @@ const SearchDrawer: React.FC = () => {
 
   const api = new LibraryClient(config.baseUrl);
 
-  // Debounce logic for auto-search
+  // --- Debounce logic for auto-search ---
   useEffect(() => {
     if (query.length < 3) {
       setResults([]);
       return;
     }
-
-    const delayDebounce = setTimeout(() => {
-      handleSearch(query, false);
-    }, 500);
-
-    return () => clearTimeout(delayDebounce);
+    const delay = setTimeout(() => handleSearch(query, false), 500);
+    return () => clearTimeout(delay);
   }, [query]);
 
-  // Main search function
+  // --- Search Function ---
   const handleSearch = useCallback(
     async (text: string, force = true) => {
       if (!text || text.length < 3) return;
@@ -50,7 +48,6 @@ const SearchDrawer: React.FC = () => {
           setIsAiResult(false);
           setAiBook(null);
         } else if (force) {
-          // AI mode
           setAiThinking(true);
           const aiBookResult = await api.getBook(text);
 
@@ -58,8 +55,6 @@ const SearchDrawer: React.FC = () => {
             setResults([aiBookResult]);
             setIsAiResult(true);
             setAiBook(aiBookResult);
-
-            // Automatically open the AI drawer
             setTimeout(() => {
               const drawerEl = document.getElementById("bookDetailFromAiDrawer");
               if (drawerEl) {
@@ -77,8 +72,7 @@ const SearchDrawer: React.FC = () => {
           setIsAiResult(false);
           setAiBook(null);
         }
-      } catch (err) {
-        console.error(err);
+      } catch {
         setError(t("fetchError"));
       } finally {
         setLoading(false);
@@ -99,148 +93,147 @@ const SearchDrawer: React.FC = () => {
   };
 
   return (
-    <div className="mt-3 text-center">
-      {/* --- Search Form --- */}
-      <form
-        onSubmit={handleSubmit}
-        className="d-flex align-items-center justify-content-center"
-        style={{ gap: "0.5rem" }}
-      >
-        <input
-          type="text"
-          className="form-control"
-          placeholder={t("searchPlaceholder")}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          style={{ maxWidth: "350px" }}
-          autoFocus
-        />
+    <section
+      className="position-relative text-center text-white rounded shadow my-4 py-4 px-3"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        overflow: "hidden",
+      }}
+    >
+      {/* Overlay */}
+      <div
+        className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"
+        style={{ zIndex: 0 }}
+      ></div>
 
-        {query && (
-          <button
-            type="button"
-            onClick={handleClear}
-            className="btn btn-outline-secondary"
-          >
-            ×
+      <div className="position-relative" style={{ zIndex: 1 }}>
+        {/* --- Search Form --- */}
+        <form
+          onSubmit={handleSubmit}
+          className="d-flex align-items-center justify-content-center flex-wrap gap-2"
+        >
+          <input
+            type="text"
+            className="form-control w-auto"
+            placeholder={t("searchPlaceholder")}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            style={{ maxWidth: "350px" }}
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={handleClear}
+              className="btn btn-outline-light"
+            >
+              ×
+            </button>
+          )}
+          <button type="submit" className="btn btn-success">
+            {t("searchWithAi")}
           </button>
+        </form>
+
+        {/* --- Feedback Section --- */}
+        {loading && !aiThinking && (
+          <div className="mt-3 d-flex justify-content-center align-items-center gap-2 text-light">
+            <div className="spinner-border spinner-border-sm text-light" />
+            <span>{t("serverThinking")}</span>
+          </div>
         )}
 
-        <button type="submit" className="btn btn-primary">
-          {t("searchWithAi")}
-        </button>
-      </form>
+        {aiThinking && (
+          <div className="mt-3 d-flex justify-content-center align-items-center gap-2 text-warning">
+            <div className="spinner-grow spinner-grow-sm text-warning" />
+            <span>{t("aiThinking")}</span>
+          </div>
+        )}
 
-      {/* --- Feedback Section --- */}
-      {loading && !aiThinking && (
-        <p className="mt-3 text-secondary d-flex align-items-center justify-content-center gap-2">
-          <div className="spinner-border spinner-border-sm text-secondary" />
-          <span>{t("serverThinking")}</span>
-        </p>
-      )}
+        {error && <p className="text-danger mt-3">{error}</p>}
 
-      {aiThinking && (
-        <p className="mt-3 text-primary fw-semibold d-flex align-items-center justify-content-center gap-2">
-          <div className="spinner-grow spinner-grow-sm text-primary" />
-          <span>{t("aiThinking")}</span>
-        </p>
-      )}
-
-      {error && <p className="text-danger mt-3">{error}</p>}
-
-      {/* --- Results --- */}
-      <div className="mt-4 container" style={{ maxWidth: "600px" }}>
-        {results.length > 0 ? (
-          <ul className="list-group shadow-sm">
-            {results.map((book) => (
-              <li
-                key={book.id}
-                className="list-group-item d-flex align-items-center"
-                style={{
-                  gap: "0.75rem",
-                  padding: "0.4rem 0.6rem",
-                }}
-              >
-                {/* Thumbnail */}
-                {book.imageURL && (
-                  <img
-                    src={book.imageURL}
-                    alt={book.title}
-                    style={{
-                      width: "40px",
-                      height: "56px",
-                      objectFit: "cover",
-                      borderRadius: "4px",
-                      flexShrink: 0,
-                    }}
-                  />
-                )}
-
-                {/* Book Info + Link */}
-                <div
-                  className="text-start flex-grow-1"
-                  style={{ lineHeight: "1.1rem" }}
+        {/* --- Results --- */}
+        <div className="mt-4 container" style={{ maxWidth: "600px" }}>
+          {results.length > 0 ? (
+            <ul className="list-group shadow">
+              {results.map((book) => (
+                <li
+                  key={book.id}
+                  className="list-group-item d-flex align-items-center"
+                  style={{ gap: "0.75rem" }}
                 >
-                  {!isAiResult ? (
-                    <Link
-                      to={`/bookdetails/${book.id}`}
-                      className="fw-semibold text-decoration-none text-primary"
-                      style={{ fontSize: "0.95rem" }}
-                    >
-                      {book.title}
-                    </Link>
-                  ) : (
-                    <button
-                      className="btn btn-link fw-semibold text-primary text-decoration-none p-0"
-                      style={{ fontSize: "0.95rem" }}
-                      data-bs-toggle="offcanvas"
-                      data-bs-target="#bookDetailFromAiDrawer"
-                      onClick={() => setAiBook(book)}
-                    >
-                      {book.title}
-                    </button>
+                  {book.imageURL && (
+                    <img
+                      src={book.imageURL}
+                      alt={book.title}
+                      className="rounded"
+                      style={{
+                        width: "40px",
+                        height: "56px",
+                        objectFit: "cover",
+                        flexShrink: 0,
+                      }}
+                    />
                   )}
 
-                  <div className="text-muted" style={{ fontSize: "0.8rem" }}>
-                    {book.authorFullName || t("unknownAuthor")}
-                  </div>
-                  <div
-                    className="text-secondary"
-                    style={{ fontSize: "0.75rem" }}
-                  >
-                    {book.categoryName || t("uncategorized")}
-                  </div>
-                </div>
+                  <div className="text-start flex-grow-1">
+                    {!isAiResult ? (
+                      <Link
+                        to={`/bookdetails/${book.id}`}
+                        className="fw-semibold text-decoration-none text-primary"
+                      >
+                        {book.title}
+                      </Link>
+                    ) : (
+                      <button
+                        className="btn btn-link fw-semibold text-primary text-decoration-none p-0"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#bookDetailFromAiDrawer"
+                        onClick={() => setAiBook(book)}
+                      >
+                        {book.title}
+                      </button>
+                    )}
 
-                {/* Optional external link */}
-                {!isAiResult && book.bookURL && (
-                  <a
-                    href={book.bookURL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-sm btn-outline-primary px-2 py-0"
-                    style={{ fontSize: "0.75rem", height: "26px" }}
-                  >
-                    PDF
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          query.length >= 3 &&
-          !loading && (
-            <p className="text-muted">
-              {t("noResultsStart")} <strong>{query}</strong>.{" "}
-              {t("noResultsEnd")}
-            </p>
-          )
-        )}
+                    <div className="text-muted small">
+                      {book.authorFullName || t("unknownAuthor")}
+                    </div>
+                    <div className="text-secondary small">
+                      {book.categoryName || t("uncategorized")}
+                    </div>
+                  </div>
+
+                  {!isAiResult && book.bookURL && (
+                    <a
+                      href={book.bookURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-sm btn-outline-primary px-2 py-0"
+                      style={{ fontSize: "0.75rem", height: "26px" }}
+                    >
+                      PDF
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            query.length >= 3 &&
+            !loading && (
+              <p className="mt-3">
+                {t("noResultsStart")} <strong>{query}</strong>.{" "}
+                {t("noResultsEnd")}
+              </p>
+            )
+          )}
+        </div>
+
+        {/* --- AI Drawer --- */}
+        <BookDetailFromAi book={aiBook} />
       </div>
-
-      {/* --- AI Drawer --- */}
-      <BookDetailFromAi book={aiBook} />
-    </div>
+    </section>
   );
 };
 

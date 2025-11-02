@@ -16,11 +16,6 @@ public class BookAuthorService : IBookAuthorService
         _logger = logger;
     }
 
-    /// <summary>
-    /// Adds a book and its author if the author does not exist.
-    /// </summary>
-    /// <param name="addBookDto">Book creation data.</param>
-    /// <returns>The newly created book ID.</returns>
     public async Task<int> AddBookWithAuthorAsync(AddBookDto addBookDto)
     {
         try
@@ -28,7 +23,6 @@ public class BookAuthorService : IBookAuthorService
             if (addBookDto == null)
                 throw new ArgumentNullException(nameof(addBookDto), "Book data cannot be null.");
 
-            // 🔹 Step 1: Ensure author exists
             var author = await _unitOfWork.Authors.GetAuthorByNameAsync(addBookDto.AuthorName);
             if (author == null)
             {
@@ -40,7 +34,6 @@ public class BookAuthorService : IBookAuthorService
                 _logger.LogInformation("Created new author: {AuthorName}", author.FullName);
             }
 
-            // 🔹 Step 2: Create new book entity
             var book = new Book
             {
                 Title = addBookDto.Title,
@@ -53,7 +46,6 @@ public class BookAuthorService : IBookAuthorService
                 AuthorId = author.Id
             };
 
-            // 🔹 Step 3: Save to database
             await _unitOfWork.Books.AddAsync(book);
             await _unitOfWork.CommitAsync();
 
@@ -64,7 +56,7 @@ public class BookAuthorService : IBookAuthorService
         catch (ArgumentNullException ex)
         {
             _logger.LogWarning(ex, "Invalid input when adding book.");
-            throw; // Let controller handle this (400 Bad Request)
+            throw;
         }
         catch (Exception ex)
         {

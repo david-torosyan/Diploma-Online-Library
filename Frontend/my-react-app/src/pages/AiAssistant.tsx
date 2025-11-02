@@ -66,7 +66,7 @@ const AiAssistant: React.FC = () => {
       id="aiAssistantDrawer"
       aria-labelledby="aiAssistantDrawerLabel"
     >
-      <div className="offcanvas-header bg-primary text-white">
+      <div className="offcanvas-header bg-success text-white">
         <h5 id="aiAssistantDrawerLabel" className="offcanvas-title">
           🤖 {t("aiAssistantTitle")}
         </h5>
