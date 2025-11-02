@@ -8,7 +8,7 @@
 // ReSharper disable InconsistentNaming
 
 import axios, { AxiosError } from 'axios';
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 export class LibraryClient {
     protected instance: AxiosInstance;
@@ -27,7 +27,7 @@ export class LibraryClient {
      * @return OK
      */
     prompt(prompt: string, signal?: AbortSignal): Promise<string> {
-        let url_ = this.baseUrl + "/prompt?";
+        let url_ = this.baseUrl + "/api/AIAssistant/prompt?";
         if (prompt === undefined || prompt === null)
             throw new globalThis.Error("The parameter 'prompt' must be defined and cannot be null.");
         else
@@ -74,7 +74,19 @@ export class LibraryClient {
 
         } else if (status === 400) {
             const _responseText = response.data;
-            return throwException("Bad Request", status, _responseText, _headers);
+            let result400: any = null;
+            let resultData400  = _responseText;
+                result400 = resultData400 !== undefined ? resultData400 : null as any;
+    
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+                result500 = resultData500 !== undefined ? resultData500 : null as any;
+    
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -87,7 +99,7 @@ export class LibraryClient {
      * @return OK
      */
     getBook(prompt: string, signal?: AbortSignal): Promise<BookWithDetailsDto> {
-        let url_ = this.baseUrl + "/getBook?";
+        let url_ = this.baseUrl + "/api/AIAssistant/getBook?";
         if (prompt === undefined || prompt === null)
             throw new globalThis.Error("The parameter 'prompt' must be defined and cannot be null.");
         else
@@ -131,6 +143,22 @@ export class LibraryClient {
             result200 = BookWithDetailsDto.fromJS(resultData200);
             return Promise.resolve<BookWithDetailsDto>(result200);
 
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+                result400 = resultData400 !== undefined ? resultData400 : null as any;
+    
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+                result500 = resultData500 !== undefined ? resultData500 : null as any;
+    
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
+
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -142,7 +170,7 @@ export class LibraryClient {
      * @return OK
      */
     category(category: string, signal?: AbortSignal): Promise<BookDto[]> {
-        let url_ = this.baseUrl + "/category?";
+        let url_ = this.baseUrl + "/api/Book/category?";
         if (category === undefined || category === null)
             throw new globalThis.Error("The parameter 'category' must be defined and cannot be null.");
         else
@@ -193,6 +221,22 @@ export class LibraryClient {
             }
             return Promise.resolve<BookDto[]>(result200);
 
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+                result400 = resultData400 !== undefined ? resultData400 : null as any;
+    
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+                result500 = resultData500 !== undefined ? resultData500 : null as any;
+    
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
+
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -204,7 +248,7 @@ export class LibraryClient {
      * @return OK
      */
     id(id: number, signal?: AbortSignal): Promise<BookWithDetailsDto> {
-        let url_ = this.baseUrl + "/id?";
+        let url_ = this.baseUrl + "/api/Book/id?";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined and cannot be null.");
         else
@@ -248,6 +292,29 @@ export class LibraryClient {
             result200 = BookWithDetailsDto.fromJS(resultData200);
             return Promise.resolve<BookWithDetailsDto>(result200);
 
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+                result400 = resultData400 !== undefined ? resultData400 : null as any;
+    
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+                result500 = resultData500 !== undefined ? resultData500 : null as any;
+    
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
+
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -259,7 +326,7 @@ export class LibraryClient {
      * @return OK
      */
     bookName(searchString: string, signal?: AbortSignal): Promise<BookWithDetailsDto[]> {
-        let url_ = this.baseUrl + "/bookName?";
+        let url_ = this.baseUrl + "/api/Book/bookName?";
         if (searchString === undefined || searchString === null)
             throw new globalThis.Error("The parameter 'searchString' must be defined and cannot be null.");
         else
@@ -309,6 +376,22 @@ export class LibraryClient {
                 result200 = null as any;
             }
             return Promise.resolve<BookWithDetailsDto[]>(result200);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+                result400 = resultData400 !== undefined ? resultData400 : null as any;
+    
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+                result500 = resultData500 !== undefined ? resultData500 : null as any;
+    
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -372,6 +455,14 @@ export class LibraryClient {
             let resultData400  = _responseText;
             result400 = RegisterResponseDto.fromJS(resultData400);
             return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+                result500 = resultData500 !== undefined ? resultData500 : null as any;
+    
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -437,6 +528,14 @@ export class LibraryClient {
     
             return throwException("Bad Request", status, _responseText, _headers, result400);
 
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+                result500 = resultData500 !== undefined ? resultData500 : null as any;
+    
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
+
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -447,7 +546,7 @@ export class LibraryClient {
     /**
      * @return OK
      */
-    profile(signal?: AbortSignal): Promise<void> {
+    profile(signal?: AbortSignal): Promise<UserDto> {
         let url_ = this.baseUrl + "/api/User/profile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -455,6 +554,7 @@ export class LibraryClient {
             method: "GET",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             signal
         };
@@ -470,7 +570,7 @@ export class LibraryClient {
         });
     }
 
-    protected processProfile(response: AxiosResponse): Promise<void> {
+    protected processProfile(response: AxiosResponse): Promise<UserDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -481,13 +581,33 @@ export class LibraryClient {
             }
         }
         if (status === 200) {
-            return Promise.resolve<void>(null as any);
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = UserDto.fromJS(resultData200);
+            return Promise.resolve<UserDto>(result200);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+                result401 = resultData401 !== undefined ? resultData401 : null as any;
+    
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+                result500 = resultData500 !== undefined ? resultData500 : null as any;
+    
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<UserDto>(null as any);
     }
 }
 
@@ -759,6 +879,70 @@ export class LoginResponseDto implements ILoginResponseDto {
 export interface ILoginResponseDto {
     user?: UserDto;
     token?: string | undefined;
+}
+
+export class ProblemDetails implements IProblemDetails {
+    type?: string | undefined;
+    title?: string | undefined;
+    status?: number | undefined;
+    detail?: string | undefined;
+    instance?: string | undefined;
+
+    [key: string]: any;
+
+    constructor(data?: IProblemDetails) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.type = _data["type"];
+            this.title = _data["title"];
+            this.status = _data["status"];
+            this.detail = _data["detail"];
+            this.instance = _data["instance"];
+        }
+    }
+
+    static fromJS(data: any): ProblemDetails {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProblemDetails();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["type"] = this.type;
+        data["title"] = this.title;
+        data["status"] = this.status;
+        data["detail"] = this.detail;
+        data["instance"] = this.instance;
+        return data;
+    }
+}
+
+export interface IProblemDetails {
+    type?: string | undefined;
+    title?: string | undefined;
+    status?: number | undefined;
+    detail?: string | undefined;
+    instance?: string | undefined;
+
+    [key: string]: any;
 }
 
 export class RegisterModel implements IRegisterModel {

@@ -26,6 +26,6 @@ start "" cmd /k "npm run dev"
 timeout /t 15 /nobreak >nul
 
 :: Open browser to React app
-start "" "http://localhost:5173/"
+start "" "http://localhost:3000/"
 
 pause

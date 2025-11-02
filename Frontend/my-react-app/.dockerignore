@@ -1,6 +1,11 @@
-node_modules
+node_modules/
+dist/
 npm-debug.log
 .dockerignore
 .npmrc
-.git
+.git/
 .gitignore
+.eslintcache
+*.log
+*.DS_Store
+*.env

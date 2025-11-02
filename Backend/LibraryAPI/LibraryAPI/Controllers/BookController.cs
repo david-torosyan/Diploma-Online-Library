@@ -1,5 +1,4 @@
 ﻿using Library.DAL.IRepositories;
-using Library.DAL.Models;
 using LibraryAPI.Mappers;
 using LibraryAPI.Models;
 using Microsoft.AspNetCore.Mvc;
