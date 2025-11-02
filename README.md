@@ -196,7 +196,7 @@ Once the backend is running, Swagger UI is available at:
 
 ## 👨‍💻 Author
 **David Torosyan**  
-📧 *david.torosyan@example.com* (replace with your real contact)  
+📧 [LinkedIn Profile](https://www.linkedin.com/in/davit-torosyan)
 🖥️ [GitHub Profile](https://github.com/david-torosyan)
 
 ---
