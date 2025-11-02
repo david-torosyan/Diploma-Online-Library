@@ -17,6 +17,7 @@ services:
     build:
       context: ./Backend/LibraryAPI
       dockerfile: LibraryAPI/Dockerfile
+    image: online-library-backend:latest
     container_name: library_backend
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -32,6 +33,7 @@ services:
     build:
       context: ./Frontend/my-react-app
       dockerfile: Dockerfile
+    image: online-library-frontend:latest
     container_name: library_frontend
     ports:
       - "3000:80"
