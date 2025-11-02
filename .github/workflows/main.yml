@@ -1,4 +1,4 @@
-name: 🚀 CI - Build & Verify Diploma Online Library (Docker Compose)
+name: ♾️ CI - Build & Verify Diploma Online Library (Docker Compose)
 
 on:
   push:
@@ -39,9 +39,9 @@ jobs:
       # 5️⃣ Start Application Stack
       - name: 🚀 Launch Application Stack
         run: |
-          echo "🟢 Starting all containers..."
+          echo "🟡 Starting all containers..."
           docker compose -f docker-compose.yml up -d
-          echo "✅ Containers launched successfully."
+          echo "🟢 Containers launched successfully."
       # 6️⃣ Wait for Initialization (Database / Backend)
       - name: ⏱ Wait for Service Startup
         run: |
@@ -52,17 +52,17 @@ jobs:
         run: docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
       # 8️⃣ Backend Health Check (Swagger or API)
-      - name: ⚕️ Backend Health Check
+      - name: 💚 Backend Health Check
         run: |
           echo "🔍 Checking backend service availability..."
           curl -f http://localhost:5000/swagger \
-            && echo "✅ Backend is reachable and healthy." \
-            || (echo "❌ Backend not responding!" && docker compose logs && exit 1)
+            && echo "🟢 Backend is reachable and healthy." \
+            || (echo "🔴 Backend not responding!" && docker compose logs && exit 1)
       # 9️⃣ Frontend Health Check (if applicable)
-      - name: 🌐 Frontend Health Check
+      - name: ⚛️ Frontend Health Check
         continue-on-error: true
         run: |
-          echo "🌍 Verifying frontend container is running..."
+          echo "🟢 Verifying frontend container is running..."
           curl -I http://localhost:3000 || echo "⚠️ Frontend check skipped (port 3000 not reachable)."
       # 🔟 Capture Logs on Failure
       - name: 🪵 Export Docker Logs (on failure)
