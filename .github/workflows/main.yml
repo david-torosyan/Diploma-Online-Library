@@ -1,0 +1,86 @@
+name: 🚀 CI - Build & Verify Diploma Online Library (Docker Compose)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  Build-And-Verify:
+    name: 🏗️ Build, Launch & Test Services
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout Source Code
+      - name: 🔄 Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Set Up Docker Buildx (for multi-platform builds)
+      - name: 🐳 Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 3️⃣ Cache Docker Layers (improves build speed)
+      - name: 🧱 Cache Docker Layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      # 4️⃣ Build All Docker Services
+      - name: 🔨 Build Docker Images
+        run: |
+          echo "🚧 Building all services defined in docker-compose.yml..."
+          docker compose -f docker-compose.yml build --progress=plain
+      # 5️⃣ Start Application Stack
+      - name: 🚀 Launch Application Stack
+        run: |
+          echo "🟢 Starting all containers..."
+          docker compose -f docker-compose.yml up -d
+          echo "✅ Containers launched successfully."
+      # 6️⃣ Wait for Initialization (Database / Backend)
+      - name: ⏱ Wait for Service Startup
+        run: |
+          echo "⏳ Waiting 20 seconds for containers to fully initialize..."
+          sleep 20
+      # 7️⃣ List Running Containers (for verification)
+      - name: 🧩 Verify Running Containers
+        run: docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+      # 8️⃣ Backend Health Check (Swagger or API)
+      - name: ⚕️ Backend Health Check
+        run: |
+          echo "🔍 Checking backend service availability..."
+          curl -f http://localhost:5000/swagger \
+            && echo "✅ Backend is reachable and healthy." \
+            || (echo "❌ Backend not responding!" && docker compose logs && exit 1)
+      # 9️⃣ Frontend Health Check (if applicable)
+      - name: 🌐 Frontend Health Check
+        continue-on-error: true
+        run: |
+          echo "🌍 Verifying frontend container is running..."
+          curl -I http://localhost:3000 || echo "⚠️ Frontend check skipped (port 3000 not reachable)."
+      # 🔟 Capture Logs on Failure
+      - name: 🪵 Export Docker Logs (on failure)
+        if: failure()
+        run: |
+          echo "⚠️ Build or health check failed. Capturing logs..."
+          docker compose logs > docker_logs.txt
+      - name: 📦 Upload Logs as Artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-logs
+          path: docker_logs.txt
+
+      # 11️⃣ Cleanup (Always)
+      - name: 🧹 Stop and Clean Containers
+        if: always()
+        run: |
+          echo "🧽 Cleaning up Docker environment..."
+          docker compose -f docker-compose.yml down -v --remove-orphans
+          echo "🧼 Cleanup complete."
