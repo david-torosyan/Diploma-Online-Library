@@ -1,6 +1,7 @@
 ﻿using Library.DAL.IRepositories;
 using LibraryAPI.Mappers;
 using LibraryAPI.Models;
+using LibraryAPI.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,11 +11,13 @@ namespace LibraryAPI.Controllers
     [Route("api/[controller]")]
     public class BookController : ControllerBase
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IBookAuthorService _bookAuthorService;
 
-        public BookController(IBookRepository bookRepository)
+        public BookController(IUnitOfWork unitOfWork, IBookAuthorService bookAuthorService)
         {
-            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
+            _bookAuthorService = bookAuthorService;
         }
 
         /// <summary>
@@ -31,7 +34,7 @@ namespace LibraryAPI.Controllers
             if (string.IsNullOrWhiteSpace(category))
                 return BadRequest("Category cannot be empty.");
 
-            var books = await _bookRepository.GetByCategoryAsync(category);
+            var books = await _unitOfWork.Books.GetByCategoryAsync(category);
             return Ok(books.Select(book => book.ToBookDto()));
         }
 
@@ -50,11 +53,34 @@ namespace LibraryAPI.Controllers
             if (id <= 0)
                 return BadRequest("Invalid book ID.");
 
-            var book = await _bookRepository.GetBookWithDetailsByIdAsync(id);
+            var book = await _unitOfWork.Books.GetBookWithDetailsByIdAsync(id);
             if (book == null)
                 return NotFound($"Book with ID {id} was not found.");
 
             return Ok(book.ToBookWithDetailsDto());
+        }
+
+        /// <summary>
+        /// Adds a new book to the library.
+        /// </summary>
+        /// <param name="bookDto">The book details to create.</param>
+        /// <returns>The ID of the newly created book.</returns>
+        [HttpPost("addBookWithAuthor")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<int>> AddBook([FromBody] AddBookDto bookDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid book data.");
+
+            var newBookId = await _bookAuthorService.AddBookWithAuthorAsync(bookDto);
+
+            return CreatedAtAction(
+                nameof(GetBookWithDetailsById),
+                new { id = newBookId },
+                newBookId
+            );
         }
 
         /// <summary>
@@ -71,7 +97,7 @@ namespace LibraryAPI.Controllers
             if (string.IsNullOrWhiteSpace(searchString))
                 return BadRequest("Search string cannot be empty.");
 
-            var books = await _bookRepository.GetBookWithDetailsByNameAsync(searchString);
+            var books = await _unitOfWork.Books.GetBookWithDetailsByNameAsync(searchString);
             return Ok(books.Select(book => book.ToBookWithDetailsDto()));
         }
     }

@@ -5,5 +5,7 @@ namespace Library.DAL.IRepositories;
 public interface IAuthorRepository : IBaseRepository<Author>
 {
     Task<Author> GetAuthorWithBooksAsync(int authorId);
+
+    Task<Author> GetAuthorByNameAsync(string authorName);
 }
 

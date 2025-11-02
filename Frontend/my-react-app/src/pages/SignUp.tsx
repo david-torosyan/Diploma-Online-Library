@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { LibraryClient, RegisterModel, LoginModel } from "../api/LibraryClient";
 import { handleLoginResponse } from "../services/loginService.tsx";
-import config from "../config/config.json";
 import { useTranslation } from "react-i18next";
+import config from "../config/config.json";
 
 const SignUp: React.FC = () => {
   const { t } = useTranslation();

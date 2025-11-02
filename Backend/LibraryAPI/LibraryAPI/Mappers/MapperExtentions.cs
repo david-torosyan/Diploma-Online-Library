@@ -31,4 +31,11 @@ public static class MapperExtentions
             BookURL = book.BookURL,
             ImageURL = book.ImageURL
         };
+
+    public static CategoryDto ToCategoryDto(this Category category) =>
+        new()
+        {
+            Id = category.Id,
+            Name = category.Name
+        };
 }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { LibraryClient } from "../api/LibraryClient";
+import { useTranslation } from "react-i18next";
 import config from "../config/config.json";
 import ReactMarkdown from "react-markdown";
-import { useTranslation } from "react-i18next";
 
 interface ChatMessage {
   sender: "user" | "ai";

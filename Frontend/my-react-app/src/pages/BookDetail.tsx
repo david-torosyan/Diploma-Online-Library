@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { LibraryClient, BookWithDetailsDto } from "../api/LibraryClient";
-import config from "../config/config.json";
 import { useTranslation } from "react-i18next";
+import config from "../config/config.json";
 
 const BookDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();

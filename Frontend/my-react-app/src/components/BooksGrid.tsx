@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LibraryClient, BookDto } from "../api/LibraryClient";
-import config from "../config/config.json";
 import { useTranslation } from "react-i18next";
+import config from "../config/config.json";
 
 interface Book {
   id: string;
@@ -55,7 +55,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({ genre = "fiction" }) => {
     };
 
     fetchBooks();
-  }, [genre, t]);
+  }, [genre]);
 
   const scroll = (direction: "left" | "right") => {
     const distance = direction === "left" ? -300 : 300;

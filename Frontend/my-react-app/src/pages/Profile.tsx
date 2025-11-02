@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
 
 interface User {
   firstName?: string;
@@ -30,7 +30,6 @@ const Profile: React.FC = () => {
     window.location.reload();
   };
 
-  // Not logged in
   if (!user) {
     return (
       <div
@@ -57,7 +56,6 @@ const Profile: React.FC = () => {
     );
   }
 
-  // Logged in view
   return (
     <div
       className="offcanvas offcanvas-end"
@@ -90,7 +88,16 @@ const Profile: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 d-flex flex-column gap-2">
+          {/* Open Add Book Drawer */}
+          <button
+            className="btn btn-outline-success w-100"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#addBookDrawer"
+          >
+            ➕ {t("addBook")}
+          </button>
+
           <button
             className="btn btn-outline-danger w-100"
             onClick={handleLogout}

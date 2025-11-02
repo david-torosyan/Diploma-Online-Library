@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import Profile from "../pages/Profile";
 import AiAssistant from "../pages/AiAssistant";
 import LanguageSwitcher from "../languages/LanguageSwitcher";
+import AddBookDrawer from "../components/AddBookDrawer";
 
 const Header: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -110,6 +111,7 @@ const Header: React.FC = () => {
       <SignIn />
       <SignUp />
       <Profile />
+      <AddBookDrawer />
       <AiAssistant />
     </>
   );

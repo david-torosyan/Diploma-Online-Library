@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { LibraryClient, BookWithDetailsDto } from "../api/LibraryClient";
-import config from "../config/config.json";
-import BookDetailFromAi from "../pages/BookDetailFromAi";
 import { Offcanvas } from "bootstrap";
 import { useTranslation } from "react-i18next";
+import config from "../config/config.json";
+import BookDetailFromAi from "../pages/BookDetailFromAi";
 
 const SearchDrawer: React.FC = () => {
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ const SearchDrawer: React.FC = () => {
 
   const api = new LibraryClient(config.baseUrl);
 
-  // 🔎 Debounce logic for auto-search
+  // Debounce logic for auto-search
   useEffect(() => {
     if (query.length < 3) {
       setResults([]);
@@ -33,7 +33,7 @@ const SearchDrawer: React.FC = () => {
     return () => clearTimeout(delayDebounce);
   }, [query]);
 
-  // 🔍 Main search function
+  // Main search function
   const handleSearch = useCallback(
     async (text: string, force = true) => {
       if (!text || text.length < 3) return;
@@ -50,7 +50,7 @@ const SearchDrawer: React.FC = () => {
           setIsAiResult(false);
           setAiBook(null);
         } else if (force) {
-          // 🤖 AI mode
+          // AI mode
           setAiThinking(true);
           const aiBookResult = await api.getBook(text);
 
@@ -59,7 +59,7 @@ const SearchDrawer: React.FC = () => {
             setIsAiResult(true);
             setAiBook(aiBookResult);
 
-            // 🎬 Automatically open the AI drawer
+            // Automatically open the AI drawer
             setTimeout(() => {
               const drawerEl = document.getElementById("bookDetailFromAiDrawer");
               if (drawerEl) {

@@ -323,6 +323,79 @@ export class LibraryClient {
     }
 
     /**
+     * @param body (optional) 
+     * @return Created
+     */
+    addBookWithAuthor(body: AddBookDto | undefined, signal?: AbortSignal): Promise<number> {
+        let url_ = this.baseUrl + "/api/Book/addBookWithAuthor";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            signal
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processAddBookWithAuthor(_response);
+        });
+    }
+
+    protected processAddBookWithAuthor(response: AxiosResponse): Promise<number> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 201) {
+            const _responseText = response.data;
+            let result201: any = null;
+            let resultData201  = _responseText;
+                result201 = resultData201 !== undefined ? resultData201 : null as any;
+    
+            return Promise.resolve<number>(result201);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+                result400 = resultData400 !== undefined ? resultData400 : null as any;
+    
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+                result500 = resultData500 !== undefined ? resultData500 : null as any;
+    
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<number>(null as any);
+    }
+
+    /**
      * @return OK
      */
     bookName(searchString: string, signal?: AbortSignal): Promise<BookWithDetailsDto[]> {
@@ -398,6 +471,80 @@ export class LibraryClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
         return Promise.resolve<BookWithDetailsDto[]>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    allCategories(signal?: AbortSignal): Promise<CategoryDto[]> {
+        let url_ = this.baseUrl + "/api/Category/allCategories";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            signal
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processAllCategories(_response);
+        });
+    }
+
+    protected processAllCategories(response: AxiosResponse): Promise<CategoryDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CategoryDto.fromJS(item));
+            }
+            else {
+                result200 = null as any;
+            }
+            return Promise.resolve<CategoryDto[]>(result200);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+                result400 = resultData400 !== undefined ? resultData400 : null as any;
+    
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+                result500 = resultData500 !== undefined ? resultData500 : null as any;
+    
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<CategoryDto[]>(null as any);
     }
 
     /**
@@ -611,6 +758,70 @@ export class LibraryClient {
     }
 }
 
+export class AddBookDto implements IAddBookDto {
+    title!: string;
+    authorName!: string;
+    categoryId!: number;
+    description!: string;
+    isbn!: string;
+    publishedDate!: Date;
+    bookUrl!: string;
+    imageUrl!: string;
+
+    constructor(data?: IAddBookDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.title = _data["title"];
+            this.authorName = _data["authorName"];
+            this.categoryId = _data["categoryId"];
+            this.description = _data["description"];
+            this.isbn = _data["isbn"];
+            this.publishedDate = _data["publishedDate"] ? new Date(_data["publishedDate"].toString()) : undefined as any;
+            this.bookUrl = _data["bookUrl"];
+            this.imageUrl = _data["imageUrl"];
+        }
+    }
+
+    static fromJS(data: any): AddBookDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AddBookDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["authorName"] = this.authorName;
+        data["categoryId"] = this.categoryId;
+        data["description"] = this.description;
+        data["isbn"] = this.isbn;
+        data["publishedDate"] = this.publishedDate ? this.publishedDate.toISOString() : undefined as any;
+        data["bookUrl"] = this.bookUrl;
+        data["imageUrl"] = this.imageUrl;
+        return data;
+    }
+}
+
+export interface IAddBookDto {
+    title: string;
+    authorName: string;
+    categoryId: number;
+    description: string;
+    isbn: string;
+    publishedDate: Date;
+    bookUrl: string;
+    imageUrl: string;
+}
+
 export class BookDto implements IBookDto {
     id?: number;
     title?: string | undefined;
@@ -769,6 +980,46 @@ export interface IBookWithDetailsDto {
     imageURL?: string | undefined;
     favorites?: FavoriteDto[] | undefined;
     reviews?: ReviewDto[] | undefined;
+}
+
+export class CategoryDto implements ICategoryDto {
+    id?: number;
+    name?: string | undefined;
+
+    constructor(data?: ICategoryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): CategoryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CategoryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data;
+    }
+}
+
+export interface ICategoryDto {
+    id?: number;
+    name?: string | undefined;
 }
 
 export class FavoriteDto implements IFavoriteDto {
