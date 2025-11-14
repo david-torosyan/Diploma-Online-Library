@@ -2,7 +2,7 @@
 
 ## 🧾 Overview
 **Online Library** is a full-stack web application that enables users to browse, search, and manage books online.  
-It’s built with a **React + TypeScript** frontend and a **.NET 10 Web API** backend, orchestrated with **Docker Compose** for easy multi-service deployment.
+It’s built with a **React + TypeScript** frontend and a **.NET 10.0 Web API** backend, orchestrated with **Docker Compose** for easy multi-service deployment.
 
 ---
 
