@@ -32,6 +32,8 @@ services:
       dockerfile: Dockerfile
     image: online-library-frontend:latest
     container_name: library_frontend
+    depends_on:
+      - backend
     ports:
       - "3000:80"
     restart: unless-stopped

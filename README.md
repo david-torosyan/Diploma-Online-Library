@@ -2,7 +2,7 @@
 
 ## 🧾 Overview
 **Online Library** is a full-stack web application that enables users to browse, search, and manage books online.  
-It’s built with a **React + TypeScript** frontend and a **.NET 9 Web API** backend, orchestrated with **Docker Compose** for easy multi-service deployment.
+It’s built with a **React + TypeScript** frontend and a **.NET 10 Web API** backend, orchestrated with **Docker Compose** for easy multi-service deployment.
 
 ---
 
@@ -68,7 +68,7 @@ Dimploma-Online-Library/
 | Category | Technologies |
 |-----------|---------------|
 | **Frontend** | React 18, TypeScript, i18next, Bootstrap |
-| **Backend** | ASP.NET Core 9.0, Entity Framework Core, NSwag, JWT |
+| **Backend** | ASP.NET Core 10.0, Entity Framework Core, NSwag, JWT |
 | **Database** | Microsoft SQL Server 2022 |
 | **DevOps** | Docker, Docker Compose, GitHub Actions |
 | **Tools** | Visual Studio 2022, VS Code, npm, Git |
