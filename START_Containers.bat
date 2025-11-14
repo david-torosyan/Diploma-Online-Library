@@ -14,6 +14,6 @@ REM Rebuild images and start containers
 docker-compose up --build -d
 
 echo.
-echo ✅ Docker Compose started successfully!
+echo 🟢 Docker Compose started successfully!
 echo To view logs, run: docker-compose logs -f
 pause
