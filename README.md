@@ -127,7 +127,7 @@ This script will:
 
 Access:
 - Frontend → http://localhost:3000  
-- Backend API → http://localhost:5000  
+- Backend API → http://localhost:5000/swagger/index.html
 
 ---
 
