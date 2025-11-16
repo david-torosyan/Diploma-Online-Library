@@ -38,7 +38,7 @@ Dimploma-Online-Library/
 ```
 
 ---
-create .env file and use format like this
+# === Database Configuration ===
 DB_HOST=db
 DB_PORT=5432
 DB_NAME=LibraryDb
