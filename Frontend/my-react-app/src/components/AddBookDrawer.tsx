@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { LibraryClient, CategoryDto, AddBookDto } from "../api/LibraryClient";
 import config from "../config/config.json";
 import { useNavigate } from "react-router-dom";
+import { Offcanvas } from "bootstrap";
 
 const AddBookDrawer: React.FC = () => {
   const { t } = useTranslation();
@@ -67,7 +68,15 @@ const AddBookDrawer: React.FC = () => {
       const responseId = await api.addBookWithAuthor(newBook);
 
       if (responseId && typeof responseId === "number") {
-        alert(t("bookAddedSuccessfully"));
+        const drawer = document.getElementById("addBookDrawer");
+        if (drawer) {
+          let offcanvas = Offcanvas.getInstance(drawer);
+          if (!offcanvas) {
+            offcanvas = new Offcanvas(drawer);
+          }
+          offcanvas.hide();
+        }
+
         form.reset();
         setSelectedGenre("");
         navigate(`/bookdetails/${responseId}`);

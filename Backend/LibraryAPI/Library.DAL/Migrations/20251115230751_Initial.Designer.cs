@@ -3,87 +3,87 @@ using System;
 using Library.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Library.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251026143357_SeedData")]
-    partial class SeedData
+    [Migration("20251115230751_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Library.DAL.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
@@ -92,8 +92,7 @@ namespace Library.DAL.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -102,603 +101,603 @@ namespace Library.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("authors", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            FullName = "Նավջոթ Ս. Սոջի"
+                            FullName = "Navjot S. Sodhi"
                         },
                         new
                         {
                             Id = 2,
-                            FullName = "Փոլ Ռ. Էռլիխ"
+                            FullName = "Paul R. Ehrlich"
                         },
                         new
                         {
                             Id = 3,
-                            FullName = "Ստիվ Թ. Բեքեթ"
+                            FullName = "Steve T. Beckett"
                         },
                         new
                         {
                             Id = 4,
-                            FullName = "Ուորդ Չեսվոր್ತ"
+                            FullName = "Ward Chesworth"
                         },
                         new
                         {
                             Id = 5,
-                            FullName = "Հանս Մորավեց"
+                            FullName = "Hans Moravec"
                         },
                         new
                         {
                             Id = 6,
-                            FullName = "Կարլո Ռովելի"
+                            FullName = "Carlo Rovelli"
                         },
                         new
                         {
                             Id = 7,
-                            FullName = "Ֆրանչեսկա Վիդոտտո"
+                            FullName = "Francesca Vidotto"
                         },
                         new
                         {
                             Id = 8,
-                            FullName = "Աբհայ Ռ. Սատոսկար"
+                            FullName = "Abhijit R. Satoskar"
                         },
                         new
                         {
                             Id = 9,
-                            FullName = "Գարի Էլ. Սայմոն"
+                            FullName = "Gary L. Simon"
                         },
                         new
                         {
                             Id = 10,
-                            FullName = "Փիթեր Ջ. Հոտեզ"
+                            FullName = "Peter J. Hotez"
                         },
                         new
                         {
                             Id = 11,
-                            FullName = "Մորիյա Տսուժի"
+                            FullName = "Moriya Tsuji"
                         },
                         new
                         {
                             Id = 12,
-                            FullName = "Ջորջ Դայսոն"
+                            FullName = "George Dyson"
                         },
                         new
                         {
                             Id = 13,
-                            FullName = "Չարլզ Դարվին"
+                            FullName = "Charles Darwin"
                         },
                         new
                         {
                             Id = 14,
-                            FullName = "Ֆլոյդ Ջեյմս Ռադըրթֆըրդ"
+                            FullName = "Floyd James Rutherford"
                         },
                         new
                         {
                             Id = 15,
-                            FullName = "Էնդրյու Ահլգրեն"
+                            FullName = "Andrew Ahlgren"
                         },
                         new
                         {
                             Id = 16,
-                            FullName = "Նիկոլայ Վ. Գոգոլ"
+                            FullName = "Nikolai V. Gogol"
                         },
                         new
                         {
                             Id = 17,
-                            FullName = "Թուկիդիդես"
+                            FullName = "Thucydides"
                         },
                         new
                         {
                             Id = 18,
-                            FullName = "Կնուտ Համսուն"
+                            FullName = "Knut Hamsun"
                         },
                         new
                         {
                             Id = 19,
-                            FullName = "Օսկար Ուայլդ"
+                            FullName = "Oscar Wilde"
                         },
                         new
                         {
                             Id = 20,
-                            FullName = "Մերի Շելլի"
+                            FullName = "Mary Shelley"
                         },
                         new
                         {
                             Id = 21,
-                            FullName = "Վիրջինիա Ուլֆ"
+                            FullName = "Virginia Woolf"
                         },
                         new
                         {
                             Id = 22,
-                            FullName = "Բրունո Շուլց"
+                            FullName = "Bruno Schulz"
                         },
                         new
                         {
                             Id = 23,
-                            FullName = "Լի Չայլդ"
+                            FullName = "Lee Child"
                         },
                         new
                         {
                             Id = 24,
-                            FullName = "Ջեյմս Ջոյս"
+                            FullName = "James Joyce"
                         },
                         new
                         {
                             Id = 25,
-                            FullName = "Վիրջինիա Ուլֆ"
+                            FullName = "Virginia Woolf"
                         },
                         new
                         {
                             Id = 26,
-                            FullName = "Ջուդ Դեվերօ"
+                            FullName = "Jude Deveraux"
                         },
                         new
                         {
                             Id = 27,
-                            FullName = "Առնետ Լեմբ"
+                            FullName = "Arnett Lamb"
                         },
                         new
                         {
                             Id = 28,
-                            FullName = "Ջիլ Բարնեթ"
+                            FullName = "Jill Barnett"
                         },
                         new
                         {
                             Id = 29,
-                            FullName = "Ջուդիթ ՄաքՆոթ"
+                            FullName = "Judith McNaught"
                         },
                         new
                         {
                             Id = 30,
-                            FullName = "Շառլոթ Բրոնտե"
+                            FullName = "Charlotte Brontë"
                         },
                         new
                         {
                             Id = 31,
-                            FullName = "Ջեյն Օսթին"
+                            FullName = "Jane Austen"
                         },
                         new
                         {
                             Id = 32,
-                            FullName = "Ջուլի Գարվուդ"
+                            FullName = "Julie Garwood"
                         },
                         new
                         {
                             Id = 33,
-                            FullName = "Ջոջո Մոյես"
+                            FullName = "Jojo Moyes"
                         },
                         new
                         {
                             Id = 34,
-                            FullName = "Դանիել Ստիլ"
+                            FullName = "Danielle Steel"
                         },
                         new
                         {
                             Id = 35,
-                            FullName = "Սանտա Մոնտեֆիորե"
+                            FullName = "Santa Montefiore"
                         },
                         new
                         {
                             Id = 36,
-                            FullName = "Յոհաննա Լինդսեյ"
+                            FullName = "Johanna Lindsey"
                         },
                         new
                         {
                             Id = 37,
-                            FullName = "Ք. Ս. Լյուիս"
+                            FullName = "C. S. Lewis"
                         },
                         new
                         {
                             Id = 38,
-                            FullName = "Ուրսուլա Կ. Լե Գուին"
+                            FullName = "Ursula K. Le Guin"
                         },
                         new
                         {
                             Id = 39,
-                            FullName = "Տովե Յանսոն"
+                            FullName = "Tove Jansson"
                         },
                         new
                         {
                             Id = 40,
-                            FullName = "Ջ. Ռ. Ռ. Թոլկին"
+                            FullName = "J. R. R. Tolkien"
                         },
                         new
                         {
                             Id = 41,
-                            FullName = "Ջոն Ռոնալդ Ռոյել Թոլկին"
+                            FullName = "John Ronald Reuel Tolkien"
                         },
                         new
                         {
                             Id = 42,
-                            FullName = "Լյուիս Քարոլ"
+                            FullName = "Lewis Carroll"
                         },
                         new
                         {
                             Id = 43,
-                            FullName = "Քլայվ Սթեյփլզ Լյուիս"
+                            FullName = "Clive Staples Lewis"
                         },
                         new
                         {
                             Id = 44,
-                            FullName = "Էլ. Ֆրենկ Բաում"
+                            FullName = "L. Frank Baum"
                         },
                         new
                         {
                             Id = 45,
-                            FullName = "Քեննեթ Գրեհեմ"
+                            FullName = "Kenneth Graham"
                         },
                         new
                         {
                             Id = 46,
-                            FullName = "Թրեյսի Դեոնն"
+                            FullName = "Tracy Deonn"
                         },
                         new
                         {
                             Id = 47,
-                            FullName = "Ագաթա Քրիստի"
+                            FullName = "Agatha Christie"
                         },
                         new
                         {
                             Id = 48,
-                            FullName = "Դեն Բրաուն"
+                            FullName = "Dan Brown"
                         },
                         new
                         {
                             Id = 49,
-                            FullName = "Մարկ Հադդոն"
+                            FullName = "Mark Haddon"
                         },
                         new
                         {
                             Id = 50,
-                            FullName = "Փ. Դ. Ջեյմս"
+                            FullName = "P. D. James"
                         },
                         new
                         {
                             Id = 51,
-                            FullName = "Ֆյոդոր Դոստոևսկի"
+                            FullName = "Fyodor Dostoevsky"
                         },
                         new
                         {
                             Id = 52,
-                            FullName = "Ֆրեդ Վարգաս"
+                            FullName = "Fred Vargas"
                         },
                         new
                         {
                             Id = 53,
-                            FullName = "Ջոզեֆին Թեյ"
+                            FullName = "Josephine Tey"
                         },
                         new
                         {
                             Id = 54,
-                            FullName = "Քեյթ Մորտոն"
+                            FullName = "Kate Morton"
                         },
                         new
                         {
                             Id = 55,
-                            FullName = "Ք. Ս. Լյուիս"
+                            FullName = "C. S. Lewis"
                         },
                         new
                         {
                             Id = 56,
-                            FullName = "Ֆիլիպ Ֆրիման"
+                            FullName = "Philip Freeman"
                         },
                         new
                         {
                             Id = 57,
-                            FullName = "Էլ. Ջեյ. Ֆ. Քեփի"
+                            FullName = "E. J. F. Kəppi"
                         },
                         new
                         {
                             Id = 58,
-                            FullName = "Հելեն Ս. Ռաունթրի"
+                            FullName = "Helen S. Rountree"
                         },
                         new
                         {
                             Id = 59,
-                            FullName = "Կարլ Բեքսոն"
+                            FullName = "Carl Baxson"
                         },
                         new
                         {
                             Id = 60,
-                            FullName = "Ջերի Զ. Մյուլլեր"
+                            FullName = "Jerry Z. Müller"
                         },
                         new
                         {
                             Id = 61,
-                            FullName = "Ջոնաթան Հարիս"
+                            FullName = "Jonathan Harris"
                         },
                         new
                         {
                             Id = 62,
-                            FullName = "Սերհի Փլոխի"
+                            FullName = "Serhii Plokhii"
                         },
                         new
                         {
                             Id = 63,
-                            FullName = "Գ. Ն. Դևի"
+                            FullName = "G. N. Dewi"
                         },
                         new
                         {
                             Id = 64,
-                            FullName = "Ջեֆրի Վ. Դևիս"
+                            FullName = "Jeffrey W. Davis"
                         },
                         new
                         {
                             Id = 65,
-                            FullName = "Կ. Կ. Չակրավարտի"
+                            FullName = "K. K. Chakravarti"
                         },
                         new
                         {
                             Id = 66,
-                            FullName = "Վահան Մ. Կյուրքչյան"
+                            FullName = "Vahan M. Kyurkchyan"
                         },
                         new
                         {
                             Id = 67,
-                            FullName = "Վիկտոր Է. Թորեն"
+                            FullName = "Victor E. Torren"
                         },
                         new
                         {
                             Id = 68,
-                            FullName = "Ջոն Ռոբերտ Քրիստիանսոն"
+                            FullName = "John Robert Christianson"
                         },
                         new
                         {
                             Id = 69,
-                            FullName = "Վիլյամ Սմիթ"
+                            FullName = "William Smith"
                         },
                         new
                         {
                             Id = 70,
-                            FullName = "Էլիզաբեթ Գիլբերթ"
+                            FullName = "Elizabeth Gilbert"
                         },
                         new
                         {
                             Id = 71,
-                            FullName = "Պրիմո Լևի"
+                            FullName = "Primo Levi"
                         },
                         new
                         {
                             Id = 72,
-                            FullName = "Չարլզ Նայթ"
+                            FullName = "Charles Knight"
                         },
                         new
                         {
                             Id = 73,
-                            FullName = "Դեզմոնդ Շում"
+                            FullName = "Desmond Shum"
                         },
                         new
                         {
                             Id = 74,
-                            FullName = "Ջոն Ալեքսանդր Գայ"
+                            FullName = "John Alexander Gay"
                         },
                         new
                         {
                             Id = 75,
-                            FullName = "Ռիչարդ Ա. Բարիջ"
+                            FullName = "Richard A. Barrage"
                         },
                         new
                         {
                             Id = 76,
-                            FullName = "Պլուտարխոս"
+                            FullName = "Plutarch"
                         },
                         new
                         {
                             Id = 77,
-                            FullName = "Ջոն Լանգհորն"
+                            FullName = "John Langhorn"
                         },
                         new
                         {
                             Id = 78,
-                            FullName = "Վիլյամ Լանգհորն"
+                            FullName = "William Langhorn"
                         },
                         new
                         {
                             Id = 79,
-                            FullName = "Լանս Դեյ"
+                            FullName = "Lance Day"
                         },
                         new
                         {
                             Id = 80,
-                            FullName = "Իյան ՄաքՆեյլ"
+                            FullName = "Ian McNail"
                         },
                         new
                         {
                             Id = 81,
-                            FullName = "Ֆլոյդ Ջեյմս Ռադըրթֆըրդ"
+                            FullName = "Floyd James Rutherford"
                         },
                         new
                         {
                             Id = 82,
-                            FullName = "Էնդրյու Ահլգրեն"
+                            FullName = "Andrew Ahlgren"
                         },
                         new
                         {
                             Id = 83,
-                            FullName = "Միչել Ռեզնիկ"
+                            FullName = "Mitchell Resnick"
                         },
                         new
                         {
                             Id = 84,
-                            FullName = "Էնդրյու Ֆենբերգ"
+                            FullName = "Andrew Feinberg"
                         },
                         new
                         {
                             Id = 85,
-                            FullName = "Սթիվեն Գրեհեմ"
+                            FullName = "Steven Graham"
                         },
                         new
                         {
                             Id = 86,
-                            FullName = "Սայմոն Մարվին"
+                            FullName = "Simon Marvin"
                         },
                         new
                         {
                             Id = 87,
-                            FullName = "Հաննա Արենդտ"
+                            FullName = "Hannah Arendt"
                         },
                         new
                         {
                             Id = 88,
-                            FullName = "Օլիվեր Մանուել"
+                            FullName = "Oliver Manuel"
                         },
                         new
                         {
                             Id = 89,
-                            FullName = "Ֆրից Ուլման"
+                            FullName = "Fritz Ulman"
                         },
                         new
                         {
                             Id = 90,
-                            FullName = "Լեո Մարքս"
+                            FullName = "Leo Marx"
                         },
                         new
                         {
                             Id = 91,
-                            FullName = "Վոլֆգանգ Գերհարթց"
+                            FullName = "Wolfgang Gehhartz"
                         },
                         new
                         {
                             Id = 92,
-                            FullName = "Ջոն Դյուի"
+                            FullName = "John Dewey"
                         },
                         new
                         {
                             Id = 93,
-                            FullName = "Ժան Ժիոնո"
+                            FullName = "Jean Giono"
                         },
                         new
                         {
                             Id = 94,
-                            FullName = "Ռոբերթ Բեր"
+                            FullName = "Robert Burr"
                         },
                         new
                         {
                             Id = 95,
-                            FullName = "Մերի Էլեն Միլլեր"
+                            FullName = "Mary Ellen Miller"
                         },
                         new
                         {
                             Id = 96,
-                            FullName = "Սայմոն Մարտին"
+                            FullName = "Simon Martin"
                         },
                         new
                         {
                             Id = 97,
-                            FullName = "Մարտին Քեմփ"
+                            FullName = "Martin Kemp"
                         },
                         new
                         {
                             Id = 98,
-                            FullName = "Գի Դեբոր"
+                            FullName = "Guy Debord"
                         },
                         new
                         {
                             Id = 99,
-                            FullName = "Գոգոլ Գուգլ Թրանսլեյթ"
+                            FullName = "Gogol Google Translate"
                         },
                         new
                         {
                             Id = 100,
-                            FullName = "Վահան Մ. Կյուրքչյան"
+                            FullName = "Vahan M. Kyurkchyan"
                         },
                         new
                         {
                             Id = 101,
-                            FullName = "Ջորջ Բեռնարդ Շոու"
+                            FullName = "George Bernard Shaw"
                         },
                         new
                         {
                             Id = 102,
-                            FullName = "Ջեյն Փորթալ"
+                            FullName = "Jane Portal"
                         },
                         new
                         {
                             Id = 103,
-                            FullName = "Թոմ Մասթերս"
+                            FullName = "Tom Masters"
                         },
                         new
                         {
                             Id = 104,
-                            FullName = "Օրհան Փամուք"
+                            FullName = "Orhan Pamuk"
                         },
                         new
                         {
                             Id = 105,
-                            FullName = "Կոնրադ Ջոզեֆ"
+                            FullName = "Konrad Joseph"
                         },
                         new
                         {
                             Id = 106,
-                            FullName = "Թոմ Սթոուն"
+                            FullName = "Tom Stone"
                         },
                         new
                         {
                             Id = 107,
-                            FullName = "Էրիկ Սոլստեն"
+                            FullName = "Eric Solsten"
                         },
                         new
                         {
                             Id = 108,
-                            FullName = "Էլիզաբեթ Գիլբերթ"
+                            FullName = "Elizabeth Gilbert"
                         },
                         new
                         {
                             Id = 109,
-                            FullName = "Թոնի Ուիթեն"
+                            FullName = "Tony Whitten"
                         },
                         new
                         {
                             Id = 110,
-                            FullName = "Ռոհայաթ Էմոն Սուերիաթմաջա"
+                            FullName = "Rohayat Emon Sueriatmaja"
                         },
                         new
                         {
                             Id = 111,
-                            FullName = "Սուրայա Ա. Աֆիֆ"
+                            FullName = "Suraiya A. Afif"
                         },
                         new
                         {
                             Id = 112,
-                            FullName = "Ֆրանցիս Մորոնե"
+                            FullName = "Francis Moroney"
                         },
                         new
                         {
                             Id = 113,
-                            FullName = "Փոլ Ֆ. Ջ. Իգլզ"
+                            FullName = "Paul F. J. Igles"
                         },
                         new
                         {
                             Id = 114,
-                            FullName = "Սթիվեն Ֆ. ՄաքՔուլ"
+                            FullName = "Steven F. McCool"
                         },
                         new
                         {
                             Id = 115,
-                            FullName = "Քրիստոֆեր Դ. Հեյնս"
+                            FullName = "Christopher D. Hines"
                         },
                         new
                         {
                             Id = 116,
-                            FullName = "ՄԱԿ Շրջակա Միջավայրի Ծրագիր"
+                            FullName = "United Nations Environment Programme"
                         },
                         new
                         {
                             Id = 117,
-                            FullName = "Աշխարհի Զբոսաշրջության Կազմակերպություն"
+                            FullName = "World Tourism Organization"
                         });
                 });
 
@@ -706,41 +705,41 @@ namespace Library.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AuthorId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("BookURL")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ISBN")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ImageURL")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("Pages")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("PublishedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -748,7 +747,7 @@ namespace Library.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Books");
+                    b.ToTable("books", (string)null);
 
                     b.HasData(
                         new
@@ -963,11 +962,11 @@ namespace Library.DAL.Migrations
                         {
                             Id = 17,
                             AuthorId = 22,
-                            BookURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrhv8HOOGw56ABHammfAbunGUhTAi_F_2eQQ&s",
+                            BookURL = "https://archive.org/details/streetofcrocodil00schu_0",
                             CategoryId = 2,
                             Description = "''The Street of Crocodiles'' by Bruno Schulz (1892-1942) was first published in Polish in 1934; this English translation was first published in the US by Walker and Company in 1963, public domain. A novel that blends the real and the fantastic, from \"one of the most original imaginations in modern Europe\" (Cynthia Ozick). The Street of Crocodiles in the Polish city of Drogobych is a street of memories and dreams where recollections of Bruno Schulz's uncommon boyhood and of the eerie side of his merchant family's life are evoked in a startling blend of the real and the fantastic. Most memorable - and most chilling - is the portrait of the author's father, a maddened shopkeeper who imports rare birds' eggs to hatch in his attic, who believes tailors' dummies should be treated like people, and whose obsessive fear of cockroaches causes him to resemble one. Bruno Schulz, a Polish Jew killed by the Nazis in 1942, is considered by many to have been the leading Polish writer between the two world wars.",
                             ISBN = "9788087830277",
-                            ImageURL = "https://archive.org/details/streetofcrocodil00schu_0",
+                            ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrhv8HOOGw56ABHammfAbunGUhTAi_F_2eQQ&s",
                             Pages = 136,
                             PublishedDate = new DateTime(2025, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Street of Crocodiles"
@@ -1054,11 +1053,11 @@ namespace Library.DAL.Migrations
                         {
                             Id = 24,
                             AuthorId = 32,
-                            BookURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1610568034i/55509539.jpg",
+                            BookURL = "https://www.scribd.com/doc/300749775/Prince-Charming",
                             CategoryId = 3,
                             Description = "Beautiful Taylor Baker, whose fiance has eloped with her odious cousin and whose greedy uncle has his own plans for her, escapes to Montana with rough-edged American Lucas Ross.",
                             ISBN = "9780671870966",
-                            ImageURL = "https://www.scribd.com/doc/300749775/Prince-Charming",
+                            ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1610568034i/55509539.jpg",
                             Pages = 564,
                             PublishedDate = new DateTime(1995, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Prince Charming"
@@ -1132,11 +1131,11 @@ namespace Library.DAL.Migrations
                         {
                             Id = 30,
                             AuthorId = 34,
-                            BookURL = "https://archive.org/services/img/toxicbachelors0000dani",
+                            BookURL = "https://archive.org/details/toxicbachelors0000dani",
                             CategoryId = 3,
                             Description = "Three daunting bachelors embark on a journey to the Mediterranean where they face women who challenge their deepest relationship phobias, sparking big changes in the once-carefree trio that just might put an end to their carousing days.",
                             ISBN = "UOM:39015062619377",
-                            ImageURL = "https://archive.org/details/toxicbachelors0000dani",
+                            ImageURL = "https://archive.org/services/img/toxicbachelors0000dani",
                             Pages = 344,
                             PublishedDate = new DateTime(2005, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Toxic Bachelors"
@@ -1223,11 +1222,11 @@ namespace Library.DAL.Migrations
                         {
                             Id = 37,
                             AuthorId = 43,
-                            BookURL = "https://imgv2-2-f.scribdassets.com/img/document/432919347/original/c0ed155ebd/1?v=1",
+                            BookURL = "https://www.samizdat.qc.ca/arts/lit/PDFs/LionWitchWardrobe_CSL.pdf",
                             CategoryId = 4,
                             Description = "The best-selling rack edition of The Lion, the Witch and the Wardrobe now has a movie still cover and an eight-page movie still insert! \"Excellent for Homeschool Use\"",
                             ISBN = "PSU:000028266402",
-                            ImageURL = "https://www.samizdat.qc.ca/arts/lit/PDFs/LionWitchWardrobe_CSL.pdf",
+                            ImageURL = "https://imgv2-2-f.scribdassets.com/img/document/432919347/original/c0ed155ebd/1?v=1",
                             Pages = 168,
                             PublishedDate = new DateTime(1950, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lion, the Witch and the Wardrobe"
@@ -1418,11 +1417,11 @@ namespace Library.DAL.Migrations
                         {
                             Id = 52,
                             AuthorId = 56,
-                            BookURL = "https://online.flipbuilder.com/fdyv/lcvg/files/mobile/1.jpg?201020211740",
+                            BookURL = "https://www.defence.lk/upload/ebooks/Alexander%20the%20Great.pdf",
                             CategoryId = 6,
                             Description = "In the first authoritative biography of Alexander the Great written for a general audience in a generation, classicist and historian Philip Freeman tells the remarkable life of the great conqueror. The celebrated Macedonian king has been one of the most enduring figures in history. He was a general of such skill and renown that for two thousand years other great leaders studied his strategy and tactics, from Hannibal to Napoleon, with countless more in between. He flashed across the sky of history like a comet, glowing brightly and burning out quickly: crowned at age nineteen, dead by thirty-two. He established the greatest empire of the ancient world; Greek coins and statues are found as far east as Afghanistan. Our interest in him has never faded. Alexander was born into the royal family of Macedonia, the kingdom that would soon rule over Greece. Tutored as a boy by Aristotle, Alexander had an inquisitive mind that would serve him well when he faced formidable obstacles during his military campaigns. Shortly after taking command of the army, he launched an invasion of the Persian empire, and continued his conquests as far south as the deserts of Egypt and as far east as the mountains of present-day Pakistan and the plains of India. Alexander spent nearly all his adult life away from his homeland, and he and his men helped spread the Greek language throughout western Asia, where it would become the lingua franca of the ancient world. Within a short time after Alexander’s death in Baghdad, his empire began to fracture. Best known among his successors are the Ptolemies of Egypt, whose empire lasted until Cleopatra. In his lively and authoritative biography of Alexander, classical scholar and historian Philip Freeman describes Alexander’s astonishing achievements and provides insight into the mercurial character of the great conqueror. Alexander could be petty and magnanimous, cruel and merciful, impulsive and farsighted. Above all, he was ferociously, intensely competitive and could not tolerate losing—which he rarely did. As Freeman explains, without Alexander, the influence of Greece on the ancient world would surely not have been as great as it was, even if his motivation was not to spread Greek culture for beneficial purposes but instead to unify his empire. Only a handful of people have influenced history as Alexander did, which is why he continues to fascinate us.",
                             ISBN = "9781439193280",
-                            ImageURL = "https://www.defence.lk/upload/ebooks/Alexander%20the%20Great.pdf",
+                            ImageURL = "https://online.flipbuilder.com/fdyv/lcvg/files/mobile/1.jpg?201020211740",
                             Pages = 418,
                             PublishedDate = new DateTime(2011, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Alexander the Great"
@@ -1444,11 +1443,11 @@ namespace Library.DAL.Migrations
                         {
                             Id = 54,
                             AuthorId = 58,
-                            BookURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNPK5irLXh4fL2zwTrziJM8ZMK-b_K0ZLMKw&s",
+                            BookURL = "https://archive.org/details/pocahontasspeopl0000roun",
                             CategoryId = 6,
                             Description = "In this history, Helen C. Roundtree traces events that shaped the lives of the Powhatan Indians of Virginia, from their first encounter with English colonists, in 1607, to their present-day way of life and relationship to the state of Virginia and the federal government. Roundtree’s examination of those four hundred years misses not a beat in the pulse of Powhatan life. Combining meticulous scholarship and sensitivity, the author explores the diversity always found among Powhatan people, and those people’s relationships with the English, the government of the fledgling United States, the Union and the Confederacy, the U.S. Census Bureau, white supremacists, the U.S. Selective Service, and the civil rights movement.",
                             ISBN = "9780806128498",
-                            ImageURL = "https://archive.org/details/pocahontasspeopl0000roun",
+                            ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNPK5irLXh4fL2zwTrziJM8ZMK-b_K0ZLMKw&s",
                             Pages = 420,
                             PublishedDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Pocahontas's People"
@@ -1470,11 +1469,11 @@ namespace Library.DAL.Migrations
                         {
                             Id = 56,
                             AuthorId = 60,
-                            BookURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo_RV5oIFgxcTAFME084XVW6DQEOMihwYgmQ&s",
+                            BookURL = "https://www.eolss.net/sample-chapters/C04/E6-32-04-03.pdfs",
                             CategoryId = 6,
                             Description = "History Professor Jerry Muller locates the origins of modern conservatism within the Enlightenment and distinguishes conservatism from orthodoxy. Reviewing important specimens of analysis from the mid18th century through our own day, Muller demonstrates that characteristic features of conservative argument recur over time and across national borders.",
                             ISBN = "9780691037110",
-                            ImageURL = "https://www.eolss.net/sample-chapters/C04/E6-32-04-03.pdfs",
+                            ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo_RV5oIFgxcTAFME084XVW6DQEOMihwYgmQ&s",
                             Pages = 476,
                             PublishedDate = new DateTime(1997, 5, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservatism"
@@ -1496,11 +1495,11 @@ namespace Library.DAL.Migrations
                         {
                             Id = 58,
                             AuthorId = 62,
-                            BookURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa3veMqYITcruRWDhinKwL1BbD3aSanEqF6Q&s",
+                            BookURL = "https://shron3.chtyvo.org.ua/Plokhii_Serhii/The_Gates_of_Europe__A_History_of_Ukraine_anhl.pdf",
                             CategoryId = 6,
                             Description = "Ukraine is currently embroiled in a tense battle with Russia to preserve its economic and political independence. But today's conflict is only the latest in a long history of battles over Ukraine's existence as a sovereign nation. As award-winning historian Serhii Plokhy argues in The Gates of Europe, we must examine Ukraine's past in order to understand its fraught present and likely future. Situated between Europe, Russia, and the Asian East, Ukraine was shaped by the empires that have used it as astrategic gateway between East and West—from the Romans and Ottomans to the Third Reich and the Soviet Union,all have engaged in global fights for supremacy on Ukrainian soil.Each invading army left a lasting mark on the landscape and on the population, making modern Ukraine an amalgam of competing cultures.Authoritative and vividly written, The Gates of Europe will be the definitive history of Ukraine for years to come.",
                             ISBN = "9780465073948",
-                            ImageURL = "https://shron3.chtyvo.org.ua/Plokhii_Serhii/The_Gates_of_Europe__A_History_of_Ukraine_anhl.pdf",
+                            ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa3veMqYITcruRWDhinKwL1BbD3aSanEqF6Q&s",
                             Pages = 433,
                             PublishedDate = new DateTime(2015, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Gates of Europe"
@@ -1760,7 +1759,7 @@ namespace Library.DAL.Migrations
                             CategoryId = 8,
                             Description = "Ullmann's Encyclopedia of Industrial Chemistry",
                             ISBN = "UCAL:B4584395",
-                            ImageURL = "https://i1.rgstatic.net/publication/270338813_Ulmann's_Encyclopedia_of_Industrial_Chemistry/links/54a7ebae0cf257a6360bda1b/largepreview.png",
+                            ImageURL = "https://m.media-amazon.com/images/I/51xa0kQZRFL.jpg",
                             Pages = 720,
                             PublishedDate = new DateTime(1991, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Ullmann's Encyclopedia of Industrial Chemistry"
@@ -1808,11 +1807,11 @@ namespace Library.DAL.Migrations
                         {
                             Id = 82,
                             AuthorId = 93,
-                            BookURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHCJq1wVMlYTdTu7Fxa4Q0YhgHTnhr29Ik9g&s",
+                            BookURL = "https://www.arvindguptatoys.com/arvindgupta/manplantedtrees.pdf",
                             CategoryId = 9,
                             Description = "Jean Giono's beautiful allegorical tale is legendary. Written in the 1950's, its message was ahead of its time, inspiring readers to rediscoverthe harmonies of the countryside and prevent its willful destruction. The narrator, journeying by foot across the barren plains of the lower Alps, has his thirst assuaged by the well water drawn by the shepherd Elzeaerd Bouffier. Here begins the subtle parable which Giono weaves of the life-giving shepherd who chooses to live alone and carry out the work of God. Over forty years the desolate hills and lifeless villages which sooppressed the traveler are transformed by the dedication of one man. All with the help of a few acorns. Giono's hope was to set in motion a worldwide reforestation program that would rejuvenate the earth. \"The Man Who Planted Trees\" is a hymn to creation and a purveyor of confidence in man's ability to change his-indeed the world's-lot. Review Citations: Ingram Advance 05/01/2005 pg. 77 (ISBN 1931498725, Hardcover)",
                             ISBN = "NWU:35556029031994",
-                            ImageURL = "https://www.arvindguptatoys.com/arvindgupta/manplantedtrees.pdf",
+                            ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHCJq1wVMlYTdTu7Fxa4Q0YhgHTnhr29Ik9g&s",
                             Pages = 62,
                             PublishedDate = new DateTime(1989, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Man who Planted Trees"
@@ -1881,19 +1880,6 @@ namespace Library.DAL.Migrations
                             Pages = 266,
                             PublishedDate = new DateTime(2018, 5, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Dead Souls"
-                        },
-                        new
-                        {
-                            Id = 88,
-                            AuthorId = 100,
-                            BookURL = "https://ia601303.us.archive.org/31/items/historyofarmenia01cham/historyofarmenia01cham.pdf",
-                            CategoryId = 9,
-                            Description = "The volume is an easy reading and a must for the beginner student and interested party of the history of Armenia as well as for those more familiar with Armenian and its history. The author, an expert on Armenian history, has masterfully covered all aspects of the Armenian history such as Armenian literature, Armenian Church, the history of Armenian old and modern language, architecture, sculpture, music etc. along with all the historical events, starting from the beginning of the human civilization and that of Armenian one to the modern era of Armenia.",
-                            ISBN = "9781604449112",
-                            ImageURL = "https://archive.org/services/img/historyofarmenia0000bour/full/pct:200/0/default.jpg",
-                            Pages = 414,
-                            PublishedDate = new DateTime(2018, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "A History of Armenia"
                         },
                         new
                         {
@@ -2044,113 +2030,113 @@ namespace Library.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("categories", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Name = "Գիտություն"
+                            Name = "science"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Գեղարվեստական"
+                            Name = "fiction"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Սերունդ"
+                            Name = "romance"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Ֆանտաստիկա"
+                            Name = "fantasy"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Խորհրդավորություն"
+                            Name = "mystery"
                         },
                         new
                         {
                             Id = 6,
-                            Name = "Պատմություն"
+                            Name = "history"
                         },
                         new
                         {
                             Id = 7,
-                            Name = "Կենսագրություն"
+                            Name = "biography"
                         },
                         new
                         {
                             Id = 8,
-                            Name = "Տեխնոլոգիա"
+                            Name = "technology"
                         },
                         new
                         {
                             Id = 9,
-                            Name = "Արվեստ"
+                            Name = "art"
                         },
                         new
                         {
                             Id = 10,
-                            Name = "Ճանապարհորդություն"
+                            Name = "travel"
                         });
                 });
 
             modelBuilder.Entity("Library.DAL.Models.Favorite", b =>
                 {
                     b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<int>("BookId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("AddedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("ApplicationUserId", "BookId");
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Favorites");
+                    b.ToTable("favorites", (string)null);
                 });
 
             modelBuilder.Entity("Library.DAL.Models.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<int>("BookId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Rating")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -2158,32 +2144,31 @@ namespace Library.DAL.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("reviews", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
                 });
@@ -2192,19 +2177,19 @@ namespace Library.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -2217,19 +2202,19 @@ namespace Library.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -2241,17 +2226,17 @@ namespace Library.DAL.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -2263,10 +2248,10 @@ namespace Library.DAL.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -2278,16 +2263,16 @@ namespace Library.DAL.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 

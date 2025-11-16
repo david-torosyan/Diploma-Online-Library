@@ -1,15 +1,17 @@
 services:
   db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: library_db
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourStrong!Passw0rd
+    image: postgres:16.6
+    container_name: library_postgres
+    shm_size: 128mb
+    restart: always
     ports:
-      - "1433:1433"
+      - "7000:5432"  # host:container
+    environment:
+      POSTGRES_DB: LibraryDb
+      POSTGRES_USER: myUser
+      POSTGRES_PASSWORD: myVerySecurePassword
     volumes:
-      - mssqldata:/var/opt/mssql
-    restart: unless-stopped
+      - postgres_data:/var/lib/postgresql/data
 
   backend:
     build:
@@ -19,7 +21,7 @@ services:
     container_name: library_backend
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=LibraryDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=LibraryDb;Username=myUser;Password=myVerySecurePassword;
     depends_on:
       - db
     ports:
@@ -39,4 +41,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  mssqldata:
+  postgres_data:

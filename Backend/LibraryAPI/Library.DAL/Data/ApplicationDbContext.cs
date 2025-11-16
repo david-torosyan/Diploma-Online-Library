@@ -16,6 +16,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         base.OnModelCreating(builder);
 
+        builder.Entity<Author>().ToTable("authors");
+        builder.Entity<Category>().ToTable("categories");
+        builder.Entity<Book>().ToTable("books");
+        builder.Entity<Favorite>().ToTable("favorites");
+        builder.Entity<Review>().ToTable("reviews");
+
         // ----------------------------
         // Primary Keys
         // ----------------------------
@@ -80,6 +86,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithMany(b => b.Favorites)
             .HasForeignKey(f => f.BookId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Book>()
+            .Property(b => b.PublishedDate)
+            .HasColumnType("timestamptz");
 
         SeedDataFactory.SeedData(builder);
     }

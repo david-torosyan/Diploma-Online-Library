@@ -40,7 +40,7 @@ public class BookAuthorService : IBookAuthorService
                 CategoryId = addBookDto.CategoryId,
                 Description = addBookDto.Description,
                 ISBN = addBookDto.ISBN,
-                PublishedDate = addBookDto.PublishedDate,
+                PublishedDate = addBookDto.PublishedDate.Date,
                 BookURL = addBookDto.BookUrl,
                 ImageURL = addBookDto.ImageUrl,
                 AuthorId = author.Id

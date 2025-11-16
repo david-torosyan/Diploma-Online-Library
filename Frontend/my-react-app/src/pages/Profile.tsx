@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
+import { Offcanvas } from "bootstrap";
 
 interface User {
   firstName?: string;
@@ -24,6 +25,28 @@ const Profile: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    function handleOutsideClick(event: MouseEvent) {
+      const drawer = document.getElementById("profileDrawer");
+      if (!drawer) return;
+
+      const isOpen = drawer.classList.contains("show");
+      const clickedInside = drawer.contains(event.target as Node);
+
+      if (isOpen && !clickedInside) {
+        let instance = Offcanvas.getInstance(drawer);
+        if (!instance) instance = new Offcanvas(drawer);
+        instance.hide();
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   const handleLogout = () => {
     Cookies.remove("auth_token");
     Cookies.remove("user");
@@ -37,6 +60,8 @@ const Profile: React.FC = () => {
         tabIndex={-1}
         id="profileDrawer"
         aria-labelledby="profileDrawerLabel"
+        data-bs-backdrop="false"
+        data-bs-scroll="true"
       >
         <div className="offcanvas-header">
           <h5 id="profileDrawerLabel" className="offcanvas-title">

@@ -19,7 +19,7 @@ builder.Services.ConfigureCors();
 
 #region ========================== Database Configuration ==========================
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
     {
         sqlOptions.EnableRetryOnFailure(); // Handle transient failures gracefully
     }));
