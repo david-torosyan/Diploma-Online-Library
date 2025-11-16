@@ -38,12 +38,13 @@ Dimploma-Online-Library/
 ```
 
 ---
-# === Database Configuration ===
-DB_HOST=db
-DB_PORT=5432
-DB_NAME=LibraryDb
-DB_USER=myUser
-DB_PASSWORD=myVerySecurePassword
+# === 🔧 Environment Variables (.env) ===
+Create a .env file in the root of the project and add the following variables:
+- DB_HOST=db
+- DB_PORT=5432
+- DB_NAME=LibraryDb
+- DB_USER=myUser
+- DB_PASSWORD=myVerySecurePassword
 
 ## ✨ Features
 
