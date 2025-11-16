@@ -1,0 +1,17 @@
+services:
+  container_postgres:
+    image: postgres:16.6
+    container_name: container_postgres
+    shm_size: 128mb
+    restart: always
+    ports:
+      - "15000:5432"   # host:container
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: myUser
+      POSTGRES_PASSWORD: myVerySecurePassword
+    volumes:
+      - local_pg_data:/var/lib/postgresql/data
+
+volumes:
+  local_pg_data:

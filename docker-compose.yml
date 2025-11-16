@@ -7,9 +7,9 @@ services:
     ports:
       - "7000:5432"  # host:container
     environment:
-      POSTGRES_DB: LibraryDb
-      POSTGRES_USER: myUser
-      POSTGRES_PASSWORD: myVerySecurePassword
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -21,7 +21,7 @@ services:
     container_name: library_backend
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=LibraryDb;Username=myUser;Password=myVerySecurePassword;
+      - ConnectionStrings__DefaultConnection=Host=${DB_HOST};Port=${DB_PORT};Database=${DB_NAME};Username=${DB_USER};Password=${DB_PASSWORD};
     depends_on:
       - db
     ports:
