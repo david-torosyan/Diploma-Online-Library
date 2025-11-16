@@ -48,7 +48,7 @@ Dimploma-Online-Library/
 - JWT-based authentication
 - Fully responsive for desktop and mobile devices
 
-### ⚙️ Backend (.NET 9 Web API)
+### ⚙️ Backend (.NET 10 Web API)
 - **Three-layer architecture** (DAL, BLL, API)
 - **Entity Framework Core** with SQL Server
 - **JWT authentication & authorization**
