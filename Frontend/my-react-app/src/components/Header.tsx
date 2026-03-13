@@ -7,6 +7,7 @@ import Profile from "../pages/Profile";
 import AiAssistant from "../pages/AiAssistant";
 import LanguageSwitcher from "../languages/LanguageSwitcher";
 import AddBookDrawer from "../components/AddBookDrawer";
+import MyBooksDrawer from "../components/MyBooksDrawer";
 
 const Header: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -81,16 +82,29 @@ const Header: React.FC = () => {
 
             {/* Auth Buttons */}
             {isAuthenticated ? (
-              <li className="nav-item">
-                <a
-                  className="btn btn-outline-light rounded-2 px-3 py-1"
-                  href="#"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#profileDrawer"
-                >
-                  {userName}
-                </a>
-              </li>
+              <>
+                <li className="nav-item">
+                  <button
+                    className="btn btn-outline-light rounded-2 px-3 py-1"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#myBooksDrawer"
+                    aria-controls="myBooksDrawer"
+                  >
+                    📚 {t("myBooks")}
+                  </button>
+                </li>
+
+                <li className="nav-item">
+                  <a
+                    className="btn btn-outline-light rounded-2 px-3 py-1"
+                    href="#"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#profileDrawer"
+                  >
+                    {userName}
+                  </a>
+                </li>
+              </>
             ) : (
               <li className="nav-item">
                 <button
@@ -112,6 +126,7 @@ const Header: React.FC = () => {
       <SignUp />
       <Profile />
       <AddBookDrawer />
+      <MyBooksDrawer />
       <AiAssistant />
     </>
   );

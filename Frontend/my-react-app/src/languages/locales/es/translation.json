@@ -1,5 +1,7 @@
 {
   "addBook": "Agregar un libro",
+  "addToFavorites": "Agregar a favoritos",
+  "alreadyFavorited": "Ya está en favoritos",
   "addNewBook": "Agregar nuevo libro",
   "aiAssistant": "Asistente de IA",
   "aiAssistantTitle": "Asistente de Inteligencia Artificial",
@@ -59,6 +61,8 @@
   "loginErrorDefault": "Error al iniciar sesión. Por favor, inténtalo de nuevo.",
   "logout": "Cerrar sesión",
   "myProfile": "Mi perfil",
+  "myBooks": "Mis libros",
+  "noMyBooksYet": "Aún no tienes libros agregados.",
   "noAccount": "¿No tienes una cuenta?",
   "noImage": "Sin imagen",
   "noPdfAvailable": "PDF no disponible",

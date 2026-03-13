@@ -1,8 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { LibraryClient, BookDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
 import config from "../config/config.json";
+import Cookies from "js-cookie";
 
 interface Book {
   id: string;
@@ -20,6 +21,9 @@ const BooksGrid: React.FC<BooksGridProps> = ({ genre = "fiction" }) => {
   const navigate = useNavigate();
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+  const [favoriteIds, setFavoriteIds] = useState<Set<number>>(new Set());
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [togglingId, setTogglingId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -56,6 +60,55 @@ const BooksGrid: React.FC<BooksGridProps> = ({ genre = "fiction" }) => {
 
     fetchBooks();
   }, [genre]);
+
+  const loadFavorites = useCallback(async () => {
+    const token = Cookies.get("auth_token");
+    if (!token) return;
+    setIsAuthenticated(true);
+    try {
+      const api = new LibraryClient(config.baseUrl);
+      const favorites = await api.myFavoritesAll(token);
+      const ids = new Set(
+        favorites
+          .map((f) => f.id)
+          .filter((id): id is number => id !== undefined)
+      );
+      setFavoriteIds(ids);
+    } catch {
+      // silently ignore
+    }
+  }, []);
+
+  useEffect(() => {
+    loadFavorites();
+  }, [loadFavorites]);
+
+  const handleFavorite = async (bookId: number) => {
+    const token = Cookies.get("auth_token");
+    if (!token || togglingId !== null) return;
+
+    const isFavorite = favoriteIds.has(bookId);
+    const nextFavoriteState = !isFavorite;
+
+    setTogglingId(bookId);
+    try {
+      const api = new LibraryClient(config.baseUrl);
+      await api.myFavorites(bookId, nextFavoriteState, token);
+      setFavoriteIds((prev) => {
+        const updated = new Set(prev);
+        if (nextFavoriteState) {
+          updated.add(bookId);
+        } else {
+          updated.delete(bookId);
+        }
+        return updated;
+      });
+    } catch {
+      // silently ignore
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const scroll = (direction: "left" | "right") => {
     const distance = direction === "left" ? -300 : 300;
@@ -115,8 +168,34 @@ const BooksGrid: React.FC<BooksGridProps> = ({ genre = "fiction" }) => {
                 >
                   {book.title}
                 </h6>
+
+                {isAuthenticated && (
+                  <button
+                    className="btn btn-sm w-100 mt-1 p-0"
+                    style={{ fontSize: "1.1rem", lineHeight: 1.4, border: "none", background: "none" }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFavorite(Number(book.id));
+                    }}
+                    disabled={togglingId === Number(book.id)}
+                    title={
+                      favoriteIds.has(Number(book.id))
+                        ? t("alreadyFavorited")
+                        : t("addToFavorites")
+                    }
+                  >
+                    {togglingId === Number(book.id) ? (
+                      <span className="spinner-border spinner-border-sm" />
+                    ) : favoriteIds.has(Number(book.id)) ? (
+                      "❤️"
+                    ) : (
+                      "🤍"
+                    )}
+                  </button>
+                )}
+
                 <button
-                  className="btn btn-sm btn-outline-primary w-100 mt-2"
+                  className="btn btn-sm btn-outline-primary w-100 mt-1"
                   onClick={() => openBookDetail(book.id)}
                 >
                   {t("read")}

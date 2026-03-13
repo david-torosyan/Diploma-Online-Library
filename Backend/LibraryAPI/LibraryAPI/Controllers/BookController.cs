@@ -2,6 +2,7 @@
 using LibraryAPI.Mappers;
 using LibraryAPI.Models;
 using LibraryAPI.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,6 +19,41 @@ namespace LibraryAPI.Controllers
         {
             _unitOfWork = unitOfWork;
             _bookAuthorService = bookAuthorService;
+        }
+
+        /// <summary>
+        /// Retrieves the current user's favorite books.
+        /// </summary>
+        /// <returns>List of favorite books.</returns>
+        [Authorize]
+        [HttpGet("my-favorites")]
+        [ProducesResponseType(typeof(IEnumerable<BookDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetMyFavoriteBooks()
+        {
+            var books = await _bookAuthorService.GetMyFavoriteBooksAsync();
+
+            return Ok(books.Select(b => b.ToBookDto()));
+        }
+
+        /// <summary>
+        /// Adds a book to the current user's favorite books.
+        /// </summary>
+        /// <param name="bookId">The ID of the book to add.</param>
+        /// <returns>Success message.</returns>
+        [Authorize]
+        [HttpPost("my-favorites/{bookId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CheckBookToMyFavorites([Required] int bookId, [FromBody] bool isFavorite)
+        {
+            if (bookId <= 0)
+                return BadRequest("Invalid book ID.");
+
+            await _bookAuthorService.CheckBookInMyFavoritesAsync(bookId, isFavorite);
+
+            return Ok("Book added to favorites.");
         }
 
         /// <summary>
@@ -65,6 +101,7 @@ namespace LibraryAPI.Controllers
         /// </summary>
         /// <param name="bookDto">The book details to create.</param>
         /// <returns>The ID of the newly created book.</returns>
+        [Authorize]
         [HttpPost("addBookWithAuthor")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]

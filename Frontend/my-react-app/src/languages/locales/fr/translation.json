@@ -1,5 +1,7 @@
 {
   "addBook": "Ajouter un livre",
+  "addToFavorites": "Ajouter aux favoris",
+  "alreadyFavorited": "Déjà dans les favoris",
   "addNewBook": "Ajouter un nouveau livre",
   "aiAssistant": "Assistant IA",
   "aiAssistantTitle": "Assistant d’Intelligence Artificielle",
@@ -59,6 +61,8 @@
   "loginErrorDefault": "Échec de la connexion. Veuillez réessayer.",
   "logout": "Se déconnecter",
   "myProfile": "Mon profil",
+  "myBooks": "Mes livres",
+  "noMyBooksYet": "Vous n'avez pas encore de livres ajoutés.",
   "noAccount": "Vous n’avez pas de compte ?",
   "noImage": "Aucune image",
   "noPdfAvailable": "PDF non disponible",

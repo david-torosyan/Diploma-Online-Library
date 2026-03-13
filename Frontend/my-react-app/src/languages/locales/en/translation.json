@@ -1,5 +1,7 @@
 {
   "addBook": "Add a Book",
+  "addToFavorites": "Add to favorites",
+  "alreadyFavorited": "Already in favorites",
   "addNewBook": "Add New Book",
   "aiAssistant": "AI Assistant",
   "aiAssistantTitle": "Artificial Intelligence Assistant",
@@ -59,6 +61,8 @@
   "loginErrorDefault": "Login failed. Please try again.",
   "logout": "Log Out",
   "myProfile": "My Profile",
+  "myBooks": "My Books",
+  "noMyBooksYet": "You don't have added books yet.",
   "noAccount": "Don’t have an account?",
   "noImage": "No image",
   "noPdfAvailable": "No PDF Available",

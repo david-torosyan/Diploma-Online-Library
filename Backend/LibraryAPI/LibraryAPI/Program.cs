@@ -52,6 +52,8 @@ builder.Services.AddScoped<IBookAuthorService, BookAuthorService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<AIAssistantHelper, AIAssistantHelper>();
 builder.Services.AddHttpClient<AIAssistantHelper>();
+
+builder.Services.AddHttpContextAccessor();
 #endregion
 
 #region ========================== Controller & JSON Settings ==========================

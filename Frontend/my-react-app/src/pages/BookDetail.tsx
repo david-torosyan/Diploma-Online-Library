@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { LibraryClient, BookWithDetailsDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
 import config from "../config/config.json";
+import Cookies from "js-cookie";
 
 const BookDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -10,6 +11,9 @@ const BookDetail: React.FC = () => {
   const [book, setBook] = useState<BookWithDetailsDto>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -35,6 +39,52 @@ const BookDetail: React.FC = () => {
 
     fetchBook();
   }, [id, t]);
+
+  const loadFavoriteState = useCallback(async () => {
+    if (!id) return;
+
+    const token = Cookies.get("auth_token");
+    if (!token) {
+      setIsAuthenticated(false);
+      setIsFavorite(false);
+      return;
+    }
+
+    setIsAuthenticated(true);
+
+    try {
+      const api = new LibraryClient(config.baseUrl);
+      const favorites = await api.myFavoritesAll(token);
+      const currentBookId = Number(id);
+      const exists = favorites.some((item) => item.id === currentBookId);
+      setIsFavorite(exists);
+    } catch {
+      setIsFavorite(false);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    loadFavoriteState();
+  }, [loadFavoriteState]);
+
+  const handleFavoriteToggle = async () => {
+    if (!id || favoriteLoading) return;
+
+    const token = Cookies.get("auth_token");
+    if (!token) return;
+
+    const bookId = Number(id);
+    const nextFavoriteState = !isFavorite;
+
+    setFavoriteLoading(true);
+    try {
+      const api = new LibraryClient(config.baseUrl);
+      await api.myFavorites(bookId, nextFavoriteState, token);
+      setIsFavorite(nextFavoriteState);
+    } finally {
+      setFavoriteLoading(false);
+    }
+  };
 
   if (loading)
     return (
@@ -70,7 +120,27 @@ const BookDetail: React.FC = () => {
           {/* Book Details */}
           <div className="col-md-8 col-lg-9 d-flex flex-column justify-content-between">
             <div>
-              <h2 className="fw-bold mb-3">{book.title}</h2>
+              <div className="d-flex align-items-center justify-content-between mb-3">
+                <h2 className="fw-bold mb-0">{book.title}</h2>
+                {isAuthenticated && (
+                  <button
+                    type="button"
+                    className="btn btn-sm p-0"
+                    style={{ fontSize: "1.4rem", lineHeight: 1.2, border: "none", background: "none" }}
+                    onClick={handleFavoriteToggle}
+                    disabled={favoriteLoading}
+                    title={isFavorite ? t("alreadyFavorited") : t("addToFavorites")}
+                  >
+                    {favoriteLoading ? (
+                      <span className="spinner-border spinner-border-sm" />
+                    ) : isFavorite ? (
+                      "❤️"
+                    ) : (
+                      "🤍"
+                    )}
+                  </button>
+                )}
+              </div>
               <ul className="list-unstyled mb-3">
                 <li>
                   <strong>{t("author")}:</strong>{" "}

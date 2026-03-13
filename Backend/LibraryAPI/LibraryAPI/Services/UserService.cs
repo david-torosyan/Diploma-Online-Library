@@ -37,25 +37,25 @@ public class UserService : IUserService
 
         try
         {
+            var normalizedEmail = registrationRequestDto.Email.ToLowerInvariant();
             var result = _userManager.CreateAsync(user, registrationRequestDto.Password).Result;
             if (result.Succeeded)
             {
-                var userToReturn = _db.Users.First(u => u.UserName == registrationRequestDto.Email);
+                var userToReturn = _db.Users
+                    .FirstOrDefault(u => u.UserName == normalizedEmail);
 
-                UserDto userDto = new()
+                if (userToReturn == null)
+                    return "User not found after creation";
+
+                var userDto = new UserDto
                 {
                     Email = userToReturn.Email,
                     Id = userToReturn.Id,
                     FirstName = userToReturn.FirstName
                 };
-
                 return string.Empty;
-
             }
-            else
-            {
-                return result.Errors.FirstOrDefault().Description;
-            }
+            return result.Errors.FirstOrDefault()?.Description ?? "Registration failed";
 
         }
         catch

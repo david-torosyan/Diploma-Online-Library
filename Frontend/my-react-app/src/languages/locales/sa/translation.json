@@ -1,5 +1,7 @@
 {
   "addBook": "إضافة كتاب",
+  "addToFavorites": "أضف إلى المفضلة",
+  "alreadyFavorited": "موجود بالفعل في المفضلة",
   "addNewBook": "إضافة كتاب جديد",
   "aiAssistant": "مساعد الذكاء الاصطناعي",
   "aiAssistantTitle": "مساعد الذكاء الاصطناعي",
@@ -59,6 +61,8 @@
   "loginErrorDefault": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
   "logout": "تسجيل الخروج",
   "myProfile": "ملفي الشخصي",
+  "myBooks": "كتبي",
+  "noMyBooksYet": "ليس لديك كتب مضافة بعد.",
   "noAccount": "ليس لديك حساب؟",
   "noImage": "لا توجد صورة",
   "noPdfAvailable": "ملف PDF غير متوفر",

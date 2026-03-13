@@ -10,11 +10,8 @@ public class AddBookDto
     public string AuthorName { get; set; }
     [Required]
     public int CategoryId { get; set; }
-    [Required]
     public string Description { get; set; }
-    [Required]
     public string ISBN { get; set; }
-    [Required]
     public DateTime PublishedDate { get; set; }
     [Required]
     public string BookUrl { get; set; }

@@ -1,5 +1,7 @@
 {
   "addBook": "Ein Buch hinzufügen",
+  "addToFavorites": "Zu Favoriten hinzufügen",
+  "alreadyFavorited": "Bereits in Favoriten",
   "addNewBook": "Neues Buch hinzufügen",
   "aiAssistant": "KI-Assistent",
   "aiAssistantTitle": "Assistent für Künstliche Intelligenz",
@@ -59,6 +61,8 @@
   "loginErrorDefault": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
   "logout": "Abmelden",
   "myProfile": "Mein Profil",
+  "myBooks": "Meine Bücher",
+  "noMyBooksYet": "Sie haben noch keine hinzugefügten Bücher.",
   "noAccount": "Sie haben noch kein Konto?",
   "noImage": "Kein Bild",
   "noPdfAvailable": "PDF nicht verfügbar",

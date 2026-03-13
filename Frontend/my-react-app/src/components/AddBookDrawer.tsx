@@ -4,6 +4,7 @@ import { LibraryClient, CategoryDto, AddBookDto } from "../api/LibraryClient";
 import config from "../config/config.json";
 import { useNavigate } from "react-router-dom";
 import { Offcanvas } from "bootstrap";
+import Cookies from "js-cookie";
 
 const AddBookDrawer: React.FC = () => {
   const { t } = useTranslation();
@@ -41,7 +42,7 @@ const AddBookDrawer: React.FC = () => {
     const imageUrl = (formData.get("pictureUrl") as string)?.trim() ?? "";
     const bookUrl = (formData.get("bookUrl") as string)?.trim() ?? "";
 
-    if (!title || !authorName || !categoryId || !isbn || !bookUrl) {
+    if (!title || !authorName || !categoryId || !bookUrl) {
       alert(t("pleaseFillAllRequiredFields"));
       return;
     }
@@ -61,13 +62,56 @@ const AddBookDrawer: React.FC = () => {
       imageUrl,
     });
 
+    const token = Cookies.get("auth_token");
+    if (!token) {
+      alert(t("notLoggedIn"));
+      return;
+    }
+
     try {
       setLoading(true);
       const api = new LibraryClient(config.baseUrl);
 
-      const responseId = await api.addBookWithAuthor(newBook);
+      const responseId = await api.addBookWithAuthor(newBook, token);
 
       if (responseId && typeof responseId === "number") {
+        const storedUser = Cookies.get("user");
+
+        if (storedUser) {
+          try {
+            const parsedUser = JSON.parse(storedUser) as { email?: string };
+            const email = (parsedUser.email ?? "").trim().toLowerCase();
+
+            if (email) {
+              const storageKey = `my_books_${email}`;
+              const existingBooksRaw = localStorage.getItem(storageKey);
+              const existingBooks = existingBooksRaw
+                ? (JSON.parse(existingBooksRaw) as Array<{ id?: number }>)
+                : [];
+
+              const selectedCategoryName =
+                categories.find((category) => category.id === categoryId)?.name ||
+                "";
+
+              const updatedBooks = [
+                {
+                  id: responseId,
+                  title,
+                  authorName,
+                  categoryName: selectedCategoryName,
+                  imageURL: imageUrl,
+                  bookURL: bookUrl,
+                  addedAt: new Date().toISOString(),
+                },
+                ...existingBooks.filter((book) => book.id !== responseId),
+              ];
+
+              localStorage.setItem(storageKey, JSON.stringify(updatedBooks));
+            }
+          } catch {
+          }
+        }
+
         const drawer = document.getElementById("addBookDrawer");
         if (drawer) {
           let offcanvas = Offcanvas.getInstance(drawer);
@@ -174,7 +218,6 @@ const AddBookDrawer: React.FC = () => {
               type="text"
               className="form-control"
               placeholder={t("enterIsbn")!}
-              required
             />
           </div>
 

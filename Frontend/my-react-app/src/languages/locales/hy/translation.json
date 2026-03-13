@@ -1,5 +1,7 @@
 {
   "addBook": "Ավելացնել գիրք",
+  "addToFavorites": "Ավելացնել նախընտրածների",
+  "alreadyFavorited": "Արդեն նախընտրածների մեջ է",
   "addNewBook": "Ավելացնել նոր գիրք",
   "aiAssistant": "ԱԲ Օգնական",
   "aiAssistantTitle": "Արհեստական Բանականություն",
@@ -59,6 +61,8 @@
   "loginErrorDefault": "Մուտքը չհաջողվեց։ Խնդրում ենք փորձել կրկին։",
   "logout": "Դուրս գալ հաշվից",
   "myProfile": "Իմ հաշիվը",
+  "myBooks": "Իմ գրքերը",
+  "noMyBooksYet": "Դուք դեռ ավելացված գրքեր չունեք։",
   "noAccount": "Չունե՞ք հաշիվ։",
   "noImage": "Պատկեր չկա",
   "noPdfAvailable": "PDF տարբերակը հասանելի չէ",
