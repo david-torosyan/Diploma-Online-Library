@@ -1,4 +1,5 @@
 ﻿using Library.DAL.IRepositories;
+using LibraryAPI.Constans;
 using LibraryAPI.Mappers;
 using LibraryAPI.Models;
 using LibraryAPI.Services.IServices;
@@ -118,6 +119,57 @@ namespace LibraryAPI.Controllers
                 new { id = newBookId },
                 newBookId
             );
+        }
+
+        /// <summary>
+        /// Retrieves all books that are pending approval.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint is accessible only to users with the Admin role.
+        /// It returns a list of books that have been submitted but not yet approved for publication.
+        /// </remarks>
+        /// <returns>
+        /// Returns a list of <see cref="BookDto"/> representing unapproved books.
+        /// </returns>
+        [Authorize(Roles = $"{RoleConstans.Admin}, {RoleConstans.Maintainer}")]
+        [HttpGet("unapproved")]
+        [ProducesResponseType(typeof(IEnumerable<BookDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetUnapprovedBooks()
+        {
+            var books = await _bookAuthorService.GetAllUnApprovedBooks();
+
+            var result = books.Select(book => book.ToBookWithDetailsDto());
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Approves a book for publication.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows an administrator to approve a book that was previously submitted.
+        /// Once approved, the book becomes publicly available.
+        /// </remarks>
+        /// <param name="id">The ID of the book to approve.</param>
+        /// <returns>
+        /// Returns 204 NoContent if the book is successfully approved.
+        /// Returns 404 if the book is not found.
+        /// </returns>
+        [Authorize(Roles = $"{RoleConstans.Admin}, {RoleConstans.Maintainer}")]
+        [HttpPut("{id}/approve")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ApproveBook(int id)
+        {
+            await _bookAuthorService.ApproveBookById(id);
+
+            return Ok();
         }
 
         /// <summary>

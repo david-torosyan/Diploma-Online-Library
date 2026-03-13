@@ -11,7 +11,7 @@ public class BookRepository(ApplicationDbContext context) : BaseRepository<Book>
         await _dbSet
            .Include(b => b.Category)
            .Include(b => b.Author)
-           .Where(b => b.Category.Name == category)
+           .Where(b => b.Category.Name == category && b.IsApproved == true)
            .ToListAsync();
 
     public async Task<Book> GetBookWithDetailsByIdAsync(int bookId) =>
@@ -23,13 +23,22 @@ public class BookRepository(ApplicationDbContext context) : BaseRepository<Book>
            .FirstOrDefaultAsync(b => b.Id == bookId);
 
     public async Task<IEnumerable<Book>> GetBookWithDetailsByNameAsync(string searchString) =>
-        await _dbSet
+     await _dbSet
+           .Include(b => b.Author)
+           .Include(b => b.Category)
+           .Include(b => b.Reviews)
+           .Include(b => b.Favorites)
+           .Where(b => b.IsApproved &&
+                       (b.Title.ToLower().StartsWith(searchString.ToLower()) ||
+                        b.Title.ToLower().Contains(searchString.ToLower())))
+           .Distinct()
+           .Take(4)
+           .ToListAsync();
+
+    public async Task<IEnumerable<Book>> GetUnApprovedBooksAsync() =>
+          await _dbSet
             .Include(b => b.Author)
             .Include(b => b.Category)
-            .Include(b => b.Reviews)
-            .Include(b => b.Favorites)
-            .Where(b => b.Title.StartsWith(searchString) || b.Title.Contains(searchString))
-            .Distinct()
-            .Take(4)
+            .Where(b => b.IsApproved == false)
             .ToListAsync();
 }

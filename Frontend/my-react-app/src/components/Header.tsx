@@ -8,9 +8,12 @@ import AiAssistant from "../pages/AiAssistant";
 import LanguageSwitcher from "../languages/LanguageSwitcher";
 import AddBookDrawer from "../components/AddBookDrawer";
 import MyBooksDrawer from "../components/MyBooksDrawer";
+import AdminMessagesDrawer from "../components/AdminMessagesDrawer";
+import { isAdminUser } from "../utils/auth";
 
 const Header: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [userName, setUserName] = useState<string>("");
   const { t } = useTranslation();
 
@@ -19,6 +22,7 @@ const Header: React.FC = () => {
 
     if (user) {
       setIsAuthenticated(true);
+      setIsAdmin(isAdminUser());
       try {
         const parsedUser = JSON.parse(user);
         setUserName(
@@ -29,6 +33,7 @@ const Header: React.FC = () => {
       }
     } else {
       setIsAuthenticated(false);
+      setIsAdmin(false);
     }
   }, [t]);
 
@@ -83,6 +88,19 @@ const Header: React.FC = () => {
             {/* Auth Buttons */}
             {isAuthenticated ? (
               <>
+                {isAdmin && (
+                  <li className="nav-item">
+                    <button
+                      className="btn btn-outline-light rounded-2 px-3 py-1"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#adminMessagesDrawer"
+                      aria-controls="adminMessagesDrawer"
+                    >
+                      🔔 {t("messages")}
+                    </button>
+                  </li>
+                )}
+
                 <li className="nav-item">
                   <button
                     className="btn btn-outline-light rounded-2 px-3 py-1"
@@ -127,6 +145,7 @@ const Header: React.FC = () => {
       <Profile />
       <AddBookDrawer />
       <MyBooksDrawer />
+      <AdminMessagesDrawer />
       <AiAssistant />
     </>
   );

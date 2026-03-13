@@ -189,7 +189,8 @@ const AddBookDrawer: React.FC = () => {
             >
               <option value="">{t("selectGenre")}</option>
               {categories.map((category) => {
-                const translatedGenre = t(`genres.${category.name}`);
+                const genreKey = (category.name || "").toLowerCase();
+                const translatedGenre = t(`genres.${genreKey}`, category.name || "");
                 return (
                   <option key={category.id} value={category.id}>
                     {translatedGenre}

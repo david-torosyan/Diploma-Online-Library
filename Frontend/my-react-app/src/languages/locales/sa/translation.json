@@ -1,6 +1,14 @@
 {
   "addBook": "إضافة كتاب",
   "addToFavorites": "أضف إلى المفضلة",
+  "messages": "الرسائل",
+  "unapprovedBooks": "الكتب غير المعتمدة",
+  "noUnapprovedBooks": "لا توجد كتب غير معتمدة.",
+  "approveBook": "اعتماد الكتاب",
+  "approving": "جارٍ الاعتماد...",
+  "approvedByAdmin": "تمت الموافقة من المشرف",
+  "pendingApproval": "بانتظار موافقة المشرف",
+  "statusLabel": "الحالة",
   "alreadyFavorited": "موجود بالفعل في المفضلة",
   "addNewBook": "إضافة كتاب جديد",
   "aiAssistant": "مساعد الذكاء الاصطناعي",
@@ -42,6 +50,7 @@
   "firstName": "الاسم الأول",
   "genre": "النوع الأدبي",
   "genres": {
+    "another": "أخرى",
     "art": "فن",
     "biography": "سيرة ذاتية",
     "fantasy": "خيال",

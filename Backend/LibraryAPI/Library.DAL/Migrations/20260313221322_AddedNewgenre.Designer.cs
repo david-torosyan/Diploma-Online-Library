@@ -3,6 +3,7 @@ using System;
 using Library.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Library.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260313221322_AddedNewgenre")]
+    partial class AddedNewgenre
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2114,20 +2117,6 @@ namespace Library.DAL.Migrations
                             AuthorId = 113,
                             BookURL = "https://www.europarc.org/wp-content/uploads/2015/05/2012_Parks_and_Benefits_Guide_to_sustainable_tourism_in_Protected_Areas.pdf",
                             CategoryId = 10,
-                            Description = "This report tells how to ensure that tourism follows a sustainable path and that it contributes to the sustainable management of protected areas. Guidelines are presented to help readers understand protected area tourism and its management, and practical suggestions are based on theory and practice from around the world. Coverage includes biodiversity and conservation, planning for protected area tourism, culturally sensitive design and operation, visitor management, and human resources. There is no subject index. Eagles teaches at the University of Waterloo, Canada. Annotation copyrighted by Book News, Inc., Portland, OR.",
-                            ISBN = "9782831706481",
-                            ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuN00TpctnWSLzvYdA_2rk8RxHDn9MM2hUwA&s",
-                            IsApproved = true,
-                            Pages = 191,
-                            PublishedDate = new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Sustainable Tourism in Protected Areas"
-                        },
-                        new
-                        {
-                            Id = 100,
-                            AuthorId = 113,
-                            BookURL = "https://www.europarc.org/wp-content/uploads/2015/05/2012_Parks_and_Benefits_Guide_to_sustainable_tourism_in_Protected_Areas.pdf",
-                            CategoryId = 11,
                             Description = "This report tells how to ensure that tourism follows a sustainable path and that it contributes to the sustainable management of protected areas. Guidelines are presented to help readers understand protected area tourism and its management, and practical suggestions are based on theory and practice from around the world. Coverage includes biodiversity and conservation, planning for protected area tourism, culturally sensitive design and operation, visitor management, and human resources. There is no subject index. Eagles teaches at the University of Waterloo, Canada. Annotation copyrighted by Book News, Inc., Portland, OR.",
                             ISBN = "9782831706481",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuN00TpctnWSLzvYdA_2rk8RxHDn9MM2hUwA&s",

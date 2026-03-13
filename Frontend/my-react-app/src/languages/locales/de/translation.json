@@ -1,6 +1,14 @@
 {
   "addBook": "Ein Buch hinzufügen",
   "addToFavorites": "Zu Favoriten hinzufügen",
+  "messages": "Nachrichten",
+  "unapprovedBooks": "Nicht genehmigte Bücher",
+  "noUnapprovedBooks": "Es gibt keine nicht genehmigten Bücher.",
+  "approveBook": "Buch genehmigen",
+  "approving": "Genehmigung läuft...",
+  "approvedByAdmin": "Vom Administrator genehmigt",
+  "pendingApproval": "Wartet auf Genehmigung durch den Administrator",
+  "statusLabel": "Status",
   "alreadyFavorited": "Bereits in Favoriten",
   "addNewBook": "Neues Buch hinzufügen",
   "aiAssistant": "KI-Assistent",
@@ -42,6 +50,7 @@
   "firstName": "Vorname",
   "genre": "Genre",
   "genres": {
+    "another": "Andere",
     "art": "Kunst",
     "biography": "Biografie",
     "fantasy": "Fantasy",

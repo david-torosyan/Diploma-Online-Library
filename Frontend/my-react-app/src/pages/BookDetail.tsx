@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { LibraryClient, BookWithDetailsDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
 import config from "../config/config.json";
 import Cookies from "js-cookie";
+import { isAdminUser } from "../utils/auth";
 
 const BookDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,11 +13,16 @@ const BookDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
+  const [isPendingApproval, setIsPendingApproval] = useState(false);
+  const [approvalLoading, setApprovalLoading] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
+    setIsAdmin(isAdminUser());
+
     const fetchBook = async () => {
       if (!id) return;
 
@@ -39,6 +45,27 @@ const BookDetail: React.FC = () => {
 
     fetchBook();
   }, [id, t]);
+
+  const loadApprovalState = useCallback(async () => {
+    if (!id) return;
+
+    const token = Cookies.get("auth_token");
+    if (!token || !isAdminUser()) {
+      setIsPendingApproval(false);
+      return;
+    }
+
+    try {
+      const api = new LibraryClient(config.baseUrl);
+      const unapprovedBooks = await api.unapproved(token);
+      const currentBookId = Number(id);
+      setIsPendingApproval(
+        unapprovedBooks.some((item) => item.id === currentBookId)
+      );
+    } catch {
+      setIsPendingApproval(false);
+    }
+  }, [id]);
 
   const loadFavoriteState = useCallback(async () => {
     if (!id) return;
@@ -67,6 +94,10 @@ const BookDetail: React.FC = () => {
     loadFavoriteState();
   }, [loadFavoriteState]);
 
+  useEffect(() => {
+    loadApprovalState();
+  }, [loadApprovalState]);
+
   const handleFavoriteToggle = async () => {
     if (!id || favoriteLoading) return;
 
@@ -83,6 +114,22 @@ const BookDetail: React.FC = () => {
       setIsFavorite(nextFavoriteState);
     } finally {
       setFavoriteLoading(false);
+    }
+  };
+
+  const handleApprove = async () => {
+    if (!id || approvalLoading) return;
+
+    const token = Cookies.get("auth_token");
+    if (!token) return;
+
+    setApprovalLoading(true);
+    try {
+      const api = new LibraryClient(config.baseUrl);
+      await api.approve(Number(id), token);
+      setIsPendingApproval(false);
+    } finally {
+      setApprovalLoading(false);
     }
   };
 
@@ -151,9 +198,21 @@ const BookDetail: React.FC = () => {
                 </li>
                 <li>
                   <strong>{t("category")}:</strong>{" "}
-                  {book.categoryName
-                    ? t(`genres.${book.categoryName.toLowerCase()}`, book.categoryName)
-                    : t("uncategorized")}
+                  {book.categoryName ? (
+                    <Link
+                      to={`/category/${encodeURIComponent(
+                        book.categoryName.toLowerCase()
+                      )}`}
+                      className="text-decoration-none"
+                    >
+                      {t(
+                        `genres.${book.categoryName.toLowerCase()}`,
+                        book.categoryName
+                      )}
+                    </Link>
+                  ) : (
+                    t("uncategorized")
+                  )}
                 </li>
                 <li>
                   <strong>{t("pages")}:</strong> {book.pages || "N/A"}
@@ -163,6 +222,16 @@ const BookDetail: React.FC = () => {
                   {book.publishedDate
                     ? new Date(book.publishedDate).toLocaleDateString()
                     : "N/A"}
+                </li>
+                <li>
+                  <strong>{t("statusLabel")}:</strong>{" "}
+                  <span
+                    className={`badge ${isPendingApproval ? "bg-warning text-dark" : "bg-success"}`}
+                  >
+                    {isPendingApproval
+                      ? t("pendingApproval")
+                      : t("approvedByAdmin")}
+                  </span>
                 </li>
               </ul>
 
@@ -185,6 +254,17 @@ const BookDetail: React.FC = () => {
             </div>
 
             <div className="mt-3">
+              {isAdmin && isPendingApproval && (
+                <button
+                  type="button"
+                  className="btn btn-success w-100 w-sm-auto me-2 mb-2"
+                  onClick={handleApprove}
+                  disabled={approvalLoading}
+                >
+                  {approvalLoading ? t("approving") : t("approveBook")}
+                </button>
+              )}
+
               {book.bookURL ? (
                 <a
                   className="btn btn-primary w-100 w-sm-auto"

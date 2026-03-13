@@ -1,6 +1,14 @@
 {
   "addBook": "Ավելացնել գիրք",
   "addToFavorites": "Ավելացնել նախընտրածների",
+  "messages": "Հաղորդագրություններ",
+  "unapprovedBooks": "Չհաստատված գրքեր",
+  "noUnapprovedBooks": "Չկան չհաստատված գրքեր։",
+  "approveBook": "Հաստատել գիրքը",
+  "approving": "Հաստատվում է...",
+  "approvedByAdmin": "Հաստատված է ադմինի կողմից",
+  "pendingApproval": "Սպասում է ադմինի հաստատմանը",
+  "statusLabel": "Կարգավիճակ",
   "alreadyFavorited": "Արդեն նախընտրածների մեջ է",
   "addNewBook": "Ավելացնել նոր գիրք",
   "aiAssistant": "ԱԲ Օգնական",
@@ -42,6 +50,7 @@
   "firstName": "Անուն",
   "genre": "Ժանր",
   "genres": {
+    "another": "Այլ",
     "art": "Արվեստ",
     "biography": "Կենսագրություն",
     "fantasy": "Ֆանտաստիկա",

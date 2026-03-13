@@ -1,6 +1,14 @@
 {
   "addBook": "Add a Book",
   "addToFavorites": "Add to favorites",
+  "messages": "Messages",
+  "unapprovedBooks": "Unapproved books",
+  "noUnapprovedBooks": "There are no unapproved books.",
+  "approveBook": "Approve book",
+  "approving": "Approving...",
+  "approvedByAdmin": "Approved by admin",
+  "pendingApproval": "Pending admin approval",
+  "statusLabel": "Status",
   "alreadyFavorited": "Already in favorites",
   "addNewBook": "Add New Book",
   "aiAssistant": "AI Assistant",
@@ -42,6 +50,7 @@
   "firstName": "First Name",
   "genre": "Genre",
   "genres": {
+    "another": "Another",
     "art": "Art",
     "biography": "Biography",
     "fantasy": "Fantasy",

@@ -8,4 +8,6 @@ public interface IBookAuthorService
     Task CheckBookInMyFavoritesAsync(int bookId, bool isFavorite);
     Task<int> AddBookWithAuthorAsync(AddBookDto addBookDto);
     Task<IEnumerable<Book>> GetMyFavoriteBooksAsync();
+    Task<IEnumerable<Book>> GetAllUnApprovedBooks();
+    Task ApproveBookById(int id);
 }

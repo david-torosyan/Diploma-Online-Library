@@ -7,4 +7,5 @@ public interface IBookRepository : IBaseRepository<Book>
     Task<Book> GetBookWithDetailsByIdAsync(int bookId);
     Task<IEnumerable<Book>> GetBookWithDetailsByNameAsync(string bookName);
     Task<IEnumerable<Book>> GetByCategoryAsync(string category);
+    Task<IEnumerable<Book>> GetUnApprovedBooksAsync();
 }

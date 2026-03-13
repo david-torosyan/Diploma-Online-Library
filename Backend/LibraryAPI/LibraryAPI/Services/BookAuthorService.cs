@@ -116,7 +116,8 @@ public class BookAuthorService : IBookAuthorService
                 PublishedDate = addBookDto.PublishedDate.Date,
                 BookURL = addBookDto.BookUrl,
                 ImageURL = addBookDto.ImageUrl ?? string.Empty,
-                AuthorId = author.Id
+                AuthorId = author.Id,
+                IsApproved = false
             };
 
             await _unitOfWork.Books.AddAsync(book);
@@ -167,5 +168,29 @@ public class BookAuthorService : IBookAuthorService
             _logger.LogError(ex, "Error retrieving favorite books for current user.");
             throw;
         }
+    }
+
+    public Task<IEnumerable<Book>> GetAllUnApprovedBooks()
+    {
+        try
+        {
+            return _unitOfWork.Books.GetUnApprovedBooksAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving unapproved books.");
+            throw;
+        }
+    }
+
+    public async Task ApproveBookById(int id)
+    {
+        var book = await _unitOfWork.Books.GetByIdAsync(id);
+        if (book == null)
+            throw new KeyNotFoundException($"Book with ID {id} not found.");
+
+        book.IsApproved = true;
+
+        await _unitOfWork.CommitAsync();
     }
 }

@@ -14,6 +14,7 @@ public class Book
     public Category Category { get; set; }
     public string BookURL { get; set; }
     public string ImageURL { get; set; }
+    public bool IsApproved { get; set; }
     public ICollection<Favorite> Favorites { get; set; }
     public ICollection<Review> Reviews { get; set; }
 }

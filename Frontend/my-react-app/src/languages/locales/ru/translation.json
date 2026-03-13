@@ -1,6 +1,14 @@
 {
   "addBook": "Добавить книгу",
   "addToFavorites": "Добавить в избранное",
+  "messages": "Сообщения",
+  "unapprovedBooks": "Неодобренные книги",
+  "noUnapprovedBooks": "Неодобренных книг нет.",
+  "approveBook": "Одобрить книгу",
+  "approving": "Одобрение...",
+  "approvedByAdmin": "Одобрено администратором",
+  "pendingApproval": "Ожидает одобрения администратора",
+  "statusLabel": "Статус",
   "alreadyFavorited": "Уже в избранном",
   "addNewBook": "Добавить новую книгу",
   "aiAssistant": "ИИ Ассистент",
@@ -42,6 +50,7 @@
   "firstName": "Имя",
   "genre": "Жанр",
   "genres": {
+    "another": "Другое",
     "art": "Искусство",
     "biography": "Биография",
     "fantasy": "Фэнтези",

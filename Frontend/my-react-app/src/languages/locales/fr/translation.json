@@ -1,6 +1,14 @@
 {
   "addBook": "Ajouter un livre",
   "addToFavorites": "Ajouter aux favoris",
+  "messages": "Messages",
+  "unapprovedBooks": "Livres non approuvés",
+  "noUnapprovedBooks": "Il n'y a pas de livres non approuvés.",
+  "approveBook": "Approuver le livre",
+  "approving": "Approbation...",
+  "approvedByAdmin": "Approuvé par l'administrateur",
+  "pendingApproval": "En attente d'approbation par l'administrateur",
+  "statusLabel": "Statut",
   "alreadyFavorited": "Déjà dans les favoris",
   "addNewBook": "Ajouter un nouveau livre",
   "aiAssistant": "Assistant IA",
@@ -42,6 +50,7 @@
   "firstName": "Prénom",
   "genre": "Genre",
   "genres": {
+    "another": "Autre",
     "art": "Art",
     "biography": "Biographie",
     "fantasy": "Fantastique",

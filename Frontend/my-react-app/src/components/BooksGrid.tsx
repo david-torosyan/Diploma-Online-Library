@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LibraryClient, BookDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
 import config from "../config/config.json";
@@ -13,9 +13,13 @@ interface Book {
 
 interface BooksGridProps {
   genre?: string;
+  layout?: "slider" | "matrix";
 }
 
-const BooksGrid: React.FC<BooksGridProps> = ({ genre = "fiction" }) => {
+const BooksGrid: React.FC<BooksGridProps> = ({
+  genre = "fiction",
+  layout = "slider",
+}) => {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -122,99 +126,164 @@ const BooksGrid: React.FC<BooksGridProps> = ({ genre = "fiction" }) => {
   if (loading)
     return <p className="text-center mt-5 text-muted">{t("loadingBooks")}</p>;
 
-  const displayGenre = t(`genres.${genre}`);
+  const displayGenre = t(`genres.${genre.toLowerCase()}`, genre);
 
   return (
     <div className="container my-5">
-      <h2 className="fw-bold mb-3 text-capitalize">{displayGenre}</h2>
-
-      <div className="position-relative">
-        {/* Left Scroll Button */}
-        <button
-          className="btn btn-primary position-absolute top-50 start-0 translate-middle-y shadow-sm"
-          onClick={() => scroll("left")}
-          aria-label={t("scrollLeft")}
-          style={{ zIndex: 1 }}
+      <h2 className="fw-bold mb-3 text-capitalize">
+        <Link
+          to={`/category/${encodeURIComponent(genre)}`}
+          className="text-decoration-none"
         >
-          ⮨
-        </button>
+          {displayGenre}
+        </Link>
+      </h2>
 
-        {/* Books Scroll Row */}
-        <div
-          ref={containerRef}
-          className="d-flex overflow-auto gap-3 px-5 py-2"
-          style={{ scrollBehavior: "smooth" }}
-        >
-          {books.map((book) => (
-            <div
-              key={book.id}
-              className="card flex-shrink-0 border-0 shadow-sm"
-              style={{ width: "150px" }}
-            >
-              {book.img && (
-                <img
-                  src={book.img}
-                  className="card-img-top rounded-top"
-                  alt={book.title}
-                  height={220}
-                  style={{ objectFit: "cover" }}
-                />
-              )}
-              <div className="card-body text-center p-2">
-                <h6
-                  className="card-title text-truncate"
-                  title={book.title}
-                  style={{ height: "1.5rem" }}
-                >
-                  {book.title}
-                </h6>
+      {layout === "slider" ? (
+        <div className="position-relative">
+          <button
+            className="btn btn-primary position-absolute top-50 start-0 translate-middle-y shadow-sm"
+            onClick={() => scroll("left")}
+            aria-label={t("scrollLeft")}
+            style={{ zIndex: 1 }}
+          >
+            ⮨
+          </button>
 
-                {isAuthenticated && (
-                  <button
-                    className="btn btn-sm w-100 mt-1 p-0"
-                    style={{ fontSize: "1.1rem", lineHeight: 1.4, border: "none", background: "none" }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleFavorite(Number(book.id));
-                    }}
-                    disabled={togglingId === Number(book.id)}
-                    title={
-                      favoriteIds.has(Number(book.id))
-                        ? t("alreadyFavorited")
-                        : t("addToFavorites")
-                    }
-                  >
-                    {togglingId === Number(book.id) ? (
-                      <span className="spinner-border spinner-border-sm" />
-                    ) : favoriteIds.has(Number(book.id)) ? (
-                      "❤️"
-                    ) : (
-                      "🤍"
-                    )}
-                  </button>
+          <div
+            ref={containerRef}
+            className="d-flex overflow-auto gap-3 px-5 py-2"
+            style={{ scrollBehavior: "smooth" }}
+          >
+            {books.map((book) => (
+              <div
+                key={book.id}
+                className="card flex-shrink-0 border-0 shadow-sm"
+                style={{ width: "150px" }}
+              >
+                {book.img && (
+                  <img
+                    src={book.img}
+                    className="card-img-top rounded-top"
+                    alt={book.title}
+                    height={220}
+                    style={{ objectFit: "cover" }}
+                  />
                 )}
+                <div className="card-body text-center p-2">
+                  <h6
+                    className="card-title text-truncate"
+                    title={book.title}
+                    style={{ height: "1.5rem" }}
+                  >
+                    {book.title}
+                  </h6>
 
-                <button
-                  className="btn btn-sm btn-outline-primary w-100 mt-1"
-                  onClick={() => openBookDetail(book.id)}
-                >
-                  {t("read")}
-                </button>
+                  {isAuthenticated && (
+                    <button
+                      className="btn btn-sm w-100 mt-1 p-0"
+                      style={{ fontSize: "1.1rem", lineHeight: 1.4, border: "none", background: "none" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFavorite(Number(book.id));
+                      }}
+                      disabled={togglingId === Number(book.id)}
+                      title={
+                        favoriteIds.has(Number(book.id))
+                          ? t("alreadyFavorited")
+                          : t("addToFavorites")
+                      }
+                    >
+                      {togglingId === Number(book.id) ? (
+                        <span className="spinner-border spinner-border-sm" />
+                      ) : favoriteIds.has(Number(book.id)) ? (
+                        "❤️"
+                      ) : (
+                        "🤍"
+                      )}
+                    </button>
+                  )}
+
+                  <button
+                    className="btn btn-sm btn-outline-primary w-100 mt-1"
+                    onClick={() => openBookDetail(book.id)}
+                  >
+                    {t("read")}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            className="btn btn-primary position-absolute top-50 end-0 translate-middle-y shadow-sm"
+            onClick={() => scroll("right")}
+            aria-label={t("scrollRight")}
+            style={{ zIndex: 1 }}
+          >
+            ⮩
+          </button>
+        </div>
+      ) : (
+        <div className="row g-3">
+          {books.map((book) => (
+            <div key={book.id} className="col-6 col-sm-4 col-md-3 col-lg-2">
+              <div className="card border-0 shadow-sm h-100">
+                {book.img && (
+                  <img
+                    src={book.img}
+                    className="card-img-top rounded-top"
+                    alt={book.title}
+                    height={220}
+                    style={{ objectFit: "cover" }}
+                  />
+                )}
+                <div className="card-body text-center p-2 d-flex flex-column">
+                  <h6
+                    className="card-title text-truncate"
+                    title={book.title}
+                    style={{ height: "1.5rem" }}
+                  >
+                    {book.title}
+                  </h6>
+
+                  {isAuthenticated && (
+                    <button
+                      className="btn btn-sm w-100 mt-1 p-0"
+                      style={{ fontSize: "1.1rem", lineHeight: 1.4, border: "none", background: "none" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFavorite(Number(book.id));
+                      }}
+                      disabled={togglingId === Number(book.id)}
+                      title={
+                        favoriteIds.has(Number(book.id))
+                          ? t("alreadyFavorited")
+                          : t("addToFavorites")
+                      }
+                    >
+                      {togglingId === Number(book.id) ? (
+                        <span className="spinner-border spinner-border-sm" />
+                      ) : favoriteIds.has(Number(book.id)) ? (
+                        "❤️"
+                      ) : (
+                        "🤍"
+                      )}
+                    </button>
+                  )}
+
+                  <button
+                    className="btn btn-sm btn-outline-primary w-100 mt-1"
+                    onClick={() => openBookDetail(book.id)}
+                  >
+                    {t("read")}
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
-
-        {/* Right Scroll Button */}
-        <button
-          className="btn btn-primary position-absolute top-50 end-0 translate-middle-y shadow-sm"
-          onClick={() => scroll("right")}
-          aria-label={t("scrollRight")}
-          style={{ zIndex: 1 }}
-        >
-          ⮩
-        </button>
-      </div>
+      )}
     </div>
   );
 };
