@@ -79,10 +79,9 @@ const AiAssistant: React.FC = () => {
       </div>
 
       <div className="offcanvas-body d-flex flex-column">
-        {/* Chat Container */}
-        <div className="flex-grow-1 mb-3 overflow-auto border rounded p-3 vh-70">
+        <div className="flex-grow-1 mb-3 overflow-auto border rounded-4 p-3 vh-70 bg-white shadow-sm">
           {messages.length === 0 && (
-            <p className="text-muted text-center">{t("askMeAnything")}</p>
+            <p className="empty-state text-center">{t("askMeAnything")}</p>
           )}
 
           {messages.map((msg, idx) => (
@@ -97,11 +96,10 @@ const AiAssistant: React.FC = () => {
               <div
                 className={`p-2 rounded shadow-sm ${
                   msg.sender === "user"
-                    ? "bg-primary text-white"
-                    : "bg-light text-dark"
+                    ? "bg-primary text-white rounded-end-1"
+                    : "bg-light text-dark rounded-start-1"
                 } w-75 text-break`}
               >
-                {/* Typing animation */}
                 {msg.sender === "ai" && msg.text === "typing" ? (
                   <div className="d-flex align-items-center">
                     <div className="spinner-grow spinner-grow-sm text-secondary me-2" />
@@ -119,7 +117,6 @@ const AiAssistant: React.FC = () => {
           <div ref={chatEndRef}></div>
         </div>
 
-        {/* Input Form */}
         <form onSubmit={handleSend} className="d-flex gap-2">
           <input
             type="text"
@@ -131,7 +128,7 @@ const AiAssistant: React.FC = () => {
           />
           <button
             type="submit"
-            className="btn btn-primary px-3"
+            className="btn btn-primary rounded-pill px-4"
             disabled={loading || !input.trim()}
           >
             {loading ? (

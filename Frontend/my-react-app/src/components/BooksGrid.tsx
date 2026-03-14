@@ -1,9 +1,11 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
+import { useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LibraryClient, BookDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
 import config from "../config/config.json";
 import Cookies from "js-cookie";
+import { createGenreTheme } from "../utils/genreTheme";
 
 interface Book {
   id: string;
@@ -14,13 +16,18 @@ interface Book {
 interface BooksGridProps {
   genre?: string;
   layout?: "slider" | "matrix";
+  searchQuery?: string;
+  sortOrder?: "default" | "title-asc" | "title-desc";
 }
 
 const BooksGrid: React.FC<BooksGridProps> = ({
   genre = "fiction",
   layout = "slider",
+  searchQuery = "",
+  sortOrder = "default",
 }) => {
   const { t } = useTranslation();
+  const genreTheme = createGenreTheme(genre);
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [books, setBooks] = useState<Book[]>([]);
@@ -123,17 +130,53 @@ const BooksGrid: React.FC<BooksGridProps> = ({
     navigate(`/bookdetails/${id}`);
   };
 
+  const processedBooks = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+
+    let nextBooks = books;
+
+    if (normalizedQuery) {
+      nextBooks = nextBooks.filter((book) =>
+        (book.title || "").toLowerCase().includes(normalizedQuery)
+      );
+    }
+
+    if (sortOrder === "title-asc") {
+      return [...nextBooks].sort((left, right) =>
+        (left.title || "").localeCompare(right.title || "")
+      );
+    }
+
+    if (sortOrder === "title-desc") {
+      return [...nextBooks].sort((left, right) =>
+        (right.title || "").localeCompare(left.title || "")
+      );
+    }
+
+    return nextBooks;
+  }, [books, searchQuery, sortOrder]);
+
   if (loading)
-    return <p className="text-center mt-5 text-muted">{t("loadingBooks")}</p>;
+    return <p className="text-center mt-5 loading-text">{t("loadingBooks")}</p>;
 
   const displayGenre = t(`genres.${genre.toLowerCase()}`, genre);
 
   return (
-    <div className="container my-5">
-      <h2 className="fw-bold mb-3 text-capitalize">
+    <div
+      className="container my-5 app-section genre-section"
+      style={
+        {
+          "--genre-accent": genreTheme.accent,
+          "--genre-accent-deep": genreTheme.accentDeep,
+          "--genre-soft": genreTheme.soft,
+          "--genre-border": genreTheme.border,
+        } as React.CSSProperties
+      }
+    >
+      <h2 className="fw-bold text-capitalize genre-section-title">
         <Link
           to={`/category/${encodeURIComponent(genre)}`}
-          className="text-decoration-none"
+          className="genre-link"
         >
           {displayGenre}
         </Link>
@@ -142,7 +185,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({
       {layout === "slider" ? (
         <div className="position-relative">
           <button
-            className="btn btn-primary position-absolute top-50 start-0 translate-middle-y shadow-sm"
+            className="btn btn-primary position-absolute top-50 start-0 translate-middle-y shadow-sm slider-nav-btn"
             onClick={() => scroll("left")}
             aria-label={t("scrollLeft")}
             style={{ zIndex: 1 }}
@@ -152,27 +195,26 @@ const BooksGrid: React.FC<BooksGridProps> = ({
 
           <div
             ref={containerRef}
-            className="d-flex overflow-auto gap-3 px-5 py-2"
+            className="d-flex overflow-auto gap-3 px-2 px-md-5 py-2 books-track"
             style={{ scrollBehavior: "smooth" }}
           >
-            {books.map((book) => (
+            {processedBooks.map((book) => (
               <div
                 key={book.id}
-                className="card flex-shrink-0 border-0 shadow-sm"
+                className="card flex-shrink-0 book-card"
                 style={{ width: "150px" }}
               >
                 {book.img && (
                   <img
                     src={book.img}
-                    className="card-img-top rounded-top"
+                    className="card-img-top rounded-top book-cover"
                     alt={book.title}
                     height={220}
-                    style={{ objectFit: "cover" }}
                   />
                 )}
                 <div className="card-body text-center p-2">
                   <h6
-                    className="card-title text-truncate"
+                    className="card-title text-truncate book-title"
                     title={book.title}
                     style={{ height: "1.5rem" }}
                   >
@@ -205,7 +247,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({
                   )}
 
                   <button
-                    className="btn btn-sm btn-outline-primary w-100 mt-1"
+                    className="btn btn-sm btn-outline-primary w-100 mt-1 book-action-btn"
                     onClick={() => openBookDetail(book.id)}
                   >
                     {t("read")}
@@ -216,7 +258,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({
           </div>
 
           <button
-            className="btn btn-primary position-absolute top-50 end-0 translate-middle-y shadow-sm"
+            className="btn btn-primary position-absolute top-50 end-0 translate-middle-y shadow-sm slider-nav-btn"
             onClick={() => scroll("right")}
             aria-label={t("scrollRight")}
             style={{ zIndex: 1 }}
@@ -226,21 +268,20 @@ const BooksGrid: React.FC<BooksGridProps> = ({
         </div>
       ) : (
         <div className="row g-3">
-          {books.map((book) => (
+          {processedBooks.map((book) => (
             <div key={book.id} className="col-6 col-sm-4 col-md-3 col-lg-2">
-              <div className="card border-0 shadow-sm h-100">
+              <div className="card book-card h-100">
                 {book.img && (
                   <img
                     src={book.img}
-                    className="card-img-top rounded-top"
+                    className="card-img-top rounded-top book-cover"
                     alt={book.title}
                     height={220}
-                    style={{ objectFit: "cover" }}
                   />
                 )}
                 <div className="card-body text-center p-2 d-flex flex-column">
                   <h6
-                    className="card-title text-truncate"
+                    className="card-title text-truncate book-title"
                     title={book.title}
                     style={{ height: "1.5rem" }}
                   >
@@ -273,7 +314,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({
                   )}
 
                   <button
-                    className="btn btn-sm btn-outline-primary w-100 mt-1"
+                    className="btn btn-sm btn-outline-primary w-100 mt-1 book-action-btn"
                     onClick={() => openBookDetail(book.id)}
                   >
                     {t("read")}
@@ -283,6 +324,12 @@ const BooksGrid: React.FC<BooksGridProps> = ({
             </div>
           ))}
         </div>
+      )}
+
+      {processedBooks.length === 0 && (
+        <p className="text-center mt-3 empty-state">
+          {t("noBooksMatch", "No books match current filters.")}
+        </p>
       )}
     </div>
   );

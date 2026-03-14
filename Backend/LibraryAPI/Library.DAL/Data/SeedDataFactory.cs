@@ -1,4 +1,6 @@
-﻿using Library.DAL.Models;
+﻿using System;
+using System.Collections.Generic;
+using Library.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -1052,7 +1054,7 @@ namespace Library.DAL.Data
                     CategoryId = 7,
                     IsApproved = true,
                     BookURL = "https://institutes.abu.edu.ng/idr/public/assets/docs/Eat,%20Pray,%20Love%20(%20PDFDrive%20).pdf",
-                    ImageURL = "https://online.fliphtml5.com/gutjj/zwbj/files/large/1.webp?1604750286&1604750286"
+                    ImageURL = "https://m.media-amazon.com/images/I/71X0qU1mJpL.jpg"
                 },
                 new Book
                 {
@@ -1500,7 +1502,7 @@ namespace Library.DAL.Data
                      CategoryId = 10,
                      IsApproved = true,
                      BookURL = "https://institutes.abu.edu.ng/idr/public/assets/docs/Eat,%20Pray,%20Love%20(%20PDFDrive%20).pdf",
-                     ImageURL = "https://online.fliphtml5.com/gutjj/zwbj/files/large/1.webp?1604750286&1604750286"
+                     ImageURL = "https://m.media-amazon.com/images/I/71X0qU1mJpL.jpg"
                  },
                  new Book
                  {
@@ -1558,7 +1560,99 @@ namespace Library.DAL.Data
                      BookURL = "https://www.europarc.org/wp-content/uploads/2015/05/2012_Parks_and_Benefits_Guide_to_sustainable_tourism_in_Protected_Areas.pdf",
                      ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuN00TpctnWSLzvYdA_2rk8RxHDn9MM2hUwA&s"
                  });
+            builder.Entity<Book>().HasData(GenerateSyntheticBooks(1000, 600));
             #endregion
+        }
+
+        private static IEnumerable<Book> GenerateSyntheticBooks(int startingId, int maxCount)
+        {
+            var titles = new[]
+            {
+                "Conservation Biology for All",
+                "Industrial Chocolate Manufacture and Use",
+                "The Picture of Dorian Gray",
+                "Frankenstein",
+                "Mrs. Dalloway",
+                "The Wizard of Oz",
+                "The Lord of the Rings",
+                "The Da Vinci Code",
+                "Crime and Punishment",
+                "Eat, Pray, Love",
+                "Science for All Americans",
+                "The Discarded Image",
+                "Bloodmarked",
+                "A Portrait of the Artist as a Young Man",
+                "The History of the Peloponnesian War"
+            };
+
+            var imageUrls = new[]
+            {
+                "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
+                "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
+                "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
+                "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
+                "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
+                "https://m.media-amazon.com/images/I/71X0qU1mJpL.jpg",
+                "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
+                "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
+                "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg"
+            };
+
+            var descriptions = new[]
+            {
+                "Collector's remix of a popular title with refreshed commentary and bonus reading notes.",
+                "Limited gallery jacket pairing a classic narrative with a curated visual companion.",
+                "Library exclusive run combining beloved stories with alternate artwork for display.",
+                "Anniversary print that blends familiar plots with new forewords and endnotes."
+            };
+
+            var authors = new[] { 1, 3, 5, 6, 12, 19, 21, 23, 33, 40, 47, 54, 60, 70, 83, 90 };
+            var categories = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+
+            var result = new List<Book>(maxCount);
+            var id = startingId;
+
+            for (var t = 0; t < titles.Length && result.Count < maxCount; t++)
+            {
+                for (var i = 0; i < imageUrls.Length && result.Count < maxCount; i++)
+                {
+                    for (var variant = 0; variant < 3 && result.Count < maxCount; variant++)
+                    {
+                        var authorId = authors[(t + i + variant) % authors.Length];
+                        var categoryId = categories[(t * 3 + i + variant) % categories.Length];
+                        var year = 1995 + ((t * 7 + i * 11 + variant * 3) % 25);
+                        var month = ((i + t + variant) % 12) + 1;
+                        var day = ((t * 5 + i * 3 + variant * 2) % 27) + 1;
+                        var pages = 180 + ((t * 11 + i * 13 + variant * 7) % 350);
+                        var slug = titles[t].ToLowerInvariant()
+                            .Replace(" ", "-")
+                            .Replace(",", "")
+                            .Replace("'", "")
+                            .Replace("\"", "");
+
+                        result.Add(new Book
+                        {
+                            Id = id,
+                            Title = $"{titles[t]} (Edition {i + 1 + t} · Variant {variant + 1})",
+                            ISBN = ($"{9789000000000 + id}").PadRight(13, '0'),
+                            Pages = pages,
+                            PublishedDate = new DateTime(year, month, day),
+                            Description = descriptions[(t + i + variant) % descriptions.Length],
+                            AuthorId = authorId,
+                            CategoryId = categoryId,
+                            IsApproved = true,
+                            BookURL = $"https://example.com/library/{slug}/{id}",
+                            ImageURL = imageUrls[i]
+                        });
+
+                        id++;
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

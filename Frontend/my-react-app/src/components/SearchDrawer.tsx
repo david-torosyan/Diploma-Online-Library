@@ -5,6 +5,7 @@ import { Offcanvas } from "bootstrap";
 import { useTranslation } from "react-i18next";
 import config from "../config/config.json";
 import BookDetailFromAi from "../pages/BookDetailFromAi";
+import { getSearchSuggestions } from "../services/discoveryService";
 
 import backgroundImage from "../assets/grand-library.jpg";
 
@@ -18,6 +19,8 @@ const SearchDrawer: React.FC = () => {
   const [isAiResult, setIsAiResult] = useState(false);
   const [aiBook, setAiBook] = useState<BookWithDetailsDto | null>(null);
   const [aiThinking, setAiThinking] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const api = new LibraryClient(config.baseUrl);
 
@@ -28,6 +31,20 @@ const SearchDrawer: React.FC = () => {
       return;
     }
     const delay = setTimeout(() => handleSearch(query, false), 500);
+    return () => clearTimeout(delay);
+  }, [query]);
+
+  useEffect(() => {
+    if (query.trim().length < 2) {
+      setSuggestions([]);
+      return;
+    }
+
+    const delay = setTimeout(async () => {
+      const nextSuggestions = await getSearchSuggestions(query, 6);
+      setSuggestions(nextSuggestions);
+    }, 250);
+
     return () => clearTimeout(delay);
   }, [query]);
 
@@ -85,16 +102,25 @@ const SearchDrawer: React.FC = () => {
   const handleClear = () => {
     setQuery("");
     setResults([]);
+    setSuggestions([]);
+    setShowSuggestions(false);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowSuggestions(false);
     handleSearch(query, true);
+  };
+
+  const applySuggestion = (value: string) => {
+    setQuery(value);
+    setShowSuggestions(false);
+    handleSearch(value, false);
   };
 
   return (
     <section
-      className="position-relative text-center text-white rounded shadow my-4 py-4 px-3"
+      className="position-relative text-center text-white rounded-4 shadow my-4 py-4 px-3"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
@@ -110,34 +136,57 @@ const SearchDrawer: React.FC = () => {
       ></div>
 
       <div className="position-relative" style={{ zIndex: 1 }}>
-        {/* --- Search Form --- */}
-        <form
-          onSubmit={handleSubmit}
-          className="d-flex align-items-center justify-content-center flex-wrap gap-2"
-        >
-          <input
-            type="text"
-            className="form-control w-auto"
-            placeholder={t("searchPlaceholder")}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            style={{ maxWidth: "350px" }}
-          />
+        <form onSubmit={handleSubmit} className="d-flex justify-content-center w-100">
+          <div className="search-box-wrap d-flex align-items-center justify-content-center flex-wrap gap-2">
+            <div className="position-relative search-input-wrap">
+              <input
+                type="text"
+                className="form-control"
+                placeholder={t("searchPlaceholder")}
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => {
+                  setTimeout(() => setShowSuggestions(false), 120);
+                }}
+                style={{ maxWidth: "350px" }}
+              />
+
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="search-suggestions-menu shadow-sm">
+                  {suggestions.map((suggestion) => (
+                    <button
+                      key={suggestion}
+                      type="button"
+                      className="search-suggestion-btn"
+                      onMouseDown={(event) => event.preventDefault()}
+                      onClick={() => applySuggestion(suggestion)}
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
           {query && (
             <button
               type="button"
               onClick={handleClear}
-              className="btn btn-outline-light"
+              className="btn btn-outline-light rounded-pill"
             >
               ×
             </button>
           )}
-          <button type="submit" className="btn btn-success">
+          <button type="submit" className="btn btn-success rounded-pill px-4">
             {t("searchWithAi")}
           </button>
+          </div>
         </form>
 
-        {/* --- Feedback Section --- */}
         {loading && !aiThinking && (
           <div className="mt-3 d-flex justify-content-center align-items-center gap-2 text-light">
             <div className="spinner-border spinner-border-sm text-light" />
@@ -154,14 +203,13 @@ const SearchDrawer: React.FC = () => {
 
         {error && <p className="text-danger mt-3">{error}</p>}
 
-        {/* --- Results --- */}
         <div className="mt-4 container" style={{ maxWidth: "600px" }}>
           {results.length > 0 ? (
-            <ul className="list-group shadow">
+            <ul className="list-group shadow search-results-list">
               {results.map((book) => (
                 <li
                   key={book.id}
-                  className="list-group-item d-flex align-items-center"
+                  className="list-group-item d-flex align-items-center search-result-item"
                   style={{ gap: "0.75rem" }}
                 >
                   {book.imageURL && (
@@ -210,7 +258,7 @@ const SearchDrawer: React.FC = () => {
                       href={book.bookURL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn btn-sm btn-outline-primary px-2 py-0"
+                      className="btn btn-sm btn-outline-primary px-2 py-0 rounded-pill"
                       style={{ fontSize: "0.75rem", height: "26px" }}
                     >
                       PDF
@@ -230,7 +278,6 @@ const SearchDrawer: React.FC = () => {
           )}
         </div>
 
-        {/* --- AI Drawer --- */}
         <BookDetailFromAi book={aiBook} />
       </div>
     </section>

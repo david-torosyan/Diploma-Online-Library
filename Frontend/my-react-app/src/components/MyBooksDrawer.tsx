@@ -73,16 +73,16 @@ const MyBooksDrawer: React.FC = () => {
 
       <div className="offcanvas-body">
         {loading ? (
-          <div className="d-flex justify-content-center align-items-center gap-2 text-muted mt-3">
+          <div className="d-flex justify-content-center align-items-center gap-2 loading-text mt-3">
             <div className="spinner-border spinner-border-sm" />
             <span>{t("loadingBooks")}</span>
           </div>
         ) : error ? (
           <p className="text-danger mt-2">{error}</p>
         ) : books.length === 0 ? (
-          <p className="text-muted mb-0">{t("noMyBooksYet")}</p>
+          <p className="empty-state mb-0">{t("noMyBooksYet")}</p>
         ) : (
-          <ul className="list-group">
+          <ul className="list-group search-results-list">
             {books.map((book) => (
               <li
                 key={`${book.id ?? "book"}-${book.title ?? "item"}`}

@@ -39,8 +39,8 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="navbar navbar-expand-lg navbar-dark bg-success px-4 py-2">
-        <a className="navbar-brand fw-bold text-white" href="/">
+      <header className="navbar navbar-expand-lg navbar-dark app-navbar px-3 px-lg-4 py-2 py-lg-3">
+        <a className="navbar-brand fw-bold text-white app-brand" href="/">
           {t("appName")}
         </a>
 
@@ -60,11 +60,10 @@ const Header: React.FC = () => {
           className="collapse navbar-collapse justify-content-end"
           id="navbarNav"
         >
-          <ul className="navbar-nav align-items-center gap-2">
-            {/* AI Assistant Button */}
+          <ul className="navbar-nav align-items-center gap-2 flex-wrap">
             <li className="nav-item">
               <button
-                className="btn btn-outline-light rounded-2 px-3 py-1"
+                className="btn btn-outline-light nav-chip px-3 py-1"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#aiAssistantDrawer"
                 aria-controls="aiAssistantDrawer"
@@ -73,25 +72,22 @@ const Header: React.FC = () => {
               </button>
             </li>
 
-            {/* Library Link */}
             <li className="nav-item">
-              <a className="btn btn-outline-light rounded-2 px-3 py-1" href="/">
+              <a className="btn btn-outline-light nav-chip px-3 py-1" href="/">
                 {t("library")}
               </a>
             </li>
 
-            {/* 🌍 Language Switcher */}
             <li className="nav-item">
               <LanguageSwitcher />
             </li>
 
-            {/* Auth Buttons */}
             {isAuthenticated ? (
               <>
                 {isAdmin && (
                   <li className="nav-item">
                     <button
-                      className="btn btn-outline-light rounded-2 px-3 py-1"
+                      className="btn btn-outline-light nav-chip px-3 py-1"
                       data-bs-toggle="offcanvas"
                       data-bs-target="#adminMessagesDrawer"
                       aria-controls="adminMessagesDrawer"
@@ -103,7 +99,7 @@ const Header: React.FC = () => {
 
                 <li className="nav-item">
                   <button
-                    className="btn btn-outline-light rounded-2 px-3 py-1"
+                    className="btn btn-outline-light nav-chip px-3 py-1"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#myBooksDrawer"
                     aria-controls="myBooksDrawer"
@@ -114,7 +110,7 @@ const Header: React.FC = () => {
 
                 <li className="nav-item">
                   <a
-                    className="btn btn-outline-light rounded-2 px-3 py-1"
+                    className="btn btn-outline-light nav-chip px-3 py-1"
                     href="#"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#profileDrawer"
@@ -126,7 +122,7 @@ const Header: React.FC = () => {
             ) : (
               <li className="nav-item">
                 <button
-                  className="btn btn-outline-light rounded-2 px-3 py-1"
+                  className="btn btn-outline-light nav-chip px-3 py-1"
                   data-bs-toggle="offcanvas"
                   data-bs-target="#signinDrawer"
                   aria-controls="signinDrawer"
@@ -139,7 +135,6 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Offcanvas components */}
       <SignIn />
       <SignUp />
       <Profile />

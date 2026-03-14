@@ -109,5 +109,10 @@
   "unknown": "غير معروف",
   "unknownAuthor": "مؤلف غير معروف",
   "viewFullDetails": "عرض التفاصيل الكاملة",
+  "featuredBooks": "كتب مميزة",
+  "featuredBooksSubtitle": "عناوين مختارة بعناية يعشقها القرّاء هذا الأسبوع.",
+  "newArrivals": "وصل حديثًا",
+  "newArrivalsSubtitle": "كتب أضيفت حديثًا وجاهزة للاستكشاف.",
+  "relatedBooks": "قد يعجبك أيضًا",
   "welcome": "مرحبًا بكم في مكتبتنا الإلكترونية"
 }

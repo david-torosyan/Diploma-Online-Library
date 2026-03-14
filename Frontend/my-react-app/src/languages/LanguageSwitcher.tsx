@@ -23,8 +23,8 @@ const LanguageSwitcher: React.FC = () => {
         variant="outline-light"
         id="language-switcher"
         size="sm"
-        className="rounded-2 px-3 py-1 d-flex align-items-center justify-content-center"
-        style={{ height: "32px", minWidth: "45px" }} // ✅ keeps same size as other buttons
+        className="nav-chip px-3 py-1 d-flex align-items-center justify-content-center"
+        style={{ height: "32px", minWidth: "45px" }}
       >
         <span
           className={`fi fi-${currentLang.label} border rounded`}

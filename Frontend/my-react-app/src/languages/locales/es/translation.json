@@ -109,5 +109,10 @@
   "unknown": "Desconocido",
   "unknownAuthor": "Autor desconocido",
   "viewFullDetails": "Ver detalles completos",
+  "featuredBooks": "Libros destacados",
+  "featuredBooksSubtitle": "Títulos seleccionados que los lectores están disfrutando esta semana.",
+  "newArrivals": "Novedades",
+  "newArrivalsSubtitle": "Libros recién agregados listos para explorar.",
+  "relatedBooks": "También te puede gustar",
   "welcome": "Bienvenido a nuestra biblioteca en línea"
 }

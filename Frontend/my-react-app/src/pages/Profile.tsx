@@ -101,7 +101,7 @@ const Profile: React.FC = () => {
       </div>
 
       <div className="offcanvas-body">
-        <div className="d-flex flex-column gap-2">
+        <div className="d-flex flex-column gap-2 p-3 rounded-4 border bg-white">
           <div>
             <strong>{t("firstName")}:</strong> {user.firstName || "N/A"}
           </div>
@@ -114,9 +114,8 @@ const Profile: React.FC = () => {
         </div>
 
         <div className="mt-4 d-flex flex-column gap-2">
-          {/* Open Add Book Drawer */}
           <button
-            className="btn btn-outline-success w-100"
+            className="btn btn-outline-success rounded-pill w-100"
             data-bs-toggle="offcanvas"
             data-bs-target="#addBookDrawer"
           >
@@ -124,7 +123,7 @@ const Profile: React.FC = () => {
           </button>
 
           <button
-            className="btn btn-outline-danger w-100"
+            className="btn btn-outline-danger rounded-pill w-100"
             onClick={handleLogout}
           >
             {t("logout")}

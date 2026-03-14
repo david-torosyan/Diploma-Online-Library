@@ -153,7 +153,6 @@ const AddBookDrawer: React.FC = () => {
 
       <div className="offcanvas-body">
         <form className="d-flex flex-column gap-3" onSubmit={handleSubmit}>
-          {/* Book Title */}
           <div>
             <label className="form-label">{t("bookTitle")}</label>
             <input
@@ -165,7 +164,6 @@ const AddBookDrawer: React.FC = () => {
             />
           </div>
 
-          {/* Author Name */}
           <div>
             <label className="form-label">{t("authorName")}</label>
             <input
@@ -177,7 +175,6 @@ const AddBookDrawer: React.FC = () => {
             />
           </div>
 
-          {/* Genre Dropdown */}
           <div>
             <label className="form-label">{t("genre")}</label>
             <select
@@ -200,7 +197,6 @@ const AddBookDrawer: React.FC = () => {
             </select>
           </div>
 
-          {/* Description */}
           <div>
             <label className="form-label">{t("bookDescription")}</label>
             <textarea
@@ -211,7 +207,6 @@ const AddBookDrawer: React.FC = () => {
             ></textarea>
           </div>
 
-          {/* ISBN */}
           <div>
             <label className="form-label">{t("isbnNumber")}</label>
             <input
@@ -222,13 +217,11 @@ const AddBookDrawer: React.FC = () => {
             />
           </div>
 
-          {/* Release Date */}
           <div>
             <label className="form-label">{t("releasedDay")}</label>
             <input name="releasedDay" type="date" className="form-control" />
           </div>
 
-          {/* Image URL */}
           <div>
             <label className="form-label">{t("pictureUrl")}</label>
             <input
@@ -239,7 +232,6 @@ const AddBookDrawer: React.FC = () => {
             />
           </div>
 
-          {/* Book URL (New field) */}
           <div>
             <label className="form-label">{t("bookUrl")}</label>
             <input
@@ -253,7 +245,7 @@ const AddBookDrawer: React.FC = () => {
 
           <button
             type="submit"
-            className="btn btn-primary mt-3"
+            className="btn btn-primary rounded-pill mt-2 py-2"
             disabled={loading}
           >
             {loading ? t("saving") + "..." : t("saveBook")}

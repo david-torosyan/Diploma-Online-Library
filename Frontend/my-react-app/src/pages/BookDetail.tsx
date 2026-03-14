@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { LibraryClient, BookWithDetailsDto } from "../api/LibraryClient";
+import { LibraryClient, BookDto, BookWithDetailsDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
 import config from "../config/config.json";
 import Cookies from "js-cookie";
 import { isAdminUser } from "../utils/auth";
+import { getRelatedBooks } from "../services/discoveryService";
 
 const BookDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,6 +19,8 @@ const BookDetail: React.FC = () => {
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const [isPendingApproval, setIsPendingApproval] = useState(false);
   const [approvalLoading, setApprovalLoading] = useState(false);
+  const [relatedBooks, setRelatedBooks] = useState<BookDto[]>([]);
+  const [relatedLoading, setRelatedLoading] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -98,6 +101,29 @@ const BookDetail: React.FC = () => {
     loadApprovalState();
   }, [loadApprovalState]);
 
+  useEffect(() => {
+    const currentBookId = Number(id);
+    if (!currentBookId || !book) {
+      return;
+    }
+
+    const loadRelated = async () => {
+      setRelatedLoading(true);
+      try {
+        const items = await getRelatedBooks(
+          currentBookId,
+          book.categoryName,
+          8
+        );
+        setRelatedBooks(items);
+      } finally {
+        setRelatedLoading(false);
+      }
+    };
+
+    loadRelated();
+  }, [book, id]);
+
   const handleFavoriteToggle = async () => {
     if (!id || favoriteLoading) return;
 
@@ -145,26 +171,24 @@ const BookDetail: React.FC = () => {
     );
 
   return (
-    <div className="container my-5">
-      <button className="btn btn-secondary mb-4" onClick={() => navigate(-1)}>
+    <div className="container detail-shell app-section">
+      <button className="btn btn-outline-secondary rounded-pill px-3 mb-4" onClick={() => navigate(-1)}>
         ← {t("close")}
       </button>
 
-      <div className="card p-4 shadow-sm border-0">
+      <div className="card p-4 detail-card">
         <div className="row g-4 align-items-start">
-          {/* Book Cover */}
           {book.imageURL && (
             <div className="col-md-4 col-lg-3 text-center">
               <img
                 src={book.imageURL}
                 alt={book.title}
-                className="img-fluid rounded shadow-sm"
+                className="img-fluid rounded shadow-sm book-cover"
                 style={{ maxHeight: "400px", objectFit: "cover" }}
               />
             </div>
           )}
 
-          {/* Book Details */}
           <div className="col-md-8 col-lg-9 d-flex flex-column justify-content-between">
             <div>
               <div className="d-flex align-items-center justify-content-between mb-3">
@@ -236,7 +260,7 @@ const BookDetail: React.FC = () => {
               </ul>
 
               {book.description && (
-                <p className="text-muted mb-3">{book.description}</p>
+                <p className="text-muted mb-3 lh-lg">{book.description}</p>
               )}
 
               {book.favorites && (
@@ -257,7 +281,7 @@ const BookDetail: React.FC = () => {
               {isAdmin && isPendingApproval && (
                 <button
                   type="button"
-                  className="btn btn-success w-100 w-sm-auto me-2 mb-2"
+                  className="btn btn-success rounded-pill px-4 w-100 w-sm-auto me-2 mb-2"
                   onClick={handleApprove}
                   disabled={approvalLoading}
                 >
@@ -267,7 +291,7 @@ const BookDetail: React.FC = () => {
 
               {book.bookURL ? (
                 <a
-                  className="btn btn-primary w-100 w-sm-auto"
+                  className="btn btn-primary rounded-pill px-4 w-100 w-sm-auto"
                   href={book.bookURL}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -276,7 +300,7 @@ const BookDetail: React.FC = () => {
                 </a>
               ) : (
                 <button
-                  className="btn btn-outline-secondary w-100 w-sm-auto"
+                  className="btn btn-outline-secondary rounded-pill px-4 w-100 w-sm-auto"
                   disabled
                 >
                   {t("noPdfAvailable")}
@@ -286,6 +310,56 @@ const BookDetail: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <section className="mt-4 card p-3 p-md-4 detail-card app-section">
+        <h3 className="h5 fw-bold mb-3">
+          {t("relatedBooks", "You may also like")}
+        </h3>
+
+        {relatedLoading ? (
+          <p className="loading-text mb-0">{t("loadingBooks")}</p>
+        ) : relatedBooks.length === 0 ? (
+          <p className="empty-state mb-0">
+            {t("noRelatedBooks", "No related books available yet.")}
+          </p>
+        ) : (
+          <div className="row g-3">
+            {relatedBooks.map((relatedBook) => (
+              <div
+                key={`${relatedBook.id ?? "book"}-${relatedBook.title ?? "item"}`}
+                className="col-6 col-md-4 col-lg-3"
+              >
+                <article className="book-card h-100">
+                  {relatedBook.imageURL && (
+                    <img
+                      src={relatedBook.imageURL}
+                      alt={relatedBook.title}
+                      className="book-cover"
+                      style={{ height: "210px" }}
+                    />
+                  )}
+
+                  <div className="p-2 p-md-3 d-flex flex-column gap-2">
+                    <h4 className="h6 mb-0 book-title text-truncate" title={relatedBook.title}>
+                      {relatedBook.title || t("unknown")}
+                    </h4>
+
+                    <button
+                      type="button"
+                      className="btn btn-outline-primary btn-sm rounded-pill mt-auto"
+                      onClick={() =>
+                        relatedBook.id && navigate(`/bookdetails/${relatedBook.id}`)
+                      }
+                    >
+                      {t("read")}
+                    </button>
+                  </div>
+                </article>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 };

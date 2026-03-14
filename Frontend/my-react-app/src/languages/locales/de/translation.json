@@ -109,5 +109,10 @@
   "unknown": "Unbekannt",
   "unknownAuthor": "Unbekannter Autor",
   "viewFullDetails": "Vollständige Details anzeigen",
+  "featuredBooks": "Empfohlene Bücher",
+  "featuredBooksSubtitle": "Handverlesene Titel, die Leser diese Woche lieben.",
+  "newArrivals": "Neu eingetroffen",
+  "newArrivalsSubtitle": "Frisch hinzugefügte Bücher, die darauf warten, entdeckt zu werden.",
+  "relatedBooks": "Das könnte Ihnen auch gefallen",
   "welcome": "Willkommen in unserer Online-Bibliothek"
 }

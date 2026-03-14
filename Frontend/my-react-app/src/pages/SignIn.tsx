@@ -53,8 +53,7 @@ const SignIn: React.FC = () => {
       </div>
 
       <div className="offcanvas-body">
-        <form onSubmit={handleSubmit}>
-          {/* Email Field */}
+        <form onSubmit={handleSubmit} className="d-flex flex-column gap-2">
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               {t("emailAddress")}
@@ -70,7 +69,6 @@ const SignIn: React.FC = () => {
             />
           </div>
 
-          {/* Password Field */}
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
               {t("password")}
@@ -86,19 +84,16 @@ const SignIn: React.FC = () => {
             />
           </div>
 
-          {/* Error Message */}
           {error && <div className="text-danger mb-2">{error}</div>}
 
-          {/* Submit Button */}
           <button
             type="submit"
-            className="btn btn-primary w-100"
+            className="btn btn-primary rounded-pill w-100 py-2"
             disabled={loading}
           >
             {loading ? t("signingIn") : t("signIn")}
           </button>
 
-          {/* Register Link */}
           <p className="mt-3 text-center">
             {t("noAccount")}{" "}
             <a

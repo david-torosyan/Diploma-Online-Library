@@ -110,7 +110,7 @@ const SignUp: React.FC = () => {
       </div>
 
       <div className="offcanvas-body">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="d-flex flex-column gap-1">
           <div className="row">
             {/* First Name */}
             <div className="col-md-6 mb-3">
@@ -217,7 +217,7 @@ const SignUp: React.FC = () => {
 
           <button
             type="submit"
-            className="btn btn-primary w-100"
+            className="btn btn-primary rounded-pill w-100 py-2"
             disabled={loading}
           >
             {loading ? t("registering") : t("register")}

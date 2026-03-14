@@ -35,20 +35,18 @@ const BookDetailFromAi: React.FC<BookDetailFromAiProps> = ({
       </div>
 
       <div className="offcanvas-body">
-        <div className="card border-0 shadow-sm p-3">
-          {/* Book cover */}
+        <div className="card detail-card p-3">
           {book.imageURL && (
             <div className="text-center mb-3">
               <img
                 src={book.imageURL}
                 alt={book.title}
-                className="img-fluid rounded shadow-sm"
+                className="img-fluid rounded shadow-sm book-cover"
                 style={{ maxHeight: "350px", objectFit: "cover" }}
               />
             </div>
           )}
 
-          {/* Book info */}
           <h5 className="fw-bold mb-3">{book.title}</h5>
           <ul className="list-unstyled mb-3">
             <li>
@@ -74,31 +72,29 @@ const BookDetailFromAi: React.FC<BookDetailFromAiProps> = ({
           </ul>
 
           {book.description && (
-            <p className="text-muted mb-3">{book.description}</p>
+            <p className="text-muted mb-3 lh-lg">{book.description}</p>
           )}
 
-          {/* View full details button */}
           {detailsLink && (
             <a
               href={detailsLink}
-              className="btn btn-outline-primary w-100 mb-2"
+              className="btn btn-outline-primary rounded-pill w-100 mb-2"
             >
               🔗 {t("viewFullDetails")}
             </a>
           )}
 
-          {/* PDF download */}
           {book.bookURL ? (
             <a
               href={book.bookURL}
-              className="btn btn-primary w-100"
+              className="btn btn-primary rounded-pill w-100"
               target="_blank"
               rel="noopener noreferrer"
             >
               📘 {t("downloadPdf")}
             </a>
           ) : (
-            <button className="btn btn-outline-secondary w-100" disabled>
+            <button className="btn btn-outline-secondary rounded-pill w-100" disabled>
               {t("noPdfAvailable")}
             </button>
           )}

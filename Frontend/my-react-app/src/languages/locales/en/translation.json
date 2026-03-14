@@ -109,5 +109,10 @@
   "unknown": "Unknown",
   "unknownAuthor": "Unknown author",
   "viewFullDetails": "View Full Details",
+  "featuredBooks": "Featured Books",
+  "featuredBooksSubtitle": "Hand-picked titles readers are loving this week.",
+  "newArrivals": "New Arrivals",
+  "newArrivalsSubtitle": "Freshly added books ready to explore.",
+  "relatedBooks": "You may also like",
   "welcome": "Welcome to our online library"
 }

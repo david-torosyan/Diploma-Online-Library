@@ -11,6 +11,7 @@ namespace LibraryAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Route("api/books")]
     public class BookController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -188,6 +189,72 @@ namespace LibraryAPI.Controllers
 
             var books = await _unitOfWork.Books.GetBookWithDetailsByNameAsync(searchString);
             return Ok(books.Select(book => book.ToBookWithDetailsDto()));
+        }
+
+        /// <summary>
+        /// Returns featured books for the home discovery shelf.
+        /// </summary>
+        [HttpGet("featured")]
+        [ProducesResponseType(typeof(IEnumerable<BookDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetFeaturedBooks([FromQuery] int limit = 10)
+        {
+            if (limit is <= 0 or > 50)
+                return BadRequest("Limit must be between 1 and 50.");
+
+            var books = await _unitOfWork.Books.GetFeaturedAsync(limit);
+            return Ok(books.Select(book => book.ToBookDto()));
+        }
+
+        /// <summary>
+        /// Returns latest approved books ordered by publish date.
+        /// </summary>
+        [HttpGet("new-arrivals")]
+        [ProducesResponseType(typeof(IEnumerable<BookDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetNewArrivals([FromQuery] int limit = 10)
+        {
+            if (limit is <= 0 or > 50)
+                return BadRequest("Limit must be between 1 and 50.");
+
+            var books = await _unitOfWork.Books.GetNewArrivalsAsync(limit);
+            return Ok(books.Select(book => book.ToBookDto()));
+        }
+
+        /// <summary>
+        /// Returns books related to a specific book based on category and engagement.
+        /// </summary>
+        [HttpGet("{id:int}/related")]
+        [ProducesResponseType(typeof(IEnumerable<BookDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetRelatedBooks(int id, [FromQuery] int limit = 8)
+        {
+            if (id <= 0)
+                return BadRequest("Invalid book ID.");
+
+            if (limit is <= 0 or > 50)
+                return BadRequest("Limit must be between 1 and 50.");
+
+            var books = await _unitOfWork.Books.GetRelatedAsync(id, limit);
+            return Ok(books.Select(book => book.ToBookDto()));
+        }
+
+        /// <summary>
+        /// Returns lightweight title suggestions for search autocomplete.
+        /// </summary>
+        [HttpGet("search/suggestions")]
+        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<string>>> GetSearchSuggestions([FromQuery] string q, [FromQuery] int limit = 6)
+        {
+            if (string.IsNullOrWhiteSpace(q))
+                return BadRequest("Query cannot be empty.");
+
+            if (limit is <= 0 or > 20)
+                return BadRequest("Limit must be between 1 and 20.");
+
+            var suggestions = await _unitOfWork.Books.GetTitleSuggestionsAsync(q, limit);
+            return Ok(suggestions);
         }
     }
 }
