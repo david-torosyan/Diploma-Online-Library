@@ -8,6 +8,10 @@ namespace Library.DAL.Data
 {
     internal static class SeedDataFactory
     {
+        private const string DemoReaderOneId = "a1d66f63-61e3-420c-8da7-4d8578e4f101";
+        private const string DemoReaderTwoId = "bbefaf07-1e70-46a0-9f9a-bbb2db750102";
+        private const string DemoReaderThreeId = "c1baf065-5601-4c16-8e13-3bd1f59d2103";
+
         internal static void SeedData(ModelBuilder builder)
         {
             #region Roles
@@ -32,6 +36,50 @@ namespace Library.DAL.Data
                     Name = "maintainer",
                     NormalizedName = "MAINTAINER",
                     ConcurrencyStamp = "5a6fd87e-98c2-4f50-9bf8-5b3b5814e6cd"
+                }
+            );
+            #endregion
+
+            #region Demo Readers
+            builder.Entity<ApplicationUser>().HasData(
+                new ApplicationUser
+                {
+                    Id = DemoReaderOneId,
+                    FirstName = "Anna",
+                    LastName = "Reader",
+                    UserName = "anna.reader@library.demo",
+                    NormalizedUserName = "ANNA.READER@LIBRARY.DEMO",
+                    Email = "anna.reader@library.demo",
+                    NormalizedEmail = "ANNA.READER@LIBRARY.DEMO",
+                    EmailConfirmed = true,
+                    SecurityStamp = "seed-security-stamp-anna",
+                    ConcurrencyStamp = "seed-concurrency-stamp-anna"
+                },
+                new ApplicationUser
+                {
+                    Id = DemoReaderTwoId,
+                    FirstName = "David",
+                    LastName = "Page",
+                    UserName = "david.page@library.demo",
+                    NormalizedUserName = "DAVID.PAGE@LIBRARY.DEMO",
+                    Email = "david.page@library.demo",
+                    NormalizedEmail = "DAVID.PAGE@LIBRARY.DEMO",
+                    EmailConfirmed = true,
+                    SecurityStamp = "seed-security-stamp-david",
+                    ConcurrencyStamp = "seed-concurrency-stamp-david"
+                },
+                new ApplicationUser
+                {
+                    Id = DemoReaderThreeId,
+                    FirstName = "Mila",
+                    LastName = "Stone",
+                    UserName = "mila.stone@library.demo",
+                    NormalizedUserName = "MILA.STONE@LIBRARY.DEMO",
+                    Email = "mila.stone@library.demo",
+                    NormalizedEmail = "MILA.STONE@LIBRARY.DEMO",
+                    EmailConfirmed = true,
+                    SecurityStamp = "seed-security-stamp-mila",
+                    ConcurrencyStamp = "seed-concurrency-stamp-mila"
                 }
             );
             #endregion
@@ -1561,6 +1609,153 @@ namespace Library.DAL.Data
                      ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuN00TpctnWSLzvYdA_2rk8RxHDn9MM2hUwA&s"
                  });
             builder.Entity<Book>().HasData(GenerateSyntheticBooks(1000, 600));
+
+            builder.Entity<Review>().HasData(
+                new Review
+                {
+                    Id = 1,
+                    ApplicationUserId = DemoReaderOneId,
+                    BookId = 14,
+                    Content = "Elegant, dark, and surprisingly modern. The moral tension in Dorian's choices still feels fresh.",
+                    Rating = 5,
+                    CreatedAt = new DateTime(2026, 3, 10, 9, 30, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 2,
+                    ApplicationUserId = DemoReaderTwoId,
+                    BookId = 14,
+                    Content = "Loved the atmosphere and dialogue. The pacing is slower in parts, but the ending is worth it.",
+                    Rating = 4,
+                    CreatedAt = new DateTime(2026, 3, 11, 14, 15, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 3,
+                    ApplicationUserId = DemoReaderThreeId,
+                    BookId = 15,
+                    Content = "A classic that still raises big questions about responsibility, creation, and loneliness.",
+                    Rating = 5,
+                    CreatedAt = new DateTime(2026, 3, 12, 18, 5, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 4,
+                    ApplicationUserId = DemoReaderOneId,
+                    BookId = 34,
+                    Content = "Immersive world-building and unforgettable scale. It rewards patience with a huge payoff.",
+                    Rating = 5,
+                    CreatedAt = new DateTime(2026, 3, 13, 11, 45, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 5,
+                    ApplicationUserId = DemoReaderTwoId,
+                    BookId = 42,
+                    Content = "Fast-paced and fun. Great if you want a page-turner with puzzles and conspiracy twists.",
+                    Rating = 4,
+                    CreatedAt = new DateTime(2026, 3, 14, 8, 20, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 6,
+                    ApplicationUserId = DemoReaderThreeId,
+                    BookId = 47,
+                    Content = "Heavy, intense, and brilliant. Not an easy read, but it stays with you for a long time.",
+                    Rating = 5,
+                    CreatedAt = new DateTime(2026, 3, 14, 20, 10, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 7,
+                    ApplicationUserId = DemoReaderOneId,
+                    BookId = 6,
+                    Content = "A fascinating mix of robotics, philosophy, and bold future thinking. Very memorable.",
+                    Rating = 4,
+                    CreatedAt = new DateTime(2026, 3, 9, 16, 40, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 8,
+                    ApplicationUserId = DemoReaderTwoId,
+                    BookId = 34,
+                    Content = "Epic in every sense. The world feels alive and the character arcs are beautifully earned.",
+                    Rating = 5,
+                    CreatedAt = new DateTime(2026, 3, 14, 21, 25, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 9,
+                    ApplicationUserId = DemoReaderThreeId,
+                    BookId = 34,
+                    Content = "Long but absolutely worth it; unforgettable setting and atmosphere.",
+                    Rating = 5,
+                    CreatedAt = new DateTime(2026, 3, 13, 10, 12, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 10,
+                    ApplicationUserId = DemoReaderOneId,
+                    BookId = 42,
+                    Content = "A very fun thriller. Great tempo and puzzle-driven chapters.",
+                    Rating = 4,
+                    CreatedAt = new DateTime(2026, 3, 12, 12, 10, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 11,
+                    ApplicationUserId = DemoReaderThreeId,
+                    BookId = 42,
+                    Content = "Easy to binge-read. Not perfect, but highly entertaining.",
+                    Rating = 4,
+                    CreatedAt = new DateTime(2026, 3, 12, 20, 22, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 12,
+                    ApplicationUserId = DemoReaderTwoId,
+                    BookId = 47,
+                    Content = "Intense and psychologically rich. Every chapter carries weight.",
+                    Rating = 5,
+                    CreatedAt = new DateTime(2026, 3, 11, 19, 45, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 13,
+                    ApplicationUserId = DemoReaderOneId,
+                    BookId = 47,
+                    Content = "A difficult but rewarding read that keeps provoking thought.",
+                    Rating = 5,
+                    CreatedAt = new DateTime(2026, 3, 10, 17, 18, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 14,
+                    ApplicationUserId = DemoReaderTwoId,
+                    BookId = 15,
+                    Content = "Atmospheric and emotional. Still one of the best gothic stories.",
+                    Rating = 5,
+                    CreatedAt = new DateTime(2026, 3, 11, 9, 55, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 15,
+                    ApplicationUserId = DemoReaderOneId,
+                    BookId = 15,
+                    Content = "Great themes and unforgettable conflict. A classic for a reason.",
+                    Rating = 4,
+                    CreatedAt = new DateTime(2026, 3, 9, 13, 35, 0, DateTimeKind.Utc)
+                },
+                new Review
+                {
+                    Id = 16,
+                    ApplicationUserId = DemoReaderThreeId,
+                    BookId = 14,
+                    Content = "Sharp writing and rich symbolism. It held my attention from start to finish.",
+                    Rating = 5,
+                    CreatedAt = new DateTime(2026, 3, 14, 7, 45, 0, DateTimeKind.Utc)
+                }
+            );
             #endregion
         }
 

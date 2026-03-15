@@ -462,6 +462,89 @@ export class LibraryClient {
     }
 
     /**
+     * @return OK
+     */
+    upsertReview(bookId: number, body: UpsertReviewDto | undefined, token: string, signal?: AbortSignal): Promise<ReviewDto> {
+        let url_ = this.baseUrl + "/api/Book/{bookId}/reviews";
+        if (bookId === undefined || bookId === null)
+            throw new globalThis.Error("The parameter 'bookId' must be defined.");
+        url_ = url_.replace("{bookId}", encodeURIComponent("" + bookId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": "Bearer " + token,
+            },
+            signal
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processUpsertReview(_response);
+        });
+    }
+
+    protected processUpsertReview(response: AxiosResponse): Promise<ReviewDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ReviewDto.fromJS(resultData200);
+            return Promise.resolve<ReviewDto>(result200);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+                result400 = resultData400 !== undefined ? resultData400 : null as any;
+    
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+                result401 = resultData401 !== undefined ? resultData401 : null as any;
+    
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+                result404 = resultData404 !== undefined ? resultData404 : null as any;
+    
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ReviewDto>(null as any);
+    }
+
+    /**
      * @param body (optional) 
      * @return Created
      */
@@ -1122,6 +1205,8 @@ export class BookDto implements IBookDto {
     categoryId?: number;
     categoryName?: string | undefined;
     imageURL?: string | undefined;
+    averageRating?: number;
+    reviewsCount?: number;
 
     constructor(data?: IBookDto) {
         if (data) {
@@ -1140,6 +1225,8 @@ export class BookDto implements IBookDto {
             this.categoryId = _data["categoryId"];
             this.categoryName = _data["categoryName"];
             this.imageURL = _data["imageURL"];
+            this.averageRating = _data["averageRating"];
+            this.reviewsCount = _data["reviewsCount"];
         }
     }
 
@@ -1158,6 +1245,8 @@ export class BookDto implements IBookDto {
         data["categoryId"] = this.categoryId;
         data["categoryName"] = this.categoryName;
         data["imageURL"] = this.imageURL;
+        data["averageRating"] = this.averageRating;
+        data["reviewsCount"] = this.reviewsCount;
         return data;
     }
 }
@@ -1169,6 +1258,8 @@ export interface IBookDto {
     categoryId?: number;
     categoryName?: string | undefined;
     imageURL?: string | undefined;
+    averageRating?: number;
+    reviewsCount?: number;
 }
 
 export class BookWithDetailsDto implements IBookWithDetailsDto {
@@ -1184,6 +1275,8 @@ export class BookWithDetailsDto implements IBookWithDetailsDto {
     categoryName?: string | undefined;
     bookURL?: string | undefined;
     imageURL?: string | undefined;
+    averageRating?: number;
+    reviewsCount?: number;
     favorites?: FavoriteDto[] | undefined;
     reviews?: ReviewDto[] | undefined;
 
@@ -1210,6 +1303,8 @@ export class BookWithDetailsDto implements IBookWithDetailsDto {
             this.categoryName = _data["categoryName"];
             this.bookURL = _data["bookURL"];
             this.imageURL = _data["imageURL"];
+            this.averageRating = _data["averageRating"];
+            this.reviewsCount = _data["reviewsCount"];
             if (Array.isArray(_data["favorites"])) {
                 this.favorites = [] as any;
                 for (let item of _data["favorites"])
@@ -1244,6 +1339,8 @@ export class BookWithDetailsDto implements IBookWithDetailsDto {
         data["categoryName"] = this.categoryName;
         data["bookURL"] = this.bookURL;
         data["imageURL"] = this.imageURL;
+        data["averageRating"] = this.averageRating;
+        data["reviewsCount"] = this.reviewsCount;
         if (Array.isArray(this.favorites)) {
             data["favorites"] = [];
             for (let item of this.favorites)
@@ -1271,6 +1368,8 @@ export interface IBookWithDetailsDto {
     categoryName?: string | undefined;
     bookURL?: string | undefined;
     imageURL?: string | undefined;
+    averageRating?: number;
+    reviewsCount?: number;
     favorites?: FavoriteDto[] | undefined;
     reviews?: ReviewDto[] | undefined;
 }
@@ -1578,6 +1677,13 @@ export interface IRegisterResponseDto {
 }
 
 export class ReviewDto implements IReviewDto {
+    id?: number;
+    bookId?: number;
+    applicationUserId?: string | undefined;
+    reviewerName?: string | undefined;
+    content?: string | undefined;
+    rating?: number;
+    createdAt?: Date;
 
     constructor(data?: IReviewDto) {
         if (data) {
@@ -1589,6 +1695,15 @@ export class ReviewDto implements IReviewDto {
     }
 
     init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.bookId = _data["bookId"];
+            this.applicationUserId = _data["applicationUserId"];
+            this.reviewerName = _data["reviewerName"];
+            this.content = _data["content"];
+            this.rating = _data["rating"];
+            this.createdAt = _data["createdAt"] ? new Date(_data["createdAt"].toString()) : undefined as any;
+        }
     }
 
     static fromJS(data: any): ReviewDto {
@@ -1600,11 +1715,65 @@ export class ReviewDto implements IReviewDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["bookId"] = this.bookId;
+        data["applicationUserId"] = this.applicationUserId;
+        data["reviewerName"] = this.reviewerName;
+        data["content"] = this.content;
+        data["rating"] = this.rating;
+        data["createdAt"] = this.createdAt ? this.createdAt.toISOString() : undefined as any;
         return data;
     }
 }
 
 export interface IReviewDto {
+    id?: number;
+    bookId?: number;
+    applicationUserId?: string | undefined;
+    reviewerName?: string | undefined;
+    content?: string | undefined;
+    rating?: number;
+    createdAt?: Date;
+}
+
+export class UpsertReviewDto implements IUpsertReviewDto {
+    rating?: number;
+    content?: string | undefined;
+
+    constructor(data?: IUpsertReviewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.rating = _data["rating"];
+            this.content = _data["content"];
+        }
+    }
+
+    static fromJS(data: any): UpsertReviewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpsertReviewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["rating"] = this.rating;
+        data["content"] = this.content;
+        return data;
+    }
+}
+
+export interface IUpsertReviewDto {
+    rating?: number;
+    content?: string | undefined;
 }
 
 export class UserDto implements IUserDto {

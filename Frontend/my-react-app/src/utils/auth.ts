@@ -35,8 +35,36 @@ function extractRoles(source: Record<string, unknown> | null): string[] {
   });
 }
 
+function extractClaim(
+  source: Record<string, unknown> | null,
+  claimKeys: string[]
+): string | undefined {
+  if (!source) return undefined;
+
+  for (const key of claimKeys) {
+    const value = source[key];
+    if (typeof value === "string" && value.trim()) {
+      return value;
+    }
+  }
+
+  return undefined;
+}
+
 export function getAuthToken(): string | undefined {
   return Cookies.get("auth_token");
+}
+
+export function getCurrentUserId(): string | undefined {
+  const token = getAuthToken();
+  if (!token) return undefined;
+
+  return extractClaim(parseJwtPayload(token), [
+    "sub",
+    "nameid",
+    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
+    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+  ]);
 }
 
 export function isAdminUser(): boolean {

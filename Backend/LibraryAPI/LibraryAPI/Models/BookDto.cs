@@ -8,4 +8,6 @@ public class BookDto
     public int CategoryId { get; set; }
     public string CategoryName { get; set; }
     public string ImageURL { get; set; }
+    public double AverageRating { get; set; }
+    public int ReviewsCount { get; set; }
 }

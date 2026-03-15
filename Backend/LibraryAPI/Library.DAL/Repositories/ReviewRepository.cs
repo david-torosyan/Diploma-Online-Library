@@ -11,5 +11,11 @@ public class ReviewRepository(ApplicationDbContext context) : BaseRepository<Rev
         await _dbSet
                .Include(r => r.User)
                .Where(r => r.BookId == bookId)
+               .OrderByDescending(r => r.CreatedAt)
                .ToListAsync();
+
+    public async Task<Review?> GetUserReviewAsync(string userId, int bookId) =>
+        await _dbSet
+            .Include(r => r.User)
+            .FirstOrDefaultAsync(r => r.ApplicationUserId == userId && r.BookId == bookId);
 }

@@ -1,10 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { LibraryClient, BookDto, BookWithDetailsDto } from "../api/LibraryClient";
+import {
+  LibraryClient,
+  BookDto,
+  BookWithDetailsDto,
+  ReviewDto,
+  UpsertReviewDto,
+} from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
 import config from "../config/config.json";
 import Cookies from "js-cookie";
-import { isAdminUser } from "../utils/auth";
+import { getCurrentUserId, isAdminUser } from "../utils/auth";
 import { getRelatedBooks } from "../services/discoveryService";
 
 const BookDetail: React.FC = () => {
@@ -21,13 +27,34 @@ const BookDetail: React.FC = () => {
   const [approvalLoading, setApprovalLoading] = useState(false);
   const [relatedBooks, setRelatedBooks] = useState<BookDto[]>([]);
   const [relatedLoading, setRelatedLoading] = useState(false);
+  const [reviewsOpen, setReviewsOpen] = useState(false);
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewError, setReviewError] = useState<string | null>(null);
+  const [reviewSuccess, setReviewSuccess] = useState<string | null>(null);
+  const [hoveredRating, setHoveredRating] = useState<number | null>(null);
+  const [reviewForm, setReviewForm] = useState({ rating: 0, content: "" });
   const { t } = useTranslation();
+  const currentUserId = getCurrentUserId();
 
-  useEffect(() => {
-    setIsAdmin(isAdminUser());
+  const renderStars = useCallback((rating: number) => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <span
+        key={`star-${rating}-${index}`}
+        className={`review-star ${index < rating ? "is-filled" : ""}`}
+        aria-hidden="true"
+      >
+        ★
+      </span>
+    ));
+  }, []);
 
-    const fetchBook = async () => {
+  const loadBook = useCallback(
+    async (showLoading = true) => {
       if (!id) return;
+
+      if (showLoading) {
+        setLoading(true);
+      }
 
       try {
         const api = new LibraryClient(config.baseUrl);
@@ -35,6 +62,7 @@ const BookDetail: React.FC = () => {
 
         if (result) {
           setBook(result);
+          setError(null);
         } else {
           setError(t("fetchError"));
         }
@@ -42,12 +70,18 @@ const BookDetail: React.FC = () => {
         console.error(err);
         setError(t("fetchError"));
       } finally {
-        setLoading(false);
+        if (showLoading) {
+          setLoading(false);
+        }
       }
-    };
+    },
+    [id, t]
+  );
 
-    fetchBook();
-  }, [id, t]);
+  useEffect(() => {
+    setIsAdmin(isAdminUser());
+    loadBook();
+  }, [loadBook]);
 
   const loadApprovalState = useCallback(async () => {
     if (!id) return;
@@ -124,6 +158,17 @@ const BookDetail: React.FC = () => {
     loadRelated();
   }, [book, id]);
 
+  useEffect(() => {
+    const existingReview = book?.reviews?.find(
+      (review) => review.applicationUserId === currentUserId
+    );
+
+    setReviewForm({
+      rating: existingReview?.rating ?? 0,
+      content: existingReview?.content ?? "",
+    });
+  }, [book, currentUserId]);
+
   const handleFavoriteToggle = async () => {
     if (!id || favoriteLoading) return;
 
@@ -158,6 +203,60 @@ const BookDetail: React.FC = () => {
       setApprovalLoading(false);
     }
   };
+
+  const handleReviewSubmit = async () => {
+    if (!id || reviewSubmitting) return;
+
+    const token = Cookies.get("auth_token");
+    if (!token) {
+      setReviewError(t("reviewSignIn", "Sign in to rate and review this book."));
+      return;
+    }
+
+    const normalizedContent = reviewForm.content.trim();
+    if (reviewForm.rating < 1 || reviewForm.rating > 5) {
+      setReviewError(t("reviewRatingRequired", "Choose a rating from 1 to 5 stars."));
+      return;
+    }
+
+    if (normalizedContent.length < 3) {
+      setReviewError(t("reviewCommentRequired", "Please write at least a short comment."));
+      return;
+    }
+
+    setReviewSubmitting(true);
+    setReviewError(null);
+    setReviewSuccess(null);
+
+    try {
+      const api = new LibraryClient(config.baseUrl);
+      await api.upsertReview(
+        Number(id),
+        new UpsertReviewDto({
+          rating: reviewForm.rating,
+          content: normalizedContent,
+        }),
+        token
+      );
+
+      await loadBook(false);
+      setReviewSuccess(
+        t("reviewSaved", "Your review has been saved successfully.")
+      );
+      setReviewsOpen(true);
+    } catch (err) {
+      console.error(err);
+      setReviewError(
+        t("reviewSaveFailed", "Could not save your review. Please try again.")
+      );
+    } finally {
+      setReviewSubmitting(false);
+    }
+  };
+
+  const reviews = book?.reviews ?? [];
+  const reviewsCount = book?.reviewsCount ?? reviews.length;
+  const averageRating = book?.averageRating ?? 0;
 
   if (loading)
     return (
@@ -263,16 +362,37 @@ const BookDetail: React.FC = () => {
                 <p className="text-muted mb-3 lh-lg">{book.description}</p>
               )}
 
+              <div className="review-summary-card mb-3">
+                <div>
+                  <p className="review-summary-label mb-1">
+                    {t("communityRating", "Community rating")}
+                  </p>
+                  <div className="d-flex align-items-center gap-2 flex-wrap">
+                    <div className="review-stars" aria-label={`${averageRating} out of 5`}>
+                      {renderStars(Math.round(averageRating))}
+                    </div>
+                    <strong>{averageRating.toFixed(1)}</strong>
+                    <span className="text-muted">
+                      ({reviewsCount} {t("reviews", "Reviews")})
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="btn btn-outline-primary rounded-pill px-3"
+                  onClick={() => setReviewsOpen((current) => !current)}
+                >
+                  {reviewsOpen
+                    ? t("hideReviews", "Hide reviews")
+                    : t("showReviews", "Show reviews")}
+                </button>
+              </div>
+
               {book.favorites && (
                 <p>
                   <strong>{t("favorites", "Favorites")}:</strong>{" "}
                   {book.favorites.length}
-                </p>
-              )}
-              {book.reviews && (
-                <p>
-                  <strong>{t("reviews", "Reviews")}:</strong>{" "}
-                  {book.reviews.length}
                 </p>
               )}
             </div>
@@ -310,6 +430,180 @@ const BookDetail: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <section className="mt-4 card p-3 p-md-4 detail-card app-section">
+        <div className="d-flex flex-column flex-lg-row gap-4">
+          <div className="review-form-panel flex-grow-1">
+            <h3 className="h5 fw-bold mb-2">
+              {t("writeReview", "Rate this book")}
+            </h3>
+            <p className="text-muted mb-3">
+              {t(
+                "writeReviewHint",
+                "Choose 1 to 5 stars and share a short comment about your reading experience."
+              )}
+            </p>
+
+            {isAuthenticated ? (
+              <>
+                <div className="mb-3">
+                  <label className="form-label fw-semibold d-block">
+                    {t("yourRating", "Your rating")}
+                  </label>
+                  <div
+                    className="star-picker"
+                    role="radiogroup"
+                    aria-label={t("yourRating", "Your rating")}
+                    onMouseLeave={() => setHoveredRating(null)}
+                  >
+                    {Array.from({ length: 5 }, (_, index) => {
+                      const value = index + 1;
+                      const effectiveRating = hoveredRating ?? reviewForm.rating;
+                      const isFilled = value <= effectiveRating;
+                      const isPreview = hoveredRating !== null;
+
+                      return (
+                        <button
+                          key={`pick-${value}`}
+                          type="button"
+                          className={`star-picker-btn ${isFilled ? "is-active" : ""} ${
+                            isPreview ? "is-preview" : ""
+                          }`}
+                          aria-label={`${value} ${t("stars", "stars")}`}
+                          onMouseEnter={() => setHoveredRating(value)}
+                          onFocus={() => setHoveredRating(value)}
+                          onBlur={() => setHoveredRating(null)}
+                          onClick={() =>
+                            setReviewForm((current) => ({ ...current, rating: value }))
+                          }
+                        >
+                          ★
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="reviewContent" className="form-label fw-semibold">
+                    {t("yourComment", "Your comment")}
+                  </label>
+                  <textarea
+                    id="reviewContent"
+                    className="form-control"
+                    rows={5}
+                    maxLength={1000}
+                    value={reviewForm.content}
+                    onChange={(event) => {
+                      setReviewForm((current) => ({
+                        ...current,
+                        content: event.target.value,
+                      }));
+                      if (reviewError) {
+                        setReviewError(null);
+                      }
+                    }}
+                    placeholder={t(
+                      "reviewPlaceholder",
+                      "What did you like or dislike about this book?"
+                    )}
+                  />
+                  <div className="review-help-text mt-2 text-muted">
+                    {reviewForm.content.trim().length}/1000
+                  </div>
+                </div>
+
+                {reviewError && (
+                  <div className="alert alert-danger py-2" role="alert">
+                    {reviewError}
+                  </div>
+                )}
+                {reviewSuccess && (
+                  <div className="alert alert-success py-2" role="alert">
+                    {reviewSuccess}
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  className="btn btn-primary rounded-pill px-4"
+                  onClick={handleReviewSubmit}
+                  disabled={reviewSubmitting}
+                >
+                  {reviewSubmitting
+                    ? t("savingReview", "Saving...")
+                    : reviews.some((review) => review.applicationUserId === currentUserId)
+                      ? t("updateReview", "Update review")
+                      : t("submitReview", "Submit review")}
+                </button>
+              </>
+            ) : (
+              <div className="alert alert-info mb-0" role="alert">
+                {t("reviewSignIn", "Sign in to rate and review this book.")}
+              </div>
+            )}
+          </div>
+
+          <div className="review-list-panel flex-grow-1">
+            <div className="d-flex align-items-center justify-content-between mb-3">
+              <h3 className="h5 fw-bold mb-0">
+                {t("reviews", "Reviews")}
+              </h3>
+              <span className="badge bg-light text-dark rounded-pill px-3 py-2">
+                {reviewsCount}
+              </span>
+            </div>
+
+            {reviewsOpen ? (
+              reviews.length > 0 ? (
+                <div className="review-list d-flex flex-column gap-3">
+                  {reviews.map((review: ReviewDto) => (
+                    <article
+                      key={review.id ?? `${review.applicationUserId}-${review.createdAt?.toISOString()}`}
+                      className={`review-item ${review.applicationUserId === currentUserId ? "is-mine" : ""}`}
+                    >
+                      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+                        <div>
+                          <strong>{review.reviewerName || t("anonymousReader", "Anonymous reader")}</strong>
+                          {review.applicationUserId === currentUserId && (
+                            <span className="badge bg-primary-subtle text-primary-emphasis ms-2">
+                              {t("yourReview", "Your review")}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="d-flex align-items-center gap-2 text-muted small">
+                          <span className="review-stars" aria-hidden="true">
+                            {renderStars(review.rating ?? 0)}
+                          </span>
+                          <span>
+                            {review.createdAt
+                              ? new Date(review.createdAt).toLocaleDateString()
+                              : ""}
+                          </span>
+                        </div>
+                      </div>
+
+                      <p className="mb-0 text-muted lh-lg">{review.content}</p>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <p className="empty-state mb-0">
+                  {t("noReviewsYet", "No reviews yet. Be the first to share your thoughts.")}
+                </p>
+              )
+            ) : (
+              <p className="text-muted mb-0">
+                {t(
+                  "reviewsCollapsedHint",
+                  "Open the reviews section to read what other readers think."
+                )}
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
 
       <section className="mt-4 card p-3 p-md-4 detail-card app-section">
         <h3 className="h5 fw-bold mb-3">

@@ -4,13 +4,18 @@ import { useTranslation } from "react-i18next";
 import BooksGrid from "../components/BooksGrid";
 import SearchDrawer from "../components/SearchDrawer";
 import CuratedBooksShelf from "../components/CuratedBooksShelf";
-import { getFeaturedBooks, getNewArrivals } from "../services/discoveryService";
+import {
+  getFeaturedBooks,
+  getMostRatedBooks,
+  getNewArrivals,
+} from "../services/discoveryService";
 import config from "../config/config.json";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [featuredBooks, setFeaturedBooks] = useState<BookDto[]>([]);
+  const [mostRatedBooks, setMostRatedBooks] = useState<BookDto[]>([]);
   const [newArrivals, setNewArrivals] = useState<BookDto[]>([]);
   const [discoveryLoading, setDiscoveryLoading] = useState(true);
 
@@ -31,12 +36,14 @@ const Home: React.FC = () => {
   useEffect(() => {
     const loadDiscoveryShelves = async () => {
       try {
-        const [featured, arrivals] = await Promise.all([
+        const [featured, rated, arrivals] = await Promise.all([
           getFeaturedBooks(10),
+          getMostRatedBooks(10),
           getNewArrivals(10),
         ]);
 
         setFeaturedBooks(featured);
+        setMostRatedBooks(rated);
         setNewArrivals(arrivals);
       } finally {
         setDiscoveryLoading(false);
@@ -61,6 +68,18 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <CuratedBooksShelf
+        title={t("mostRatedBooks", "Top books ranked")}
+        subtitle={t(
+          "mostRatedBooksSubtitle",
+          "Top books ranked by community star ratings."
+        )}
+        books={mostRatedBooks}
+        loading={discoveryLoading}
+        openAllHref="/collection/most-rated"
+        showRatings
+      />
 
       <CuratedBooksShelf
         title={t("featuredBooks", "Featured Books")}

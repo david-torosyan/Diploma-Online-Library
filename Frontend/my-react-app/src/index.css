@@ -479,6 +479,17 @@ a {
   padding: 0.2rem 0.6rem;
 }
 
+.curated-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+}
+
+.curated-rating-star {
+  color: #f59e0b;
+}
+
 .curated-skeleton {
   width: 175px;
   height: 250px;
@@ -500,6 +511,84 @@ a {
 .loading-text,
 .empty-state {
   color: var(--text-3);
+}
+
+.review-summary-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #f8fbff, #eef4ff);
+}
+
+.review-summary-label {
+  color: var(--text-3);
+  font-size: 0.92rem;
+}
+
+.review-stars {
+  display: inline-flex;
+  gap: 0.18rem;
+  color: #cbd5e1;
+}
+
+.review-star.is-filled {
+  color: #f59e0b;
+}
+
+.review-form-panel,
+.review-list-panel {
+  min-width: 0;
+}
+
+.star-picker {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.star-picker-btn {
+  border: none;
+  background: transparent;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.18s ease, transform 0.15s ease;
+}
+
+.star-picker-btn.is-active {
+  color: #f59e0b;
+}
+
+.star-picker-btn.is-preview {
+  transform: scale(1.02);
+}
+
+.star-picker-btn:hover,
+.star-picker-btn:focus-visible {
+  color: #f59e0b;
+  transform: translateY(-1px) scale(1.06);
+}
+
+.review-help-text {
+  font-size: 0.85rem;
+}
+
+.review-item {
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: #fff;
+  padding: 1rem;
+}
+
+.review-item.is-mine {
+  border-color: #bfd4ff;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.08);
 }
 
 @keyframes fadeUp {
@@ -543,6 +632,11 @@ a {
   .detail-shell,
   .category-shell {
     padding-top: 1.25rem;
+  }
+
+  .review-summary-card {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .scroll-top-btn {

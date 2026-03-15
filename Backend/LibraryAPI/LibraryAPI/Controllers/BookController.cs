@@ -16,11 +16,13 @@ namespace LibraryAPI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBookAuthorService _bookAuthorService;
+        private readonly IReviewService _reviewService;
 
-        public BookController(IUnitOfWork unitOfWork, IBookAuthorService bookAuthorService)
+        public BookController(IUnitOfWork unitOfWork, IBookAuthorService bookAuthorService, IReviewService reviewService)
         {
             _unitOfWork = unitOfWork;
             _bookAuthorService = bookAuthorService;
+            _reviewService = reviewService;
         }
 
         /// <summary>
@@ -96,6 +98,28 @@ namespace LibraryAPI.Controllers
                 return NotFound($"Book with ID {id} was not found.");
 
             return Ok(book.ToBookWithDetailsDto());
+        }
+
+        /// <summary>
+        /// Creates or updates the current user's review for a book.
+        /// </summary>
+        [Authorize]
+        [HttpPost("{bookId:int}/reviews")]
+        [ProducesResponseType(typeof(ReviewDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ReviewDto>> UpsertReview(int bookId, [FromBody] UpsertReviewDto reviewDto)
+        {
+            if (bookId <= 0)
+                return BadRequest("Invalid book ID.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var review = await _reviewService.UpsertReviewAsync(bookId, reviewDto);
+
+            return Ok(review.ToReviewDto());
         }
 
         /// <summary>
@@ -203,6 +227,21 @@ namespace LibraryAPI.Controllers
                 return BadRequest("Limit must be between 1 and 50.");
 
             var books = await _unitOfWork.Books.GetFeaturedAsync(limit);
+            return Ok(books.Select(book => book.ToBookDto()));
+        }
+
+        /// <summary>
+        /// Returns top-rated approved books ordered by average rating.
+        /// </summary>
+        [HttpGet("most-rated")]
+        [ProducesResponseType(typeof(IEnumerable<BookDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetMostRatedBooks([FromQuery] int limit = 10)
+        {
+            if (limit is <= 0 or > 50)
+                return BadRequest("Limit must be between 1 and 50.");
+
+            var books = await _unitOfWork.Books.GetMostRatedAsync(limit);
             return Ok(books.Select(book => book.ToBookDto()));
         }
 

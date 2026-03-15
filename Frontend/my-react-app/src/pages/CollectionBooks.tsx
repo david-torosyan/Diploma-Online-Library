@@ -2,7 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BookDto } from "../api/LibraryClient";
-import { getFeaturedBooks, getNewArrivals } from "../services/discoveryService";
+import {
+  getFeaturedBooks,
+  getMostRatedBooks,
+  getNewArrivals,
+} from "../services/discoveryService";
 
 const CollectionBooks: React.FC = () => {
   const { collectionType } = useParams<{ collectionType: string }>();
@@ -12,10 +16,15 @@ const CollectionBooks: React.FC = () => {
   const [books, setBooks] = useState<BookDto[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const isMostRated = collectionType === "most-rated";
   const isFeatured = collectionType === "featured";
   const isNewArrivals = collectionType === "new-arrivals";
 
   const title = useMemo(() => {
+    if (isMostRated) {
+      return t("mostRatedBooks", "Top books ranked");
+    }
+
     if (isFeatured) {
       return t("featuredBooks", "Featured Books");
     }
@@ -25,13 +34,18 @@ const CollectionBooks: React.FC = () => {
     }
 
     return t("library");
-  }, [isFeatured, isNewArrivals, t]);
+  }, [isMostRated, isFeatured, isNewArrivals, t]);
 
   useEffect(() => {
     const loadCollection = async () => {
       try {
         if (isFeatured) {
           setBooks(await getFeaturedBooks(40));
+          return;
+        }
+
+        if (isMostRated) {
+          setBooks(await getMostRatedBooks(40));
           return;
         }
 
@@ -47,9 +61,9 @@ const CollectionBooks: React.FC = () => {
     };
 
     loadCollection();
-  }, [isFeatured, isNewArrivals]);
+  }, [isMostRated, isFeatured, isNewArrivals]);
 
-  if (!isFeatured && !isNewArrivals) {
+  if (!isMostRated && !isFeatured && !isNewArrivals) {
     return (
       <div className="container category-shell app-section">
         <p className="text-danger">{t("fetchError")}</p>

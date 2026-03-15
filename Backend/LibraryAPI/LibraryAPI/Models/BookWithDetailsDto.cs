@@ -16,6 +16,8 @@ public class BookWithDetailsDto
     public string CategoryName { get; set; }
     public string BookURL { get; set; }
     public string ImageURL { get; set; }
+    public double AverageRating { get; set; }
+    public int ReviewsCount { get; set; }
 
     public ICollection<FavoriteDto> Favorites { get; set; }
     public ICollection<ReviewDto> Reviews { get; set; }

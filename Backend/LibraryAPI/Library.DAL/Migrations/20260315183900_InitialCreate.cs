@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -8,30 +9,538 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Library.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMockData : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.UpdateData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 63,
-                column: "ImageURL",
-                value: "https://m.media-amazon.com/images/I/71X0qU1mJpL.jpg");
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
 
-            migrationBuilder.UpdateData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 96,
-                column: "ImageURL",
-                value: "https://m.media-amazon.com/images/I/71X0qU1mJpL.jpg");
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "authors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FullName = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_authors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "books",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    ISBN = table.Column<string>(type: "text", nullable: false),
+                    Pages = table.Column<int>(type: "integer", nullable: false),
+                    PublishedDate = table.Column<DateTime>(type: "timestamptz", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    AuthorId = table.Column<int>(type: "integer", nullable: false),
+                    CategoryId = table.Column<int>(type: "integer", nullable: false),
+                    BookURL = table.Column<string>(type: "text", nullable: false),
+                    ImageURL = table.Column<string>(type: "text", nullable: false),
+                    IsApproved = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_books", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_books_authors_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "authors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_books_categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "favorites",
+                columns: table => new
+                {
+                    ApplicationUserId = table.Column<string>(type: "text", nullable: false),
+                    BookId = table.Column<int>(type: "integer", nullable: false),
+                    AddedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_favorites", x => new { x.ApplicationUserId, x.BookId });
+                    table.ForeignKey(
+                        name: "FK_favorites_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_favorites_books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "reviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ApplicationUserId = table.Column<string>(type: "text", nullable: false),
+                    BookId = table.Column<int>(type: "integer", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    Rating = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_reviews_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_reviews_books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "5a6fd87e-98c2-4f50-9bf8-5b3b5814e6cd", "5a6fd87e-98c2-4f50-9bf8-5b3b5814e6cd", "maintainer", "MAINTAINER" },
+                    { "8d9d971f-7a4c-4ca5-8a83-5c3e52fb3f64", "8d9d971f-7a4c-4ca5-8a83-5c3e52fb3f64", "user", "USER" },
+                    { "9c4c64ec-39f1-4e38-b991-74d0caa3577c", "9c4c64ec-39f1-4e38-b991-74d0caa3577c", "admin", "ADMIN" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "a1d66f63-61e3-420c-8da7-4d8578e4f101", 0, "seed-concurrency-stamp-anna", "anna.reader@library.demo", true, "Anna", "Reader", false, null, "ANNA.READER@LIBRARY.DEMO", "ANNA.READER@LIBRARY.DEMO", null, null, false, "seed-security-stamp-anna", false, "anna.reader@library.demo" },
+                    { "bbefaf07-1e70-46a0-9f9a-bbb2db750102", 0, "seed-concurrency-stamp-david", "david.page@library.demo", true, "David", "Page", false, null, "DAVID.PAGE@LIBRARY.DEMO", "DAVID.PAGE@LIBRARY.DEMO", null, null, false, "seed-security-stamp-david", false, "david.page@library.demo" },
+                    { "c1baf065-5601-4c16-8e13-3bd1f59d2103", 0, "seed-concurrency-stamp-mila", "mila.stone@library.demo", true, "Mila", "Stone", false, null, "MILA.STONE@LIBRARY.DEMO", "MILA.STONE@LIBRARY.DEMO", null, null, false, "seed-security-stamp-mila", false, "mila.stone@library.demo" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "authors",
+                columns: new[] { "Id", "FullName" },
+                values: new object[,]
+                {
+                    { 1, "Navjot S. Sodhi" },
+                    { 2, "Paul R. Ehrlich" },
+                    { 3, "Steve T. Beckett" },
+                    { 4, "Ward Chesworth" },
+                    { 5, "Hans Moravec" },
+                    { 6, "Carlo Rovelli" },
+                    { 7, "Francesca Vidotto" },
+                    { 8, "Abhijit R. Satoskar" },
+                    { 9, "Gary L. Simon" },
+                    { 10, "Peter J. Hotez" },
+                    { 11, "Moriya Tsuji" },
+                    { 12, "George Dyson" },
+                    { 13, "Charles Darwin" },
+                    { 14, "Floyd James Rutherford" },
+                    { 15, "Andrew Ahlgren" },
+                    { 16, "Nikolai V. Gogol" },
+                    { 17, "Thucydides" },
+                    { 18, "Knut Hamsun" },
+                    { 19, "Oscar Wilde" },
+                    { 20, "Mary Shelley" },
+                    { 21, "Virginia Woolf" },
+                    { 22, "Bruno Schulz" },
+                    { 23, "Lee Child" },
+                    { 24, "James Joyce" },
+                    { 25, "Virginia Woolf" },
+                    { 26, "Jude Deveraux" },
+                    { 27, "Arnett Lamb" },
+                    { 28, "Jill Barnett" },
+                    { 29, "Judith McNaught" },
+                    { 30, "Charlotte Brontë" },
+                    { 31, "Jane Austen" },
+                    { 32, "Julie Garwood" },
+                    { 33, "Jojo Moyes" },
+                    { 34, "Danielle Steel" },
+                    { 35, "Santa Montefiore" },
+                    { 36, "Johanna Lindsey" },
+                    { 37, "C. S. Lewis" },
+                    { 38, "Ursula K. Le Guin" },
+                    { 39, "Tove Jansson" },
+                    { 40, "J. R. R. Tolkien" },
+                    { 41, "John Ronald Reuel Tolkien" },
+                    { 42, "Lewis Carroll" },
+                    { 43, "Clive Staples Lewis" },
+                    { 44, "L. Frank Baum" },
+                    { 45, "Kenneth Graham" },
+                    { 46, "Tracy Deonn" },
+                    { 47, "Agatha Christie" },
+                    { 48, "Dan Brown" },
+                    { 49, "Mark Haddon" },
+                    { 50, "P. D. James" },
+                    { 51, "Fyodor Dostoevsky" },
+                    { 52, "Fred Vargas" },
+                    { 53, "Josephine Tey" },
+                    { 54, "Kate Morton" },
+                    { 55, "C. S. Lewis" },
+                    { 56, "Philip Freeman" },
+                    { 57, "E. J. F. Kəppi" },
+                    { 58, "Helen S. Rountree" },
+                    { 59, "Carl Baxson" },
+                    { 60, "Jerry Z. Müller" },
+                    { 61, "Jonathan Harris" },
+                    { 62, "Serhii Plokhii" },
+                    { 63, "G. N. Dewi" },
+                    { 64, "Jeffrey W. Davis" },
+                    { 65, "K. K. Chakravarti" },
+                    { 66, "Vahan M. Kyurkchyan" },
+                    { 67, "Victor E. Torren" },
+                    { 68, "John Robert Christianson" },
+                    { 69, "William Smith" },
+                    { 70, "Elizabeth Gilbert" },
+                    { 71, "Primo Levi" },
+                    { 72, "Charles Knight" },
+                    { 73, "Desmond Shum" },
+                    { 74, "John Alexander Gay" },
+                    { 75, "Richard A. Barrage" },
+                    { 76, "Plutarch" },
+                    { 77, "John Langhorn" },
+                    { 78, "William Langhorn" },
+                    { 79, "Lance Day" },
+                    { 80, "Ian McNail" },
+                    { 81, "Floyd James Rutherford" },
+                    { 82, "Andrew Ahlgren" },
+                    { 83, "Mitchell Resnick" },
+                    { 84, "Andrew Feinberg" },
+                    { 85, "Steven Graham" },
+                    { 86, "Simon Marvin" },
+                    { 87, "Hannah Arendt" },
+                    { 88, "Oliver Manuel" },
+                    { 89, "Fritz Ulman" },
+                    { 90, "Leo Marx" },
+                    { 91, "Wolfgang Gehhartz" },
+                    { 92, "John Dewey" },
+                    { 93, "Jean Giono" },
+                    { 94, "Robert Burr" },
+                    { 95, "Mary Ellen Miller" },
+                    { 96, "Simon Martin" },
+                    { 97, "Martin Kemp" },
+                    { 98, "Guy Debord" },
+                    { 99, "Gogol Google Translate" },
+                    { 100, "Vahan M. Kyurkchyan" },
+                    { 101, "George Bernard Shaw" },
+                    { 102, "Jane Portal" },
+                    { 103, "Tom Masters" },
+                    { 104, "Orhan Pamuk" },
+                    { 105, "Konrad Joseph" },
+                    { 106, "Tom Stone" },
+                    { 107, "Eric Solsten" },
+                    { 108, "Elizabeth Gilbert" },
+                    { 109, "Tony Whitten" },
+                    { 110, "Rohayat Emon Sueriatmaja" },
+                    { 111, "Suraiya A. Afif" },
+                    { 112, "Francis Moroney" },
+                    { 113, "Paul F. J. Igles" },
+                    { 114, "Steven F. McCool" },
+                    { 115, "Christopher D. Hines" },
+                    { 116, "United Nations Environment Programme" },
+                    { 117, "World Tourism Organization" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "science" },
+                    { 2, "fiction" },
+                    { 3, "romance" },
+                    { 4, "fantasy" },
+                    { 5, "mystery" },
+                    { 6, "history" },
+                    { 7, "biography" },
+                    { 8, "technology" },
+                    { 9, "art" },
+                    { 10, "travel" },
+                    { 11, "another" }
+                });
 
             migrationBuilder.InsertData(
                 table: "books",
                 columns: new[] { "Id", "AuthorId", "BookURL", "CategoryId", "Description", "ISBN", "ImageURL", "IsApproved", "Pages", "PublishedDate", "Title" },
                 values: new object[,]
                 {
+                    { 1, 1, "https://conbio.org/images/content_publications/ConservationBiologyforAll_reducedsize.pdf", 1, "Conservation Biology for All provides cutting-edge but basic conservation science to a global readership. A series of authoritative chapters have been written by the top names in conservation biology with the principal aim of disseminating cutting-edge conservation knowledge as widely as possible. Important topics such as balancing conversion and human needs, climate change, conservation planning, designing and analyzing conservation research, ecosystem services, endangered species management, extinctions, fire, habitat loss, and invasive species are covered. Numerous textboxes describing additional relevant material or case studies are also included. The global biodiversity crisis is now unstoppable; what can be saved in the developing world will require an educated constituency in both the developing and developed world. Habitat loss is particularly acute in developing countries, which is of special concern because it tends to be these locations where the greatest species diversity and richest centres of endemism are to be found. Sadly, developing world conservation scientists have found it difficult to access an authoritative textbook, which is particularly ironic since it is these countries where the potential benefits of knowledge application are greatest. There is now an urgent need to educate the next generation of scientists in developing countries, so that they are in a better position to protect their natural resources.", "9780199554232", "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg", true, 369, new DateTime(2010, 1, 7, 0, 0, 0, 0, DateTimeKind.Utc), "Conservation Biology for All" },
+                    { 2, 3, "https://download.e-bookshelf.de/download/0000/5986/29/L-G-0000598629-0002363255.pdf", 1, "Since the third edition of this standard work in 1999, there has been a significant increase in the amount of chocolate manufactured worldwide. The fourth edition of Industrial Chocolate Manufacture and Use provides up-to-date coverage of all major aspects of chocolate manufacture and use, from the growing of cocoa beans to the packaging and marketing of the end product. Retaining the important and well-received key features of the previous edition, the fourth edition also contains completely new chapters covering chocolate crumb, cold forming technologies, intellectual property, and nutrition. Furthermore, taking account of significant changes and trends within the chocolate industry, much new information is incorporated, particularly within such chapters as those covering the chemistry of flavour development, chocolate flow properties, chocolate packaging, and chocolate marketing. This fully revised and expanded new edition is an essential purchase for all those involved in the manufacture and use of chocolate.", "9781444357554", "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4615-2111-2", true, 679, new DateTime(2011, 9, 7, 0, 0, 0, 0, DateTimeKind.Utc), "Industrial Chocolate Manufacture and Use" },
+                    { 3, 2, "https://archive.org/details/animalsavisualencyclopedia", 1, "This lavishly illustrated trade reference to mammals, birds, reptiles, amphibians, fishes, and invertebrates features hundreds of glorious photos, masterful illustrations, and informative maps.", "9780520244061", "https://m.media-amazon.com/images/I/91H7u1fM9vL._AC_UF1000,1000_QL80_.jpg", true, 619, new DateTime(2004, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Encyclopedia of Animals" },
+                    { 4, 12, "https://mediarep.org/server/api/core/bitstreams/e0da505d-200c-43ab-be4b-6604a4df816f/content", 1, "In this astonishing prediction of the World Wide Web's ultimate challenge to human civilization--a globally networked, electronic, sentient being--Dyson traces the course of the information revolution, illuminating the lives, work, and ideas of visionaries who foresaw the development of artificial intelligence, artificial life, and the global mind.", "UOM:39015041310320", "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg", true, 312, new DateTime(1997, 5, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Darwin Among The Machines" },
+                    { 5, 4, "https://ens9004-infd.mendoza.edu.ar/sitio/geologia-goemorfologia/upload/12-%20CHESWORTH,%20W.%20-%20LIBRO%20-%20Encyclopedia%20of%20Soil%20Science.pdf", 1, "The Encyclopedia of Soil Science provides a comprehensive, alphabetical treatment of basic soil science in a single volume. It constitutes a wide ranging and authorative collection of some 160 academic articles covering the salient aspects of soil physics, chemistry, biology, fertility, technology, genesis, morphology, classification and geomorphology. With increased usage of soil for world food production, building materials, and waste repositories, demand has grown for a better global understanding of soil and its processes. longer articles by leading authorities from around the world are supplemented by some 430 definitions of common terms in soil sciences.", "9781402039942", "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4020-3995-9", true, 859, new DateTime(2007, 11, 22, 0, 0, 0, 0, DateTimeKind.Utc), "Encyclopedia of Soil Science" },
+                    { 6, 5, "https://www.scribd.com/document/678843543/8-Moravec-H-1990-Mind-Children", 1, "\"A dizzying display of intellect and wild imaginings by Moravec, a world-class roboticist who has himself developed clever beasts . . . Undeniably, Moravec comes across as a highly knowledgeable and creative talent--which is just what the field needs\".--Kirkus Reviews.", "9780674576186", "https://www.hup.harvard.edu/img/feeds/jackets/9780674576186.png?fm=jpg&q=80&fit=max&w=630", true, 228, new DateTime(1988, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Mind Children" },
+                    { 7, 6, "https://www.cpt.univ-mrs.fr/~rovelli/IntroductionLQG.pdf", 1, "A comprehensible introduction to the most fascinating research in theoretical physics: advanced quantum gravity. Ideal for researchers and graduate students.", "9781107069626", "https://m.media-amazon.com/images/I/813-Uql4q7L._AC_UF1000,1000_QL80_.jpg", true, 267, new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Covariant Loop Quantum Gravity" },
+                    { 8, 14, "https://academic.oup.com/book/51739", 1, "In order to compete in the modern world, any society today must rank education in science, mathematics, and technology as one of its highest priorities. It's a sad but true fact, however, that most Americans are not scientifically literate. International studies of educational performance reveal that U.S. students consistently rank near the bottom in science and mathematics. The latest study of the National Assessment of Educational Progress has found that despite some small gains recently, the average performance of seventeen-year-olds in 1986 remained substantially lower than it had been in 1969. As the world approaches the twenty-first century, American schools--when it comes to the advancement of scientific knowledge--seem to be stuck in the Victorian age.In Science for All Americans, F. James Rutherford and Andrew Ahlgren brilliantly tackle this devastating problem. Based on Project 2061, a scientific literacy initiative sponsored by the American Association for the Advancement of Science, this wide-ranging, important volume explores what constitutes scientific literacy in a modern society; the knowledge, skills, and attitudes all students should acquire from their total school experience from kindergarten through high school; and what steps this country must take to begin reforming its system of education in science, mathematics, and technology.Science for All Americans describes the scientifically literate person as one who knows that science, mathematics, and technology are interdependent enterprises with strengths and limitations; who understands key concepts and principles of science; who recognizes both the diversity and unity of the natural world; and who uses scientific knowledge and scientific ways of thinking for personal and social purposes. Its recommendations for educational reform downplay traditional subject categories and instead highlight the connections between them. It also emphasizes ideas and thinking skills over the memorization of specialized vocabulary. For instance, basic scientific literacy means knowing that the chief function of living cells is assembling protein molecules according to the instructions coded in DNA molecules, but does not mean necessarily knowing the terms \"ribosome\" or \"deoxyribonucleic acid.\"Science, mathematics, and technology will be at the center of the radical changes in the nature of human existence that will occur during the next life span; therefore, preparing today's children for tomorrow's world must entail a solid education in these areas. Science for All Americans will help pave the way for the necessary reforms in America's schools.", "UOM:39015025158489", "https://m.media-amazon.com/images/I/61iwcrSHQ6L._AC_UF1000,1000_QL80_.jpg", true, 282, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Science for All Americans" },
+                    { 9, 13, "https://darwin-online.org.uk/converted/pdf/1897_Expression_F1152.pdf", 1, "MANY works have been written on Expression, but a greater number on Physiognomy, that is, on the recognition of character through the study of the permanent form of the features. With this latter subject I am not here concerned. The older treatises, which I have consulted, have been of little or no service to me. The famous 'Conferences' of the painter Le Brun, published in 1667, is the best known ancient work, and contains some good remarks. Another somewhat old essay, namely, the 'Discours, ' delivered 1774-1782, by the well-known Dutch anatomist Camper, can hardly be considered as having made any marked advance in the subject. The following works, on the contrary, deserve the fullest consideration", "BSB:BSB10997144", "https://assets.cambridge.org/97811080/61834/large_cover/9781108061834i.jpg", true, 406, new DateTime(1872, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Expression of the Emotions in Man and Animals" },
+                    { 10, 8, "http://repository.stikesrspadgs.ac.id/63/1/Medical%20Parasitology%20Shymasundari-501hlm.pdf", 1, "Infections caused by parasites are still a major global health problem. Although parasitic infections are responsible for a significant morbidity and mortality in the developing countries, they are also prevalent in the developed countries. Early diagnosis and treatment of a parasitic infection is not only critical for preventing morbidity and mort", "9781040195369", "https://m.media-amazon.com/images/I/819c-MQARGL._AC_UF1000,1000_QL80_.jpg", true, 331, new DateTime(2009, 11, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Medical Parasitology" },
+                    { 11, 16, "https://dn790009.ca.archive.org/0/items/cu31924026658165/cu31924026658165.pdf", 2, "Feroces, crueles, valientes y apasionados, los cosacos hacen temblar la estepa bajo los cascos de sus caballos. Y entre ellos se encuentra Taras Bulba, un anciano lleno aún de fuerza e inteligencia que junto a sus hijos, Ostap y Andrí, avanzará por tierras polacas con intención de vengar su fe ortodoxa burlada por los católicos. Ninguna guarnición, ciudad amurallada o iglesia podrán detenerlos, hasta que la desgracia se cierna sobre ellos y el apuesto y enamoradizo Andrí haga que su padre maldiga el día en que lo engendró. Taras Bulba, una anomalía entre la obra más conocida de Gogol, es una aventura trepidante, una sinfonía en perpetuo crescendo, en la que cada capítulo es más intenso y sorprendente que el anterior. un fresco tan afinadamente dibujado y tan vívido que resulta absolutamente intemporal.", "9788446023708", "https://ww2.ebookelo.com/images/cover/21286.jpg", true, 154, new DateTime(2006, 12, 19, 0, 0, 0, 0, DateTimeKind.Utc), "Taras Bulba" },
+                    { 12, 17, "https://antilogicalism.com/wp-content/uploads/2017/07/history-pelo-war.pdf", 2, "The History of the Peloponnesian War (Greek: Ἱστορίαι, \"Histories\") is a historical account of the Peloponnesian War (431–404 BC), which was fought between the Peloponnesian League (led by Sparta) and the Delian League (led by Athens). It was written by Thucydides, an Athenian historian who also served as an Athenian general during the war. His account of the conflict is widely considered to be a classic and regarded as one of the earliest scholarly works of history. The History is divided into eight books.", "9783968656762", "https://cdn.kobo.com/book-images/d4a3769f-012a-48dc-a096-08e287b03557/1200/1200/False/the-history-of-the-peloponnesian-war-with-18-illustrations-and-a-free-audio-link.jpg", true, 738, new DateTime(2021, 1, 13, 0, 0, 0, 0, DateTimeKind.Utc), "The History of the Peloponnesian War" },
+                    { 13, 18, "https://dn790008.ca.archive.org/0/items/cu31924022342871/cu31924022342871.pdf", 2, "The first complete English translation of the Nobel Prize-winner’s literary masterpiece A Penguin Classic Mysteries is the story of Johan Nilsen Nagel, a mysterious stranger who suddenly turns up in a small Norwegian town one summer—and just as suddenly disappears. Nagel is a complete outsider, a sort of modern Christ treated in a spirit of near parody. He condemns the politics and thought of the age, brings comfort to the “insulted and injured,” and gains the love of two women suggestive of the biblical Mary and Martha. But there is a sinister side of him: in his vest he carries a vial of prussic acid... The novel creates a powerful sense of Nagel's stream of thought, as he increasingly withdraws into the torture chamber of his own subconscious psyche. For more than seventy years, Penguin has been the leading publisher of classic literature in the English-speaking world. With more than 1,800 titles, Penguin Classics represents a global bookshelf of the best works throughout history and across genres and disciplines. Readers trust the series to provide authoritative texts enhanced by introductions and notes by distinguished scholars and contemporary authors, as well as up-to-date translations by award-winning translators.", "9780141186184", "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1650844397l/60784591.jpg", true, 356, new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Mystery of mysteries" },
+                    { 14, 19, "https://publicdomainlibrary.org/en/ebooks/the-picture-of-dorian-gray?gad_source=1&gad_campaignid=22457961356&gclid=CjwKCAjwjffHBhBuEiwAKMb8pMSgkz-tGttv47qIsPHlijqk2n0fVPqoWapPnusGOGzyQVWHU7wi5BoCWecQAvD_BwE", 2, "The Picture of Dorian Gray is the only published novel by Oscar Wilde, appearing as the lead story in Lippincott's Monthly Magazine on 20 June 1890, printed as the July 1890 issue. The magazine's editors feared the story was indecent as submitted, so they censored roughly 500 words, without Wilde's knowledge, before publication. But even with that, the story was still greeted with outrage by British reviewers, some of whom suggested that Wilde should be prosecuted on moral grounds, leading Wilde to defend the novel aggressively in letters to the British press. Today, Wilde's fin de siècle novella is considered a classic. This new edition from Immortal Books includes footnotes and images.", "9780359788330", "https://storage.googleapis.com/media365-live.appspot.com/266c3ce1-c23a-4770-bbe7-8e37467cc81c/0d22b809-2cf9-463f-a0d4-2bbb98dbc5a9/eabb424e-d460-44c3-ab64-ef47be8b87f5.jpg", true, 188, new DateTime(2019, 7, 12, 0, 0, 0, 0, DateTimeKind.Utc), "The Picture of Dorian Gray" },
+                    { 15, 20, "https://www.gutenberg.org/files/84/84-h/84-h.htm", 2, "Mary Shelley's 'Frankenstein' is a groundbreaking work of gothic literature that explores themes of ambition, isolation, and the consequences of playing god. Written in an epistolary format, the reader is drawn into the chilling tale of Victor Frankenstein and his creation, the monster. Shelley's descriptive prose and use of multiple narrators create a sense of foreboding and unease, making 'Frankenstein' a timeless classic in the literary canon. The novel also raises ethical questions about scientific responsibility and the limits of human knowledge, making it a thought-provoking read for modern audiences. Mary Shelley's personal experiences, including the death of her own children and her tumultuous relationship with Percy Bysshe Shelley, undoubtedly influenced the creation of 'Frankenstein.' Her unique perspective as a female author in the 19th century adds layers of depth to the story, highlighting the societal expectations and constraints faced by women of her time. I highly recommend 'Frankenstein' to readers who enjoy thought-provoking literature that delves into the darker aspects of human nature and morality.", "EAN:8596547791485", "https://img.perlego.com/book-covers/2501062/9782378072452_300_450.webp", true, 234, new DateTime(2023, 12, 27, 0, 0, 0, 0, DateTimeKind.Utc), "Frankenstein" },
+                    { 16, 21, "https://dn721907.ca.archive.org/0/items/in.ernet.dli.2015.93420/2015.93420.Mrs-Dalloway.pdf", 2, "Heralded as Virginia Woolf's greatest novel, this is a vivid portrait of a single day in a woman's life. When we meet her, Mrs. Clarissa Dalloway is preoccupied with the last-minute details of party preparation while in her mind she is something much more than a perfect society hostess. As she readies her house, she is flooded with remembrances of faraway times. And, met with the realities of the present, Clarissa reexamines the choices that brought her there, hesitantly looking ahead to the unfamiliar work of growing old. \"Mrs. Dalloway was the first novel to split the atom. If the novel before Mrs. Dalloway aspired to immensities of scope and scale, to heroic journeys across vast landscapes, with Mrs. Dalloway Virginia Woolf insisted that it could also locate the enormous within the everyday; that a life of errands and party-giving was every bit as viable a subject as any life lived anywhere; and that should any human act in any novel seem unimportant, it has merely been inadequately observed. The novel asan art form has not been the same since. \"Mrs. Dalloway also contains some of the most beautiful, complex, incisive and idiosyncratic sentences ever written in English, and that alone would be reason enough to read it. It is one of the most moving, revolutionary artworks of the twentieth century.\" --Michael Cunningham, author of The Hours", "STANFORD:36105003773616", "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg", true, 312, new DateTime(1925, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Mrs. Dalloway" },
+                    { 17, 22, "https://archive.org/details/streetofcrocodil00schu_0", 2, "''The Street of Crocodiles'' by Bruno Schulz (1892-1942) was first published in Polish in 1934; this English translation was first published in the US by Walker and Company in 1963, public domain. A novel that blends the real and the fantastic, from \"one of the most original imaginations in modern Europe\" (Cynthia Ozick). The Street of Crocodiles in the Polish city of Drogobych is a street of memories and dreams where recollections of Bruno Schulz's uncommon boyhood and of the eerie side of his merchant family's life are evoked in a startling blend of the real and the fantastic. Most memorable - and most chilling - is the portrait of the author's father, a maddened shopkeeper who imports rare birds' eggs to hatch in his attic, who believes tailors' dummies should be treated like people, and whose obsessive fear of cockroaches causes him to resemble one. Bruno Schulz, a Polish Jew killed by the Nazis in 1942, is considered by many to have been the leading Polish writer between the two world wars.", "9788087830277", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrhv8HOOGw56ABHammfAbunGUhTAi_F_2eQQ&s", true, 136, new DateTime(2025, 3, 19, 0, 0, 0, 0, DateTimeKind.Utc), "The Street of Crocodiles" },
+                    { 18, 23, "https://cdn.bookey.app/files/pdf/book/en/the-visitor.pdf", 2, "\"Sergeant Amy Callan and Lieutenant Caroline Cook have a lot in common. Both were army high-flyers. Both were acquainted with Jack Reacher. Both were forced to resign from the service. Now they're both dead. Both were found in their own home, naked, in a bath full of paint. Both apparent victims of an army man. A loner, a smart guy with a score to settle, a ruthless vigilante. A man just like Jack Reacher.\"--Cover.", "9780553811889", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwLvDmcI4YiQIE4eU9mKt_NuPUVulD8hiZxA&ss", true, 516, new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Visitor" },
+                    { 19, 24, "https://www.gutenberg.org/files/4217/4217-h/4217-h.htm", 2, "James JoyceÕs 1916 novella A Portrait of the Artist as a Young Man is about the early manhood of Stephen Dedalus, later one of the leading characters in Ulysses. StephenÕs growing self-awareness as an artist forces him to reject the whole narrow world in which he has been brought up, including family ties, nationalism, and the Catholic religion.", "9781387679249", "https://archive.org/services/img/portrait_artist_pb_librivox/full/pct:500/0/default.jpg", true, 194, new DateTime(2018, 3, 19, 0, 0, 0, 0, DateTimeKind.Utc), "A Portrait of the Artist as a Young Man" },
+                    { 20, 25, "https://www.sas.upenn.edu/~cavitch/pdf-library/Woolf_Jacob_s_Room.pdf", 2, "A Nonconformist Novel with No Central Character “Either we are men, or we are women. Either we are cold, or we are sentimental. Either we are young, or growing old. In any case life is but a procession of shadows, and God knows why it is that we embrace them so eagerly, and see them depart with such anguish, being shadows.” - Virginia Woolf, Jacob's Room Jacob’s Room is not your typical Victorian English novel. The fact that there is no real protagonist stands out the most. Jacob is not actually a character, only a collection of memories, feelings and sensations. His life is like a room seen through the eyes of other people. This Xist Classics edition has been professionally formatted for e-readers with a linked table of contents. This eBook also contains a bonus book club leadership guide and discussion questions. We hope you’ll share this book with your friends, neighbors and colleagues and can’t wait to hear what you have to say about it.", "9781681951607", "https://www.epubbooks.com/images/covers/woolf-jacobs-room.jpg", true, 183, new DateTime(2015, 8, 7, 0, 0, 0, 0, DateTimeKind.Utc), "Jacob's Room" },
+                    { 21, 26, "https://archive.org/details/holidayoflove00mcna", 3, "In New York City in the late 1800s, a beautiful but clumsy angel turns a lonely man's life around.... In medieval Scotland, the intrigues of a Christmas Mass imperil two Highland lovers....In Regency London, a world-weary lord receives an outrageous proposal....And in modern-day Colorado, a clever twelve-year-old plays matchmaker for his bighearted but impractical mother.", "9781416517214", "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg", true, 386, new DateTime(2005, 10, 25, 0, 0, 0, 0, DateTimeKind.Utc), "A Holiday of Love" },
+                    { 22, 30, "https://www.gutenberg.org/files/1260/1260-h/1260-h.htm", 3, "Bronte's infamous Gothic novel tells the story of orphan Jane, a child of unfortunate circumstances. Raised and treated badly by her aunt and cousins and eventually sent away to a cruel boarding school, it is not until Jane becomes a governess at Thornfield that she finds happiness. Meek, measured, but determined, Jane soon falls in love with her brooding and stormy master, Mr Rochester, but it is not long before strange and unnerving events occur in the house and Jane is forced to leave Thornfield to pursue her future.", "9780007866090", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAYviU6qJ8Y4lqDwBrA7s1fN7ZWGErMtRBcQ&s", true, 462, new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Jane Eyre" },
+                    { 23, 31, "https://giove.isti.cnr.it/demo/eread/Libri/joy/Pride.pdf", 3, "The text of Pride and Prejudice is the 1813 first edition text.", "9780192815033", "https://storage.googleapis.com/media365-live.appspot.com/266c3ce1-c23a-4770-bbe7-8e37467cc81c/22ce3cd6-766e-420b-98a2-bbdcd42d0605/9a042421-4511-4505-91dd-5f9b3429479c.jpg", true, 388, new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Pride and Prejudice" },
+                    { 24, 32, "https://www.scribd.com/doc/300749775/Prince-Charming", 3, "Beautiful Taylor Baker, whose fiance has eloped with her odious cousin and whose greedy uncle has his own plans for her, escapes to Montana with rough-edged American Lucas Ross.", "9780671870966", "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1610568034i/55509539.jpg", true, 564, new DateTime(1995, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Prince Charming" },
+                    { 25, 33, "https://icrrd.com/public/media/14-05-2021-091024Me-Before-You.pdf", 3, "Taking a job as an assistant to extreme sports enthusiast Will, who is wheelchair bound after a motorcycle accident, Louisa struggles with her employer's acerbic moods and learns of his shocking plans before demonstrating to him that life is still worth living.", "9780143109464", "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg", true, 402, new DateTime(2016, 4, 26, 0, 0, 0, 0, DateTimeKind.Utc), "Me Before You (Movie Tie-In)" },
+                    { 26, 34, "https://archive.org/details/sunsetinsttropez0000stee_q3j8", 3, "Taking a vacation together to grieve over the death of one of their group, five friends are dismayed by the ramshackle mansion they find instead of the garden villa they expected, and the unexpected appearance of the new girlfriend of the widowed husband.", "UOM:39015055087590", "https://livrariapublica.com.br/capa/por-do-sol-em-saint-tropez-danielle-steel-pdf-B0176TJFF8.webp", true, 248, new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Sunset in St. Tropez" },
+                    { 27, 35, "https://archive.org/details/lastvoyageofvale0000mont_v8n7", 3, "\"Originally published in Great Britain in 2005 by Hodder and Stoughton\"--T.p. verso.", "9780743299435", "https://archive.org/services/img/lastvoyageofvale0000mont_v8n7/full/pct:200/0/default.jpg", true, 417, new DateTime(2006, 5, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Last Voyage of the Valentina" },
+                    { 28, 34, "https://archive.org/details/specialdelivery0000dani", 3, "Tells the story of Jack Watson, a wealthy Beverly Hills businessman and widower, who falls in love with his daughter-in-law's mother and together they discover a relationship marked by challenges and surprises.", "UOM:39015041359921", "https://media.oceanofpdf.com/2023/04/PDF-EPUB-Special-Delivery-A-short-crime-fiction-story-Case-Files-pocket-sized-murder-mysteries-by-Rachel-Amphlett-Download.jpg", true, 232, new DateTime(1997, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Special Delivery" },
+                    { 29, 36, "https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiPk4Ko_cGQAxXgW_EDHfX3LOEQFnoECBgQAQ&url=https%3A%2F%2Farchive.org%2Fdetails%2Floveonlyonce00lind&usg=AOvVaw3eaa1Mhc73cUJ1Du7Tso0J&opi=89978449", 3, "The exquisite niece of Lord Edward and Lady Charlotte Malory, Regina Ashton is outraged over her abduction by the arrogant, devilishly handsome Nicholas Eden, and is determined to make the rogue pay, with his heart.", "9780739446461", "https://image.ebooks.com/cover/692903.jpg", true, 452, new DateTime(1985, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Love Only Once" },
+                    { 30, 34, "https://archive.org/details/toxicbachelors0000dani", 3, "Three daunting bachelors embark on a journey to the Mediterranean where they face women who challenge their deepest relationship phobias, sparking big changes in the once-carefree trio that just might put an end to their carousing days.", "UOM:39015062619377", "https://archive.org/services/img/toxicbachelors0000dani", true, 344, new DateTime(2005, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Toxic Bachelors" },
+                    { 31, 37, "https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwj-8afY_cGQAxVWBdsEHQ61D-sQFnoECBgQAQ&url=https%3A%2F%2Fdn720006.ca.archive.org%2F0%2Fitems%2Fenglish-collections-k-z%2Fmagician%2527s%2520nephew%252C%2520The%2520-%2520C.%2520S.%2520Lewis.pdf&usg=AOvVaw0oCLuQynRIlzrwUbyuWEkv&opi=89978449", 4, "The first book in The Chronicles of Narnia is now available in a full-color, unabridged gift edition that includes all of the original Pauline Baynes illustrations.", "9780060530846", "https://churchsource.com/cdn/shop/products/9780064471107_988c6bba-41a4-4f41-ac7b-52f6154e499f_1024x.jpg?v=1644428660", true, 122, new DateTime(2003, 11, 4, 0, 0, 0, 0, DateTimeKind.Utc), "The Magician's Nephew Color Gift Edition" },
+                    { 32, 38, "https://archive.org/details/wizardofearthsea00legu_1", 4, "A boy grows to manhood while attempting to subdue the evil he unleashed on the world as an apprentice to the Master Wizard.", "9780547851396", "https://cdn.kobo.com/book-images/cdebd2d5-7b6e-4447-9990-4630e6c29e35/1200/1200/False/a-wizard-of-earthsea-1.jpg", true, 267, new DateTime(2012, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "A Wizard of Earthsea" },
+                    { 33, 39, "https://www.scribd.com/document/720685287/The-Book-about-Moomin-Mymble-and-Little-My", 4, "Finnish artist Tove Jansson's Moomin stories have been continually in print for more than half a century, in 35 languages. They are among Europe's best loved and enduring children's classics, and through the TV animation (BBC2), the warm-hearted, whimsical creatures of Moomin valley have been brought to a new younger British audience.Introducing the first Sort Of Children's Classic in a new English version by Sophie Hannah. Sort of Books proudly presents the original full colour Moomin picture book with its irresistible cut-out page designs and playful rhyming text in a new version by one of Britain's star poets.", "9780953522743", "https://imgv2-2-f.scribdassets.com/img/document/720685287/original/6bfbb8842c/1?v=1", true, 0, new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Moomin, Mymble and Little My" },
+                    { 34, 40, "https://ia903107.us.archive.org/35/items/j-r-r-tolkien-lord-of-the-rings-01-the-fellowship-of-the-ring-retail-pdf/j-r-r-tolkien-lord-of-the-rings-01-the-fellowship-of-the-ring-retail-pdf.pdf", 4, "Contains the complete set of the six books of Lord of the Rings.", "PSU:000045256417", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s", true, 1176, new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Lord of the Rings" },
+                    { 35, 42, "http://birrell.org/andrew/alice/lGlass.pdf", 4, "Publisher description", "9780688120498", "https://www.pdfbooksworld.com/image/cache/catalog/256-500x500.jpg", true, 248, new DateTime(1993, 4, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Through the Looking-Glass" },
+                    { 36, 43, "https://www.samizdat.qc.ca/arts/lit/PDFs/VoyageoftheDawnTreader_CSL.pdf", 4, "The \"Dawn Treader\" is the first ship Narnia has seen in centuries. King Caspian has built it for his voyage to find the seven lords, good men whom his evil uncle Mizaz banished when he usurped the throne. The journey takes Edmund, Lucy, and their cousin Eustace to the Eastern Islands, beyond the Silver Sea, toward Aslan's country at the End of the World. Illustrations.", "9780006716655", "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094", true, 196, new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Voyage of the Dawn Treader" },
+                    { 37, 43, "https://www.samizdat.qc.ca/arts/lit/PDFs/LionWitchWardrobe_CSL.pdf", 4, "The best-selling rack edition of The Lion, the Witch and the Wardrobe now has a movie still cover and an eight-page movie still insert! \"Excellent for Homeschool Use\"", "PSU:000028266402", "https://imgv2-2-f.scribdassets.com/img/document/432919347/original/c0ed155ebd/1?v=1", true, 168, new DateTime(1950, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Lion, the Witch and the Wardrobe" },
+                    { 38, 44, "https://web.seducoahuila.gob.mx/biblioweb/upload/the_wonderful_wizard_of_oz.pdf", 4, ".0000000000This is the story of Dorothy and her little dog Toto, who are carried away from Kansas by a cyclone and transported to the wonderful world of Oz. She meets three companions - the Scarecrow, the Tin Woodman and the Cowardly Lion - and the three journey to the Emerald City of Oz to ask the Wizard of Oz to give them their hearts' desires, which in Dorothy's case is to return home to Kansas. On their way to Oz and while fulfilling the tasks that the surprising Wizard asks of them they encounter witches, winged monkeys, the Deadly Desert, fighting trees and magic shoes.This edition is evocatively illustrated with the original drawings of W. W. Denslow, with an Afterword by Ned Halley.", "9781905716524", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhsCGaMxMJsWSl5RMQ7za1U_HTzWSNhSJn_g&s", true, 188, new DateTime(2009, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Wizard of Oz" },
+                    { 39, 45, "https://www.sas.upenn.edu/~cavitch/pdf-library/Grahame_Wind_in_the_Willows_1908.pdf", 4, "The escapades of four animal friends who live along a river in the English countryside--Toad, Mole, Rat, and Badger.", "UOM:39015008859509", "https://www.rif.org/sites/default/files/images/2022/06/14/Book_Covers/wind-in-willows.jpg", true, 322, new DateTime(1908, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Wind in the Willows" },
+                    { 40, 46, "https://cdn.bookey.app/files/pdf/book/en/bloodmarked.pdf", 4, "\"When the leaders of the Order reveal that they will do everything in their power to keep the approaching demon war a secret, Bree and her friends go on the run so she can learn how to control her devastating new powers.\"--", "9781534441637", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s", true, 576, new DateTime(2022, 11, 8, 0, 0, 0, 0, DateTimeKind.Utc), "Bloodmarked" },
+                    { 41, 47, "https://www.by-the-way.fr/wp-content/uploads/2021/02/Murder-on-the-Orient-Express-1.pdf", 5, "QBD Murder on the Orient Express", "9780007948697", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL6oNHnP30AFFa0TerAy860nUAY1jNCpyUOg&s", true, 0, new DateTime(2015, 6, 8, 0, 0, 0, 0, DateTimeKind.Utc), "QBD Murder on the Orient Express" },
+                    { 42, 48, "https://books.google.com/books/about/QBD_Murder_on_the_Orient_Express.html?hl=&id=VHYXrgEACAAJ", 5, "Harvard professor Robert Langdon receives an urgent late-night phone call while on business in Paris: the elderly curator of the Louvre, Jacques Sauni're, has been brutally murdered inside the museum. Alongside the body, police have found a series of baffling codes. As Langdon and a gifted French cryptologist, Sophie Neveu, begin to sort through the bizarre riddles, they are stunned to find a trail that leads to the works of Leonardo Da Vinci - and suggests the answer to a mystery that stretches deep into the vault of history. Langdon suspects the late curator was involved in the Priory of Sion - a centuries old secret society - and has sacrificed his life to protect the Priory's most sacred trust: the location of a vastly important religious relic hidden for centuries. But it now appears that Opus Dei, a clandestine sect that has long plotted to seize the Prirory's secret, has now made its move. Unless Langdon and Neveu can decipher the labyrinthine code and quickly assemble the pieces of the puzzle, the Priory's secret - and a stunning historical truth - will be lost forever. Breaking the mould of traditional suspense novels, The DA VINCI CODE is simultaneously lightning-paced, intelligent and intricately layered with remarkable research and detail. And in this exclusive edition Dan Brown allows the reader behind the scenes of the novel which now incorporates over 150 photographs and illustrations throughout the text showing the rich historical tapestry from which he drew his inspiration. The visual sources which provide both the backdrop and the stimulus for the novel's action are revealed for the first time and uniquely complement the reading experience.", "9780593054253", "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg", true, 484, new DateTime(2004, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Da Vinci Code" },
+                    { 43, 49, "https://englishprva.weebly.com/uploads/8/8/2/3/88239198/the_curious_incident_of_the_dog_in_the_night_time.pdf", 5, "YA. Murder mystery. Despite his overwhelming fear of interacting with people, Christopher, a mathematically-gifted, autistic fifteen-year-old boy, decides to investigate the murder of a neighbour's dog and uncovers secret information about his mother. Whitbread book of the year 2003. WAYRBA list 2005.", "UOM:39015062063501", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlv5N0MAfZQuADdOiaWgIZb8jaciZxqMYxw&s", true, 288, new DateTime(2003, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Curious Incident of the Dog in the Night-time" },
+                    { 44, 50, "https://cdn.bookey.app/files/pdf/book/en/the-black-tower.pdf", 5, "Adam Dalgliesh responds to an invitation to visit an old family friend, the chaplain at a private home for the disabled in Dorset. On arrival he discovers that his host has died suddenly.", "9780743219617", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDNcrRkQWMvXON46YjBGwXfOEMR4jAL8UWhA&s", true, 352, new DateTime(2001, 10, 2, 0, 0, 0, 0, DateTimeKind.Utc), "The Black Tower" },
+                    { 45, 47, "https://ia801500.us.archive.org/18/items/in.ernet.dli.2015.88942/2015.88942.The-A-B-C-Murders-A-Hercule-Poirot-Mystery.pdf", 5, "When Alice Ascher is murdered in Andover, Hercule Poirot is already onto the clues. Alphabetically speaking, it's one down, 25 to go. This classic mystery is now repackaged in a digest-sized edition for young adults. Reissue.", "9780006167242", "https://hive.dmmserver.com/media/640/97800071/9780007184798.jpg", true, 224, new DateTime(1993, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The ABC Murders" },
+                    { 46, 47, "https://archive.org/details/goldenballothers00chri_0", 5, "It was an offer the St. Vincent family could not refuse -- a splendid mansion, complete with servants, with nothing asked for in return! But young Rupert St. Vincent suspected a sinister trap ...", "9780425099223", "https://m.media-amazon.com/images/I/810O+cRm1DL._AC_UF1000,1000_QL80_.jpg", true, 244, new DateTime(1984, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Golden Ball and Other Stories" },
+                    { 47, 51, "https://publicdomainlibrary.org/en/ebooks/crime-and-punishment?gad_source=1&gad_campaignid=22451384280&gclid=CjwKCAjwjffHBhBuEiwAKMb8pBjy-e_ly5ktSuU5W0sa-Ycd7i8lj_HgcPMuML_olDUDvpEaf9emqRoCw2gQAvD_BwE", 5, "Introduction by W. J. Leatherbarrow; Translation by Richard Pevear and Larissa Volokhonsky Copyright © Libri GmbH. All rights reserved.", "RUTGERS:390300038488030", "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg", true, 520, new DateTime(1955, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Crime and Punishment" },
+                    { 48, 52, "https://archive.org/details/seekingwhomhemay00fred", 5, "\"A small mountain community in the French Alps is roused to terror when they awaken each morning to find yet another of their sheep with its throat torn out. One of the villagers thinks it might be a werewolf, and when she's found killed in the same manner, people begin to wonder if she might have been right. Suspicion falls on Massart, a loner living on the edge of town\"--Publisher website (April 2007).", "9780743284028", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiSPUuLhWO8R55NFwa9CFni3bZb5YRy32hHQ&s", true, 307, new DateTime(2006, 11, 7, 0, 0, 0, 0, DateTimeKind.Utc), "Seeking Whom He May Devour" },
+                    { 49, 53, "https://gutenberg.ca/ebooks/teyj-daughteroftime/teyj-daughteroftime-00-h-dir/teyj-daughteroftime-00-h.html", 5, "A hospitalized English policeman reconstructs historical evidence concerning Richard III's role in the murder of Edward IV's two sons.", "9780020545507", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi55-EYvE9QWrcLwywNEee5WGxayNGrwJdAw&s", true, 212, new DateTime(1988, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Daughter of Time" },
+                    { 50, 54, "https://archive.org/details/houseatriverto00mort", 5, "Ninety-eight-year-old Grace Bradley is visited by a young director who takes her back to Riverton House where she reveals the secret behind the death of a young poet in the summer of 1924.", "9781416550532", "https://media.oceanofpdf.com/2019/10/PDF-EPUB-The-House-at-Riverton-Download.jpg", true, 496, new DateTime(2009, 3, 3, 0, 0, 0, 0, DateTimeKind.Utc), "The House at Riverton" },
+                    { 51, 55, "https://classicalastrologer.com/wp-content/uploads/2017/12/c-s-lewis-the-discarded-image.pdf", 6, "Hailed as \"the final memorial to the work of a great scholar and teacher and a wise and noble mind,\" this work paints a lucid picture of the medieval world view, as historical and cultural background to the literature of the Middle Ages and Renaissance.", "9780521477352", "https://img.perlego.com/book-covers/588293/9780062313706_300_450.webp", true, 248, new DateTime(1994, 8, 26, 0, 0, 0, 0, DateTimeKind.Utc), "The Discarded Image" },
+                    { 52, 56, "https://www.defence.lk/upload/ebooks/Alexander%20the%20Great.pdf", 6, "In the first authoritative biography of Alexander the Great written for a general audience in a generation, classicist and historian Philip Freeman tells the remarkable life of the great conqueror. The celebrated Macedonian king has been one of the most enduring figures in history. He was a general of such skill and renown that for two thousand years other great leaders studied his strategy and tactics, from Hannibal to Napoleon, with countless more in between. He flashed across the sky of history like a comet, glowing brightly and burning out quickly: crowned at age nineteen, dead by thirty-two. He established the greatest empire of the ancient world; Greek coins and statues are found as far east as Afghanistan. Our interest in him has never faded. Alexander was born into the royal family of Macedonia, the kingdom that would soon rule over Greece. Tutored as a boy by Aristotle, Alexander had an inquisitive mind that would serve him well when he faced formidable obstacles during his military campaigns. Shortly after taking command of the army, he launched an invasion of the Persian empire, and continued his conquests as far south as the deserts of Egypt and as far east as the mountains of present-day Pakistan and the plains of India. Alexander spent nearly all his adult life away from his homeland, and he and his men helped spread the Greek language throughout western Asia, where it would become the lingua franca of the ancient world. Within a short time after Alexander’s death in Baghdad, his empire began to fracture. Best known among his successors are the Ptolemies of Egypt, whose empire lasted until Cleopatra. In his lively and authoritative biography of Alexander, classical scholar and historian Philip Freeman describes Alexander’s astonishing achievements and provides insight into the mercurial character of the great conqueror. Alexander could be petty and magnanimous, cruel and merciful, impulsive and farsighted. Above all, he was ferociously, intensely competitive and could not tolerate losing—which he rarely did. As Freeman explains, without Alexander, the influence of Greece on the ancient world would surely not have been as great as it was, even if his motivation was not to spread Greek culture for beneficial purposes but instead to unify his empire. Only a handful of people have influenced history as Alexander did, which is why he continues to fascinate us.", "9781439193280", "https://online.flipbuilder.com/fdyv/lcvg/files/mobile/1.jpg?201020211740", true, 418, new DateTime(2011, 1, 4, 0, 0, 0, 0, DateTimeKind.Utc), "Alexander the Great" },
+                    { 53, 57, "https://www.academia.edu/123650107/The_Making_of_the_Roman_Army_From_Republic_to_Empire", 6, "The Making of the Roman Army", "UOM:39015040081864", "https://0.academia-photos.com/attachment_thumbnails/118032214/mini_magick20240907-1-c0ef9j.png?1725739352", true, 298, new DateTime(1984, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Making of the Roman Army" },
+                    { 54, 58, "https://archive.org/details/pocahontasspeopl0000roun", 6, "In this history, Helen C. Roundtree traces events that shaped the lives of the Powhatan Indians of Virginia, from their first encounter with English colonists, in 1607, to their present-day way of life and relationship to the state of Virginia and the federal government. Roundtree’s examination of those four hundred years misses not a beat in the pulse of Powhatan life. Combining meticulous scholarship and sensitivity, the author explores the diversity always found among Powhatan people, and those people’s relationships with the English, the government of the fledgling United States, the Union and the Confederacy, the U.S. Census Bureau, white supremacists, the U.S. Selective Service, and the civil rights movement.", "9780806128498", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNPK5irLXh4fL2zwTrziJM8ZMK-b_K0ZLMKw&s", true, 420, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Pocahontas's People" },
+                    { 55, 59, "http://www.public-library.uk/dailyebook/Complete%20works%20of%20Oscar%20Wilde%20(1921)%201.pdf", 6, "This set comprises 40 volumes covering 19th and 20th century European and American authors. These volumes will be available as a complete set, mini boxed sets (by theme) or as individual volumes. This second set compliments the first 68 volume set of Critical Heritage published by Routledge in October 1995.", "9780415159524", "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781627933650/the-essential-oscar-wilde-9781627933650_hr.jpg", true, 454, new DateTime(1997, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Oscar Wilde" },
+                    { 56, 60, "https://www.eolss.net/sample-chapters/C04/E6-32-04-03.pdfs", 6, "History Professor Jerry Muller locates the origins of modern conservatism within the Enlightenment and distinguishes conservatism from orthodoxy. Reviewing important specimens of analysis from the mid18th century through our own day, Muller demonstrates that characteristic features of conservative argument recur over time and across national borders.", "9780691037110", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo_RV5oIFgxcTAFME084XVW6DQEOMihwYgmQ&s", true, 476, new DateTime(1997, 5, 4, 0, 0, 0, 0, DateTimeKind.Utc), "Conservatism" },
+                    { 57, 61, "https://archive.org/details/constantinopleca0000harr_q5n1", 6, "This book examines the intriguing interaction between the spiritual and the political whilst reconstructs the awe-inspiring city in its heyday of 1200.", "9780826430861", "https://0.academia-photos.com/attachment_thumbnails/90991769/mini_magick20220913-1-bv6h0f.png?1663060204", true, 308, new DateTime(2009, 5, 5, 0, 0, 0, 0, DateTimeKind.Utc), "Constantinople: Capital of Byzantium" },
+                    { 58, 62, "https://shron3.chtyvo.org.ua/Plokhii_Serhii/The_Gates_of_Europe__A_History_of_Ukraine_anhl.pdf", 6, "Ukraine is currently embroiled in a tense battle with Russia to preserve its economic and political independence. But today's conflict is only the latest in a long history of battles over Ukraine's existence as a sovereign nation. As award-winning historian Serhii Plokhy argues in The Gates of Europe, we must examine Ukraine's past in order to understand its fraught present and likely future. Situated between Europe, Russia, and the Asian East, Ukraine was shaped by the empires that have used it as astrategic gateway between East and West—from the Romans and Ottomans to the Third Reich and the Soviet Union,all have engaged in global fights for supremacy on Ukrainian soil.Each invading army left a lasting mark on the landscape and on the population, making modern Ukraine an amalgam of competing cultures.Authoritative and vividly written, The Gates of Europe will be the definitive history of Ukraine for years to come.", "9780465073948", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa3veMqYITcruRWDhinKwL1BbD3aSanEqF6Q&s", true, 433, new DateTime(2015, 12, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Gates of Europe" },
+                    { 59, 63, "https://www.academia.edu/33919901/The_Language_Loss_of_the_Indigenous", 6, "This volume traces the theme of the loss of language and culture in numerous post-colonial contexts. It establishes that the aphasia imposed on the indigenous is but a visible symptom of a deeper malaise — the mismatch between the symbiotic relation nurtured by the indigenous with their environment and the idea of development put before them as their future. The essays here show how the cultures and the imaginative expressions of indigenous communities all over the world are undergoing a phase of rapid depletion. They unravel the indifference of market forces to diversity and that of the states, unwilling to protect and safeguard these marginalized communities. This book will be useful to scholars and researchers of cultural and literary studies, linguistics, sociology and social anthropology, as well as tribal and indigenous studies.", "9781317293132", "https://static.wixstatic.com/media/5ac455_64db10cfe2ab471fb0a3de1c37c1b854~mv2.jpg/v1/fill/w_638,h_1000,al_c,q_85,usm_0.66_1.00_0.01/5ac455_64db10cfe2ab471fb0a3de1c37c1b854~mv2.jpg", true, 294, new DateTime(2016, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc), "The Language Loss of the Indigenous" },
+                    { 60, 66, "https://ia601303.us.archive.org/31/items/historyofarmenia01cham/historyofarmenia01cham.pdf", 6, "The volume is an easy reading and a must for the beginner student and interested party of the history of Armenia as well as for those more familiar with Armenian and its history. The author, an expert on Armenian history, has masterfully covered all aspects of the Armenian history such as Armenian literature, Armenian Church, the history of Armenian old and modern language, architecture, sculpture, music etc. along with all the historical events, starting from the beginning of the human civilization and that of Armenian one to the modern era of Armenia.", "9781604449112", "https://archive.org/services/img/historyofarmenia0000bour/full/pct:200/0/default.jpg", true, 414, new DateTime(2018, 7, 1, 0, 0, 0, 0, DateTimeKind.Utc), "A History of Armenia" },
+                    { 61, 67, "https://ia600100.us.archive.org/5/items/cu31924005641380/cu31924005641380.pdf", 7, "The Lord of Uraniborg is a comprehensive biography of Tycho Brahe, father of modern astronomy, famed alchemist and littérateur of the sixteenth-century Danish Renaissance. Written in a lively and engaging style, Victor Thoren's biography offers interesting perspectives on Tycho's life and presents alternative analyses of virtually every aspect of his scientific work. A range of readers interested in astronomy, history of astronomy and the history of science will find this book fascinating.", "9780521351584", "https://assets.cambridge.org/97805213/51584/large_cover/9780521351584i.jpg", true, 537, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Lord of Uraniborg" },
+                    { 62, 69, "https://archive.org/details/adictionarygree08smitgoog", 7, "Dictionary of Greek and Roman Biography and Mythology: Earinus-Nyx", "UCAL:$B415016", "https://assets.cambridge.org/97811080/60790/cover/9781108060790.jpg", true, 1238, new DateTime(1846, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Dictionary of Greek and Roman Biography and Mythology: Earinus-Nyx" },
+                    { 63, 70, "https://institutes.abu.edu.ng/idr/public/assets/docs/Eat,%20Pray,%20Love%20(%20PDFDrive%20).pdf", 7, "The Number One international bestseller, Eat, Pray Love is a journey around the world, a quest for spiritual enlightenment and a story for anyone who has battled with divorce, depression and heartbreak.", "9780747585664", "https://m.media-amazon.com/images/I/71X0qU1mJpL.jpg", true, 385, new DateTime(2007, 3, 5, 0, 0, 0, 0, DateTimeKind.Utc), "Eat, Pray, Love" },
+                    { 64, 71, "https://archive.org/details/drownedsaved0000levi", 7, "In his final book before his death, Primo Levi returns once more to his time at Auschwitz in a moving meditation on memory, resiliency, and the struggle to comprehend unimaginable tragedy. Drawing on history, philosophy, and his own personal experiences, Levi asks if we have already begun to forget about the Holocaust. His last book before his death, Levi returns to the subject that would define his reputation as a writer and a witness. Levi breaks his book into eight essays, ranging from topics like the unreliability of memory to how violence twists both the victim and the victimizer. He shares how difficult it is for him to tell his experiences with his children and friends. He also debunks the myth that most of the Germans were in the dark about the Final Solution or that Jews never attempted to escape the camps. As the Holocaust recedes into the past and fewer and fewer survivors are left to tell their stories, The Drowned and the Saved is a vital first-person testament. Along with Elie Wiesel and Hannah Arendt, Primo Levi is remembered as one of the most powerful and perceptive writers on the Holocaust and the Jewish experience during World War II. This is an essential book both for students and literary readers. Reading Primo Levi is a lesson in the resiliency of the human spirit.", "9781501167638", "https://img.perlego.com/book-covers/2453188/9781788850278_300_450.webp", true, 208, new DateTime(2017, 6, 20, 0, 0, 0, 0, DateTimeKind.Utc), "The Drowned and the Saved" },
+                    { 65, 72, "https://ati.dae.gov.in/ati12052021_9.pdf", 7, "Biography", "WISC:89094373321", "https://marketplace.canva.com/EADaiR6K_s8/1/0/1003w/canva-white-night-sky-autobiography-book-cover-a71TNv3gBWU.jpg", true, 532, new DateTime(1868, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Biography" },
+                    { 66, 73, "https://ebook.micsapp.com/books/a54b5897bc", 7, "After the Communist Revolution, Desmond Shum's grandfather was marked as belonging to a \"black category\" that included former landlords and rich peasants--meaning the Shums would be stigmatized and impoverished. As Desmond was growing up, he vowed his life would be different. Through hard work and sheer tenacity Shum earned an American college degree and returned to China to establish himself in business. There, he met his future wife, the highly intelligent and equally ambitious Whitney Duan who was determined to make her mark within China's male-dominated society. Whitney and Desmond formed an effective team and, aided by relationships they formed with top members of the red aristocracy, vaulted into China's billionaire class. Soon they were developing the massive air cargo facility at Beijing International Airport, and they followed that feat with the creation of one of Beijing's premier hotels. They were dazzlingly successful, traveling in private jets, funding multi-million-dollar buildings and endowments, and purchasing expensive homes, vehicles, and art. But in 2017, their fates diverged irrevocably when Desmond, while residing overseas with his son, learned that his now ex-wife Whitney had vanished along with three coworkers. This is both Desmond's story and Whitney's, because she cannot tell it herself.", "9781982156169", "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781982156176/red-roulette-9781982156176_hr.jpg", true, 336, new DateTime(2022, 9, 6, 0, 0, 0, 0, DateTimeKind.Utc), "Red Roulette" },
+                    { 67, 74, "https://archive.org/details/myheartismyownli0000guyj_x8h0", 7, "This book is a reinterpretation of the life of Mary, Queen of Scots. John Guy returns to the archives to explode the myths and correct the inaccuracies that surround this most fascinating monarch. He also explains a central mystery: why Mary would have consented to marry - only three months after the death of her second husband, Lord Darnley - the man who was said to be his killer, the Earl of Bothwell. He also solves, through careful re-examination of the Casket Letters, the secret behind Darnley's spectacular assassination at Kirk o'Field.", "9781841157535", "https://cdn.penguin.co.uk/dam-assets/books/9780241963777/9780241963777-jacket-large.jpg", true, 612, new DateTime(2004, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "My Heart is My Own" },
+                    { 68, 75, "https://ia803108.us.archive.org/0/items/fourgospelstrans03camp/fourgospelstrans03camp.pdf", 7, "\"The publication of Richard Burridge's What Are the Gospels? in 1992 inaugurated a transformation in Gospel studies by overturning the previous consensus about Gospel uniqueness. Burridge argued convincingly for an understanding of the Gospels as biographies, a ubiquitous genre in the Graeco-Roman world. To establish this claim, Burridge compared each of the four canonical Gospels to the many extant Graeco-Roman biographies. Drawing on insights from literary theory, he demonstrated that the previously widespread view of the Gospels as unique compositions was false. Burridge went on to discuss what a properly \"biographical\" perspective might mean for Gospel interpretation, which was amply demonstrated in the revised second edition reflecting on how his view had become the new consensus. This third, twenty-fifth anniversary edition not only celebrates the continuing influence of What Are the Gospels?, but also features a major new contribution in which Burridge analyzes recent debates and scholarship about the Gospels. Burridge both answers his critics and reflects upon the new directions now being taken by those who accept the biographical approach. This new edition also features as an appendix a significant article in which he tackles the related problem of the genre of Acts. A proven book with lasting staying power, What Are the Gospels? is not only still as relevant and instructive as it was when first published, but will also doubtlessly inspire new research and scholarship in the years ahead.\"-- Provided by publisher.", "9780802809711", "https://img.perlego.com/book-covers/1588168/9781481308762_300_450.webp", true, 384, new DateTime(2004, 8, 9, 0, 0, 0, 0, DateTimeKind.Utc), "What Are the Gospels?" },
+                    { 69, 76, "https://archive.org/details/livesofnoblegrec00plutiala", 7, "The Lives of the Noble Grecians and Romaines", "UCSD:31822043010875", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPBgHZR7JwNhOrjgWbXPNs6WZY-SrFGSauew&s", true, 1214, new DateTime(1579, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Lives of the Noble Grecians and Romaines" },
+                    { 70, 76, "https://archive.org/details/plutarchslivestr02plutiala", 7, "Plutarch's Lives Translated from the Original Greek", "UIUC:30112089235862", "https://www.globalgreyebooks.com/content/book-covers/plutarch_plutarchs-lives-large.jpg", true, 478, new DateTime(1873, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Plutarch's Lives Translated from the Original Greek" },
+                    { 71, 79, "https://archive.org/details/isbn_9780415060424", 8, "From ancient times to the present day, the major inventors, discoverers and entrepreneurs from around the world are profiled, and their contribution to society is explained and assessed.", "9780415193993", "https://images.routledge.com/common/jackets/crclarge/978041519/9780415193993.jpg", true, 1527, new DateTime(1998, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Biographical Dictionary of the History of Technology" },
+                    { 72, 81, "https://archive.org/details/scienceforallame0000ruth", 8, "In order to compete in the modern world, any society today must rank education in science, mathematics, and technology as one of its highest priorities. It's a sad but true fact, however, that most Americans are not scientifically literate. International studies of educational performance reveal that U.S. students consistently rank near the bottom in science and mathematics. The latest study of the National Assessment of Educational Progress has found that despite some small gains recently, the average performance of seventeen-year-olds in 1986 remained substantially lower than it had been in 1969. As the world approaches the twenty-first century, American schools--when it comes to the advancement of scientific knowledge--seem to be stuck in the Victorian age.In Science for All Americans, F. James Rutherford and Andrew Ahlgren brilliantly tackle this devastating problem. Based on Project 2061, a scientific literacy initiative sponsored by the American Association for the Advancement of Science, this wide-ranging, important volume explores what constitutes scientific literacy in a modern society; the knowledge, skills, and attitudes all students should acquire from their total school experience from kindergarten through high school; and what steps this country must take to begin reforming its system of education in science, mathematics, and technology.Science for All Americans describes the scientifically literate person as one who knows that science, mathematics, and technology are interdependent enterprises with strengths and limitations; who understands key concepts and principles of science; who recognizes both the diversity and unity of the natural world; and who uses scientific knowledge and scientific ways of thinking for personal and social purposes. Its recommendations for educational reform downplay traditional subject categories and instead highlight the connections between them. It also emphasizes ideas and thinking skills over the memorization of specialized vocabulary. For instance, basic scientific literacy means knowing that the chief function of living cells is assembling protein molecules according to the instructions coded in DNA molecules, but does not mean necessarily knowing the terms \"ribosome\" or \"deoxyribonucleic acid.\"Science, mathematics, and technology will be at the center of the radical changes in the nature of human existence that will occur during the next life span; therefore, preparing today's children for tomorrow's world must entail a solid education in these areas. Science for All Americans will help pave the way for the necessary reforms in America's schools.", "UOM:39015025158489", "https://static.scientificamerican.com/sciam/cache/file/A3A34264-DE16-411B-B52C470B5968527B_source.jpg?w=1200", true, 282, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Science for All Americans" },
+                    { 73, 83, "https://archive.org/details/lifelongkinderga0000resn", 8, "Creative learning -- Projects -- Passion -- Peers -- Play -- Creative society", "9780262037297", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXDdonDaLNMGsKp3gZPB1iWmLayDUGADWCDA&s", true, 203, new DateTime(2017, 8, 25, 0, 0, 0, 0, DateTimeKind.Utc), "Lifelong Kindergarten" },
+                    { 74, 84, "https://archive.org/details/criticaltheoryof0000feen", 8, "This pathbreaking book argues that the roots of the degradation of labor, education, and the environment lie not in technology per se but in the cultural values embodied in its design.", "UOM:39015021517928", "https://m.media-amazon.com/images/I/31K71B64NXL._UF1000,1000_QL80_.jpg", true, 264, new DateTime(1991, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Critical Theory of Technology" },
+                    { 75, 85, "http://ndl.ethernet.edu.et/bitstream/123456789/25703/1/44.pdf", 8, "This text offers an international and interdisciplinary analysis of the complex interactions between infrastructure networks and urban spaces. Drawing on case studies and examples from across the globe, it offers a statement on the urban condition.", "9780415189644", "https://images.routledge.com/common/jackets/crclarge/978041518/9780415189651.jpg", true, 516, new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Splintering Urbanism" },
+                    { 76, 87, "https://monoskop.org/images/e/e2/Arendt_Hannah_The_Human_Condition_2nd_1998.pdf", 8, "The Human Condition", "9780415189132", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6y-gz8U6L28l2CB1b3ao-9jRktL019hQwvw&s", true, 23, new DateTime(1958, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Human Condition" },
+                    { 77, 88, "https://www.gresham.ac.uk/sites/default/files/2019-11-07_StephenWilkins_Elements-PP.pdf", 8, "Based on an American Chemical Society Symposium organized by Professors Glenn Seaborg and Oliver Manuel, this volume provides a comprehensive record of different views on this important subject at the end of the 20th century. They have assembled a blend of highly respected experimentalistsand theorists from astronomy,geology,meteoritics,planetology and nuclear chemistry and physics to discuss the origin of elements in the solar system.The intent was to include all points of view and let history judge their validity.", "9780306465628", "https://imgv2-1-f.scribdassets.com/img/document/413150200/original/c7f42cf998/1?v=1", true, 642, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Origin of Elements in the Solar System" },
+                    { 78, 89, "https://archive.org/details/ullmannsencyclop0000unse_x4k7", 8, "Ullmann's Encyclopedia of Industrial Chemistry", "UCAL:B4584395", "https://m.media-amazon.com/images/I/51xa0kQZRFL.jpg", true, 720, new DateTime(1991, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Ullmann's Encyclopedia of Industrial Chemistry" },
+                    { 79, 90, "https://archive.org/details/machineingardent0000marx", 8, "By examining the difference between pastoral and progressive ideals that characterised early 20th century American culture, the author shows how American thinkers have considered the relationship between technology and culture in their writings.", "9780195133516", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu4wT6_TQJWAnyKjsRUqaeuNYyuK-knc-yng&s", true, 423, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Machine in the Garden" },
+                    { 80, 89, "https://pdfcoffee.com/encyclopedia-of-industrial-chemistry-4-pdf-free.html", 8, "Supervised by an internationally acclaimed advisory board, the articles are written by over 3000 international experts from industry and universities, thoroughly edited to uniform style and layout in an in-house office. All figures are re-drawn to give a maximum of clarity and uniformity in style. Compared to the prior edition, almost 600f the material has either been newly written or thoroughly updated. The rest has been checked for validity and newer references have been added throughout.", "UOM:39015031845681", "https://upload.wikimedia.org/wikipedia/en/e/e4/Ullmann%27s_Encyclopedia_of_Industrial_Chemistry.jpg", true, 796, new DateTime(1995, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Ullmann's Encyclopedia of Industrial Chemistry" },
+                    { 81, 92, "https://ia902908.us.archive.org/28/items/deweyjohnartasanexperience/DEWEY%20John,%20Art%20as%20an%20Experience%22.pdf", 9, "Based on John Dewey's lectures on esthetics, delivered as the first William James Lecturer at Harvard in 1932, Art as Experience has grown to be considered internationally as the most distinguished work ever written by an American on the formal structure and characteristic effects of all the arts: architecture, sculpture, painting, music, and literature.", "9780399531972", "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1388193799i/75291.jpg", true, 385, new DateTime(2005, 7, 5, 0, 0, 0, 0, DateTimeKind.Utc), "Art as Experience" },
+                    { 82, 93, "https://www.arvindguptatoys.com/arvindgupta/manplantedtrees.pdf", 9, "Jean Giono's beautiful allegorical tale is legendary. Written in the 1950's, its message was ahead of its time, inspiring readers to rediscoverthe harmonies of the countryside and prevent its willful destruction. The narrator, journeying by foot across the barren plains of the lower Alps, has his thirst assuaged by the well water drawn by the shepherd Elzeaerd Bouffier. Here begins the subtle parable which Giono weaves of the life-giving shepherd who chooses to live alone and carry out the work of God. Over forty years the desolate hills and lifeless villages which sooppressed the traveler are transformed by the dedication of one man. All with the help of a few acorns. Giono's hope was to set in motion a worldwide reforestation program that would rejuvenate the earth. \"The Man Who Planted Trees\" is a hymn to creation and a purveyor of confidence in man's ability to change his-indeed the world's-lot. Review Citations: Ingram Advance 05/01/2005 pg. 77 (ISBN 1931498725, Hardcover)", "NWU:35556029031994", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHCJq1wVMlYTdTu7Fxa4Q0YhgHTnhr29Ik9g&s", true, 62, new DateTime(1989, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Man who Planted Trees" },
+                    { 83, 94, "https://www.shambhala.com/media/wysiwyg/9780834840003.pdf?srsltid=AfmBOoot2-XZTBP00RtDlSW08vxwAEQYt45jUSUuQq3NxAB8MlIO7Oij", 9, "Based on the author's previous publication The Encyclopedia of Tibetan Symbols and Motifs', this handbook contains an array of symbols and motifs, accompanied by succinct explanations. It provides treatment of the essential Tibetan religious figures, themes and motifs, both secular and religious. Robert Beer offers a compact, concise reference work based on his previous publication 'The Encyclopedia of Tibetan Symbols and Motifs'. This handbook contains an extensive array of symbols and motifs, accompanied by succinct explanations. It provides treatment of the most'", "9781932476033", "https://images.thenile.io/r1000/9781590301005.jpg", true, 284, new DateTime(2003, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The Handbook of Tibetan Buddhist Symbols" },
+                    { 84, 95, "https://multiverse.ssl.berkeley.edu/Portals/0/CalendarInTheSky/Resources/Lesson%20Plans/CourtlyArtAncientMaya_Curriculum.pdf", 9, "A showcase of the breathtaking art of an ancient people features hundreds of illustrations that, combined with the latest research into and archaeological discoveries about Maya society, demonstrates the complexity and artistic genius of this legendary culture.", "9780500051290", "https://imgv2-1-f.scribdassets.com/img/document/14071925/original/d1353bceda/1?v=1", true, 304, new DateTime(2004, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Courtly Art of the Ancient Maya" },
+                    { 85, 97, "https://ia801603.us.archive.org/13/items/leonardodavincih00heatrich/leonardodavincih00heatrich.pdf", 9, "This masterly account of Leonardo da Vinci and his vision of the world is now widely recognized as the classic treatment of Leonardo's art, science, and thought, giving an unparalleled insight into the broadening and deepening of Leonardo's intellect and vision throughout his artistic career. Martin Kemp, one of the world's leading authorities on Leonardo, takes us on a journey through the whole span of the great man's career. From his early training in Florence, through masterpieces such as The Last Supper and the Mona Lisa, to the work of Leonardo's last years, this book gives a fully integrated picture of his artistic, scientific, and technological achievements. Generously illustrated, and now including a new introductory chapter setting Leonardo's work in its historical context, this fully updated new edition provides an unparalleled insight into the marvellous works of this central figure in western art.", "9780191622601", "https://storage.googleapis.com/media365-live.appspot.com/266c3ce1-c23a-4770-bbe7-8e37467cc81c/5a73122f-5a3b-408f-860c-2f940b2a1118/3d25cbe1-0aea-44f4-9937-a7965bae660b.jpg", true, 429, new DateTime(2007, 10, 18, 0, 0, 0, 0, DateTimeKind.Utc), "Leonardo da Vinci" },
+                    { 86, 98, "https://files.libcom.org/files/The%20Society%20of%20the%20Spectacle%20Annotated%20Edition.pdf", 9, "The Society of the Spectacle is a carefully considered effort to clarify the most fundamental tendencies and contradictions of the society in which we find ourselves—in order to facilitate its overthrow. Guy Debord was the founder of the Situationist International, the notorious avant-garde group that helped trigger the May 1968 revolt in France, which brought the entire country to a standstill for several weeks. His book The Society of the Spectacle, originally published in Paris in 1967, has been translated into more than twenty other languages and is arguably the most important radical work of the twentieth century. Ken Knabb’s meticulous new translation is the first edition in any language to include extensive annotations, clarifying the historical allusions and revealing the sources of Debord’s quotations and “détournements.” Contrary to popular misconceptions, Debord’s book is neither an ivory tower “philosophical” discourse nor a mere expression of “protest.” This makes the book more of a challenge, but it is also why it remains so pertinent more than half a century after its original publication, while countless other social theories and intellectual fads have come and gone. It has, in fact, become even more pertinent than ever, because the spectacle has become more all-pervading and glaringly obvious than ever. As Debord noted in his follow-up work, Comments on the Society of the Spectacle (1988), “spectacular domination has succeeded in raising an entire generation molded to its laws.” Debord’s book remains the best guidebook to understanding that mold and breaking it.", "9798887440651", "https://files.libcom.org/files/images/library/The%20Society%20of%20the%20Spectacle.jpg", true, 161, new DateTime(2024, 9, 3, 0, 0, 0, 0, DateTimeKind.Utc), "The Society of the Spectacle" },
+                    { 87, 99, "https://ebook-mecca.com/online/Nikolai%20Gogol%20Dead%20Souls.pdf", 9, "This is the famed Gogol's unfinished novel as translated by google translate, which is to say that it's total gibberish, which, in its turn, is to say that you don't really have to read it (I didn't although I should one day because I brought it into being after all, and it might be fun) but you certainly want to have it. Think of it as a coffee table book to be casually picked up and as casually put back where it belongs.", "9781387849604", "https://imgv2-1-f.scribdassets.com/img/document/544887197/original/f6fa979757/1?v=1", true, 266, new DateTime(2018, 5, 31, 0, 0, 0, 0, DateTimeKind.Utc), "Dead Souls" },
+                    { 89, 101, "https://olli.gmu.edu/docstore/400docs/1101-403-Man-superman%20psu.pdf", 9, "Man and Superman, subtitled \"A Comedy and a Philosophy\", is a four-act drama written in 1903, in response to a call for Shaw to write a play based on the Don Juan theme. This book conveys the conflict between man as spiritual creator and woman as guardian of the biological continuity of the human race. It was written by George Bernard Shaw, an Irish playwright, critic, polemicist, and political activist.", "EAN:8596547065753", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtKlPZuYsF1QTJ4Sidh6J-vgfpLtEMx3P1dw&s", true, 241, new DateTime(2022, 6, 13, 0, 0, 0, 0, DateTimeKind.Utc), "Man and Superman" },
+                    { 90, 102, "https://archive.org/details/artundercontroli0000port", 9, "\"Art Under Control in North Korea is the first publication in the West to explore the role of art in one of the world'smost isolated nations.This timely publication places North Korean art in its historical,political and social contexts, discusses the state system of producing,employing, promoting and honouring artists,and examines the range of art produced,from painting and calligraphy to architecture and applied art.Jane Portal also compares the control exerted over artists by North Korean leaders to that of other absolute dictatorships,and looks at the way in which archaeology has been employed for political ends to justify the present leadership and its lineage.\"--BOOK JACKET.", "9781861892362", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJlOlS_kfSDfGud9SpzFvUJEIya1EVtxfohw&s", true, 196, new DateTime(2005, 8, 15, 0, 0, 0, 0, DateTimeKind.Utc), "Art Under Control in North Korea" },
+                    { 91, 103, "https://dspace.nplg.gov.ge/bitstream/1234/322530/1/Georgia_Armenia_I_Azerbaijan.pdf", 10, "Lonely Planet’s Georgia, Armenia & Azerbaijan is your passport to the most relevant, up-to-date advice on what to see and skip, and what hidden discoveries await you. Hike in Tusheti, explore Goris, and discover Baku; all with your trusted travel companion. Get to the heart of Georgia, Armenia & Azerbaijan and begin your journey now! Inside Lonely Planet’s Georgia, Armenia & Azerbaijan Travel Guide: Up-to-date information - all businesses were rechecked before publication to ensure they are still open after 2020’s COVID-19 outbreak NEW top experiences feature - a visually inspiring collection of Georgia, Armenia & Azerbaijan’s best experiences and where to have them What's NEW feature taps into cultural trends and helps you find fresh ideas and cool new areas NEW pull-out, passport-size 'Just Landed' card with wi-fi, ATM and transport info - all you need for a smooth journey from airport to hotel Colour maps and images throughout Highlights and itineraries help you tailor your trip to your personal needs and interests Insider tips to save time and money and get around like a local, avoiding crowds and trouble spots Essential info at your fingertips - hours of operation, websites, transit tips, prices Honest reviews for all budgets - eating, sleeping, sightseeing, going out, shopping, hidden gems that most guidebooks miss Cultural insights give you a richer, more rewarding travel experience - history, people, music, landscapes, wildlife, cuisine, politics Over 65 maps Covers Georgia, Armenia, Azerbaijan The Perfect Choice: Lonely Planet’s Georgia, Armenia & Azerbaijan, our most comprehensive guide to Georgia, Armenia & Azerbaijan, is perfect for both exploring top sights and taking roads less travelled. About Lonely Planet: Lonely Planet is a leading travel media company, providing both inspiring and trustworthy information for every kind of traveller since 1973. Over the past four decades, we've printed over 145 million guidebooks and phrasebooks for 120 languages, and grown a dedicated, passionate global community of travellers. You'll also find our content online, and in mobile apps, videos, 14 languages, armchair and lifestyle books, ebooks, and more, enabling you to explore every day. 'Lonely Planet guides are, quite simply, like no other.' – New York Times 'Lonely Planet. It's on everyone's bookshelves; it's in every traveller's hands. It's on mobile phones. It's on the Internet. It's everywhere, and it's telling entire generations of people how to travel the world.' – Fairfax Media (Australia)", "9781838696467", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNUuCWHjW9A1S4zxpkVxpPvmRHGxD5cjpfIg&s", true, 579, new DateTime(2022, 7, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Lonely Planet Georgia, Armenia & Azerbaijan" },
+                    { 92, 104, "https://archive.org/details/museumofinnocenc00pamu_0", 10, "The Museum of Innocence - set in Istanbul between 1975 and today - tells the story of Kemal, the son of one of Istanbul's richest families, and of his obsessive love for a poor and distant relation, the beautiful Fusun, who is a shop-girl in a small boutique. In his romantic pursuit of Füsun over the next eight years, Kemal compulsively amasses a collection of objects that chronicles his lovelorn progress-a museum that is both a map of a society and of his heart. The novel depicts a panoramic view of life in Istanbul as it chronicles this long, obsessive love affair; and Pamuk beautifully captures the identity crisis experienced by Istanbul's upper classes that find themselves caught between traditional and westernised ways of being. Orhan Pamuk's first novel since winning the Nobel Prize is a stirring love story and exploration of the nature of romance. Pamuk built The Museum of Innocence in the house in which his hero's fictional family lived, to display Kemal's strange collection of objects associated with Fusun and their relationship. The house opened to the public in 2012 in the Beyoglu district of Istanbul. 'Pamuk has created a work concerning romantic love worthy to stand in the company of Lolita, Madame Bovary and Anna Karenina.' --Financial Times", "9780571268412", "https://archive.org/services/img/museumofinnocenc00pamu_0/full/pct:200/0/default.jpg", true, 756, new DateTime(2011, 8, 5, 0, 0, 0, 0, DateTimeKind.Utc), "The Museum of Innocence" },
+                    { 93, 105, "https://dn721704.ca.archive.org/0/items/lordjimtale00conrrich/lordjimtale00conrrich.pdf", 10, "Caduto in disgrazia a causa di un incidente in cui la paura ha preso il sopravvento, e per cui ha perduto il brevetto di ufficiale, Jim trascorre la propria esistenza spostandosi sempre più verso l'Estremo Oriente nel tentativo di sfuggire al proprio nome, finché in uno sperduto angolo del Borneo non riesce a riscattarsi, riassumendo il ruolo di eroe che aveva sempre sognato. Narrata dalla voce di Marlow, capitano di lungo corso che tenta di aiutare il giovane, la storia di Jim tratteggia uno dei personaggi più complessi della letteratura, in cui le vicende personali e le ambientazioni esotiche diventano rappresentazione dell'incertezza esistenziale e dell'impossibilità di conoscere l'animo umano e la realtà del mondo. Un romanzo costruito come un mosaico di punti di vista che ruotano intorno al medesimo evento, proposto qui in nuova traduzione e curatela di Rocco Coronato, professore di Letteratura inglese presso l'Università di Padova.", "9788831815727", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSDCNHjDxwYLddg8OcxgdwSY6f4vs8mFzwGQ&s", true, 387, new DateTime(2024, 6, 25, 0, 0, 0, 0, DateTimeKind.Utc), "Lord Jim" },
+                    { 94, 106, "https://www.moonshiners.org.uk/MZ/zeus.pdf", 10, "Traces the four-thousand-year history of the charismatic father of the Greek gods, from his origins in the Russian steppes and reign on Mount Olympus to his approaching end in Christian Constantinople, in an account that follows the author's journeys to relevant sites in Greek mythology.", "9781582345185", "https://assets.isu.pub/document-structure/241031180940-61a70be0017371569659054b3760945b/v1/abd52574d2850256bdcbf1543dd3c2b7.jpeg", true, 340, new DateTime(2008, 2, 5, 0, 0, 0, 0, DateTimeKind.Utc), "Zeus" },
+                    { 95, 107, "https://theswissbay.ch/pdf/Books/Linguistics/Mega%20linguistics%20pack/Indo-European/Germanic/German%2C%20Teach%20Yourself%20%28Adams%2C%20Wells%20%26%20Jenkins%29.pdf", 10, "Reviews Germany's history, and treats in a concise and objective manner its dominant social, political, economic, and military aspects. Sections, written by experts, include: chronology of important events; early history to 1945; history 1945-1990; the society and its environment; social welfare, health care, and educ.; the domestic economy; international economic relations; government and politics; foreign relations; national security; military tradition; strategic concerns and military missions; the armed forces; defense budget; and such military issues as uniforms, ranks, and insignia, defense production and export, foreign military relations, and internal security.", "9780788181795", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQUZdjqQuWk2AGTQqMDXpWz0nds_QWN4q-A&s", true, 720, new DateTime(1999, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Germany" },
+                    { 96, 108, "https://institutes.abu.edu.ng/idr/public/assets/docs/Eat,%20Pray,%20Love%20(%20PDFDrive%20).pdf", 10, "The Number One international bestseller, Eat, Pray Love is a journey around the world, a quest for spiritual enlightenment and a story for anyone who has battled with divorce, depression and heartbreak.", "9780747585664", "https://m.media-amazon.com/images/I/71X0qU1mJpL.jpg", true, 386, new DateTime(2007, 3, 5, 0, 0, 0, 0, DateTimeKind.Utc), "Eat, Pray, Love" },
+                    { 97, 109, "https://www.scribd.com/document/892886564/The-Ecology-of-Java-and-Bali-Whitten-instant-download", 10, "Java and Bali are the best known of all the islands in Indonesia, and nowhere else in the country are ecological issues so acute. This book provides invaluable ecological data, so that development activities can be viewed in light of their ecological and social impacts.These eagerly-awaited volumes are the result of four years of research into the status of Indonesian coastal and marine ecosystems. They chart the extraordinary treasure trove of the areas marine biodiversity, and discuss the problems that have resulted from current population pressures and economic development.", "9789625930725", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStBIY-qHyoYmT5xTLTRQnxDrhbc_5Ym5CDjw&s", true, 1040, new DateTime(1996, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Ecology of Java & Bali" },
+                    { 98, 112, "https://archive.org/details/aiaguidetonewyor0000unse_j8m6", 10, "$21.95 paperback 1-58685-113-6 August6 x 8/ in, 432 pp, Black & White Photographs, Rights: W, ArchitecturevFrancis Morrone has returned to the buildings of his original guidebook once again to detail additions and changes in name and usage, and the book has been modified to reflect post September 11th New York City. With its thoughtful detail and out-of-the-ordinary observations, this guidebook is a must-have for New Yorkers, tourists, and architectural lovers everywhere.Francis Morrone is a lecturer and tour leader for the Municipal Art Society of New York, a nonprofit civic organization founded in 1893. His writings on architecture and New York history appear in The New Criterion, the City Journal, and other publications. His other books include An Architectural Guidebook to Brooklyn and An Architectural Guidebook to Philadelphia. He lives in Brooklyn.James Iska, whose work has been exhibited all over the world and has appeared in the Washington Post, the Financial Times, the Chicago Sun-Times, and the Chicago Tribune, is currently on the staff of the Art Institute of Chicago.", "9781423611165", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5ZqQcG7_pKTdOaXQspMyO7-fKrxoNidRpyw&s", true, 440, new DateTime(2009, 9, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Architectural Guidebook to New York City" },
+                    { 99, 113, "https://www.europarc.org/wp-content/uploads/2015/05/2012_Parks_and_Benefits_Guide_to_sustainable_tourism_in_Protected_Areas.pdf", 10, "This report tells how to ensure that tourism follows a sustainable path and that it contributes to the sustainable management of protected areas. Guidelines are presented to help readers understand protected area tourism and its management, and practical suggestions are based on theory and practice from around the world. Coverage includes biodiversity and conservation, planning for protected area tourism, culturally sensitive design and operation, visitor management, and human resources. There is no subject index. Eagles teaches at the University of Waterloo, Canada. Annotation copyrighted by Book News, Inc., Portland, OR.", "9782831706481", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuN00TpctnWSLzvYdA_2rk8RxHDn9MM2hUwA&s", true, 191, new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Sustainable Tourism in Protected Areas" },
+                    { 100, 113, "https://www.europarc.org/wp-content/uploads/2015/05/2012_Parks_and_Benefits_Guide_to_sustainable_tourism_in_Protected_Areas.pdf", 11, "This report tells how to ensure that tourism follows a sustainable path and that it contributes to the sustainable management of protected areas. Guidelines are presented to help readers understand protected area tourism and its management, and practical suggestions are based on theory and practice from around the world. Coverage includes biodiversity and conservation, planning for protected area tourism, culturally sensitive design and operation, visitor management, and human resources. There is no subject index. Eagles teaches at the University of Waterloo, Canada. Annotation copyrighted by Book News, Inc., Portland, OR.", "9782831706481", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuN00TpctnWSLzvYdA_2rk8RxHDn9MM2hUwA&s", true, 191, new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Sustainable Tourism in Protected Areas" },
                     { 1000, 1, "https://example.com/library/conservation-biology-for-all/1000", 1, "Collector's remix of a popular title with refreshed commentary and bonus reading notes.", "9789000001000", "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg", true, 180, new DateTime(1995, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Conservation Biology for All (Edition 1 · Variant 1)" },
                     { 1001, 3, "https://example.com/library/conservation-biology-for-all/1001", 2, "Limited gallery jacket pairing a classic narrative with a curated visual companion.", "9789000001001", "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg", true, 187, new DateTime(1998, 2, 3, 0, 0, 0, 0, DateTimeKind.Utc), "Conservation Biology for All (Edition 1 · Variant 2)" },
                     { 1002, 5, "https://example.com/library/conservation-biology-for-all/1002", 3, "Library exclusive run combining beloved stories with alternate artwork for display.", "9789000001002", "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg", true, 194, new DateTime(2001, 3, 5, 0, 0, 0, 0, DateTimeKind.Utc), "Conservation Biology for All (Edition 1 · Variant 3)" },
@@ -528,2499 +1037,131 @@ namespace Library.DAL.Migrations
                     { 1493, 40, "https://example.com/library/the-history-of-the-peloponnesian-war/1493", 10, "Limited gallery jacket pairing a classic narrative with a curated visual companion.", "9789000001493", "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg", true, 471, new DateTime(2006, 2, 22, 0, 0, 0, 0, DateTimeKind.Utc), "The History of the Peloponnesian War (Edition 25 · Variant 2)" },
                     { 1494, 47, "https://example.com/library/the-history-of-the-peloponnesian-war/1494", 11, "Library exclusive run combining beloved stories with alternate artwork for display.", "9789000001494", "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg", true, 478, new DateTime(2009, 3, 24, 0, 0, 0, 0, DateTimeKind.Utc), "The History of the Peloponnesian War (Edition 25 · Variant 3)" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "reviews",
+                columns: new[] { "Id", "ApplicationUserId", "BookId", "Content", "CreatedAt", "Rating" },
+                values: new object[,]
+                {
+                    { 1, "a1d66f63-61e3-420c-8da7-4d8578e4f101", 14, "Elegant, dark, and surprisingly modern. The moral tension in Dorian's choices still feels fresh.", new DateTime(2026, 3, 10, 9, 30, 0, 0, DateTimeKind.Utc), 5 },
+                    { 2, "bbefaf07-1e70-46a0-9f9a-bbb2db750102", 14, "Loved the atmosphere and dialogue. The pacing is slower in parts, but the ending is worth it.", new DateTime(2026, 3, 11, 14, 15, 0, 0, DateTimeKind.Utc), 4 },
+                    { 3, "c1baf065-5601-4c16-8e13-3bd1f59d2103", 15, "A classic that still raises big questions about responsibility, creation, and loneliness.", new DateTime(2026, 3, 12, 18, 5, 0, 0, DateTimeKind.Utc), 5 },
+                    { 4, "a1d66f63-61e3-420c-8da7-4d8578e4f101", 34, "Immersive world-building and unforgettable scale. It rewards patience with a huge payoff.", new DateTime(2026, 3, 13, 11, 45, 0, 0, DateTimeKind.Utc), 5 },
+                    { 5, "bbefaf07-1e70-46a0-9f9a-bbb2db750102", 42, "Fast-paced and fun. Great if you want a page-turner with puzzles and conspiracy twists.", new DateTime(2026, 3, 14, 8, 20, 0, 0, DateTimeKind.Utc), 4 },
+                    { 6, "c1baf065-5601-4c16-8e13-3bd1f59d2103", 47, "Heavy, intense, and brilliant. Not an easy read, but it stays with you for a long time.", new DateTime(2026, 3, 14, 20, 10, 0, 0, DateTimeKind.Utc), 5 },
+                    { 7, "a1d66f63-61e3-420c-8da7-4d8578e4f101", 6, "A fascinating mix of robotics, philosophy, and bold future thinking. Very memorable.", new DateTime(2026, 3, 9, 16, 40, 0, 0, DateTimeKind.Utc), 4 },
+                    { 8, "bbefaf07-1e70-46a0-9f9a-bbb2db750102", 34, "Epic in every sense. The world feels alive and the character arcs are beautifully earned.", new DateTime(2026, 3, 14, 21, 25, 0, 0, DateTimeKind.Utc), 5 },
+                    { 9, "c1baf065-5601-4c16-8e13-3bd1f59d2103", 34, "Long but absolutely worth it; unforgettable setting and atmosphere.", new DateTime(2026, 3, 13, 10, 12, 0, 0, DateTimeKind.Utc), 5 },
+                    { 10, "a1d66f63-61e3-420c-8da7-4d8578e4f101", 42, "A very fun thriller. Great tempo and puzzle-driven chapters.", new DateTime(2026, 3, 12, 12, 10, 0, 0, DateTimeKind.Utc), 4 },
+                    { 11, "c1baf065-5601-4c16-8e13-3bd1f59d2103", 42, "Easy to binge-read. Not perfect, but highly entertaining.", new DateTime(2026, 3, 12, 20, 22, 0, 0, DateTimeKind.Utc), 4 },
+                    { 12, "bbefaf07-1e70-46a0-9f9a-bbb2db750102", 47, "Intense and psychologically rich. Every chapter carries weight.", new DateTime(2026, 3, 11, 19, 45, 0, 0, DateTimeKind.Utc), 5 },
+                    { 13, "a1d66f63-61e3-420c-8da7-4d8578e4f101", 47, "A difficult but rewarding read that keeps provoking thought.", new DateTime(2026, 3, 10, 17, 18, 0, 0, DateTimeKind.Utc), 5 },
+                    { 14, "bbefaf07-1e70-46a0-9f9a-bbb2db750102", 15, "Atmospheric and emotional. Still one of the best gothic stories.", new DateTime(2026, 3, 11, 9, 55, 0, 0, DateTimeKind.Utc), 5 },
+                    { 15, "a1d66f63-61e3-420c-8da7-4d8578e4f101", 15, "Great themes and unforgettable conflict. A classic for a reason.", new DateTime(2026, 3, 9, 13, 35, 0, 0, DateTimeKind.Utc), 4 },
+                    { 16, "c1baf065-5601-4c16-8e13-3bd1f59d2103", 14, "Sharp writing and rich symbolism. It held my attention from start to finish.", new DateTime(2026, 3, 14, 7, 45, 0, 0, DateTimeKind.Utc), 5 }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_books_AuthorId",
+                table: "books",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_books_CategoryId",
+                table: "books",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_favorites_BookId",
+                table: "favorites",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_reviews_ApplicationUserId",
+                table: "reviews",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_reviews_BookId",
+                table: "reviews",
+                column: "BookId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1000);
+            migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1001);
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1002);
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1003);
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1004);
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1005);
+            migrationBuilder.DropTable(
+                name: "favorites");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1006);
+            migrationBuilder.DropTable(
+                name: "reviews");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1007);
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1008);
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1009);
+            migrationBuilder.DropTable(
+                name: "books");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1010);
+            migrationBuilder.DropTable(
+                name: "authors");
 
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1011);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1012);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1013);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1014);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1015);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1016);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1017);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1018);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1019);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1020);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1021);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1022);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1023);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1024);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1025);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1026);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1027);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1028);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1029);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1030);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1031);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1032);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1033);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1034);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1035);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1036);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1037);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1038);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1039);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1040);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1041);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1042);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1043);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1044);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1045);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1046);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1047);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1048);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1049);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1050);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1051);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1052);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1053);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1054);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1055);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1056);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1057);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1058);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1059);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1060);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1061);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1062);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1063);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1064);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1065);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1066);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1067);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1068);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1069);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1070);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1071);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1072);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1073);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1074);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1075);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1076);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1077);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1078);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1079);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1080);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1081);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1082);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1083);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1084);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1085);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1086);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1087);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1088);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1089);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1090);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1091);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1092);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1093);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1094);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1095);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1096);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1097);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1098);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1099);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1100);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1101);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1102);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1103);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1104);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1105);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1106);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1107);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1108);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1109);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1110);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1111);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1112);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1113);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1114);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1115);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1116);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1117);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1118);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1119);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1120);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1121);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1122);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1123);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1124);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1125);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1126);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1127);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1128);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1129);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1130);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1131);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1132);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1133);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1134);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1135);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1136);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1137);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1138);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1139);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1140);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1141);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1142);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1143);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1144);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1145);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1146);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1147);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1148);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1149);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1150);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1151);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1152);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1153);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1154);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1155);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1156);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1157);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1158);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1159);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1160);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1161);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1162);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1163);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1164);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1165);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1166);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1167);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1168);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1169);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1170);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1171);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1172);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1173);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1174);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1175);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1176);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1177);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1178);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1179);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1180);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1181);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1182);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1183);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1184);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1185);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1186);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1187);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1188);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1189);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1190);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1191);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1192);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1193);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1194);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1195);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1196);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1197);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1198);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1199);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1200);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1201);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1202);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1203);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1204);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1205);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1206);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1207);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1208);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1209);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1210);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1211);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1212);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1213);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1214);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1215);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1216);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1217);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1218);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1219);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1220);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1221);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1222);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1223);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1224);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1225);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1226);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1227);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1228);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1229);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1230);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1231);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1232);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1233);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1234);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1235);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1236);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1237);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1238);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1239);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1240);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1241);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1242);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1243);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1244);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1245);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1246);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1247);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1248);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1249);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1250);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1251);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1252);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1253);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1254);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1255);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1256);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1257);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1258);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1259);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1260);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1261);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1262);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1263);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1264);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1265);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1266);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1267);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1268);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1269);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1270);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1271);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1272);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1273);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1274);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1275);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1276);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1277);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1278);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1279);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1280);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1281);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1282);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1283);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1284);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1285);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1286);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1287);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1288);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1289);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1290);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1291);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1292);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1293);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1294);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1295);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1296);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1297);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1298);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1299);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1300);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1301);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1302);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1303);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1304);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1305);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1306);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1307);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1308);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1309);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1310);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1311);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1312);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1313);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1314);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1315);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1316);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1317);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1318);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1319);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1320);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1321);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1322);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1323);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1324);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1325);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1326);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1327);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1328);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1329);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1330);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1331);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1332);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1333);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1334);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1335);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1336);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1337);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1338);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1339);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1340);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1341);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1342);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1343);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1344);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1345);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1346);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1347);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1348);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1349);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1350);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1351);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1352);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1353);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1354);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1355);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1356);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1357);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1358);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1359);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1360);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1361);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1362);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1363);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1364);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1365);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1366);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1367);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1368);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1369);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1370);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1371);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1372);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1373);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1374);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1375);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1376);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1377);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1378);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1379);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1380);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1381);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1382);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1383);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1384);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1385);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1386);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1387);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1388);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1389);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1390);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1391);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1392);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1393);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1394);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1395);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1396);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1397);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1398);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1399);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1400);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1401);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1402);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1403);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1404);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1405);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1406);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1407);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1408);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1409);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1410);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1411);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1412);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1413);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1414);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1415);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1416);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1417);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1418);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1419);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1420);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1421);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1422);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1423);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1424);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1425);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1426);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1427);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1428);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1429);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1430);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1431);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1432);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1433);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1434);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1435);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1436);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1437);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1438);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1439);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1440);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1441);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1442);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1443);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1444);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1445);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1446);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1447);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1448);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1449);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1450);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1451);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1452);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1453);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1454);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1455);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1456);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1457);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1458);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1459);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1460);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1461);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1462);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1463);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1464);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1465);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1466);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1467);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1468);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1469);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1470);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1471);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1472);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1473);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1474);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1475);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1476);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1477);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1478);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1479);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1480);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1481);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1482);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1483);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1484);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1485);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1486);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1487);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1488);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1489);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1490);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1491);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1492);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1493);
-
-            migrationBuilder.DeleteData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 1494);
-
-            migrationBuilder.UpdateData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 63,
-                column: "ImageURL",
-                value: "https://online.fliphtml5.com/gutjj/zwbj/files/large/1.webp?1604750286&1604750286");
-
-            migrationBuilder.UpdateData(
-                table: "books",
-                keyColumn: "Id",
-                keyValue: 96,
-                column: "ImageURL",
-                value: "https://online.fliphtml5.com/gutjj/zwbj/files/large/1.webp?1604750286&1604750286");
+            migrationBuilder.DropTable(
+                name: "categories");
         }
     }
 }

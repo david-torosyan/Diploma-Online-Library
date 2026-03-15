@@ -21,6 +21,7 @@ public class BookRepository(ApplicationDbContext context) : BaseRepository<Book>
            .Include(b => b.Author)
            .Include(b => b.Category)
            .Include(b => b.Reviews)
+                .ThenInclude(r => r.User)
            .Include(b => b.Favorites)
            .FirstOrDefaultAsync(b => b.Id == bookId);
 
@@ -28,7 +29,8 @@ public class BookRepository(ApplicationDbContext context) : BaseRepository<Book>
      await _dbSet
            .Include(b => b.Author)
            .Include(b => b.Category)
-           .Include(b => b.Reviews)
+             .Include(b => b.Reviews)
+                .ThenInclude(r => r.User)
            .Include(b => b.Favorites)
            .Where(b => b.IsApproved &&
                        (b.Title.ToLower().StartsWith(searchString.ToLower()) ||
@@ -48,6 +50,7 @@ public class BookRepository(ApplicationDbContext context) : BaseRepository<Book>
         await _dbSet
             .AsNoTracking()
             .Include(b => b.Category)
+            .Include(b => b.Reviews)
             .Where(b => b.IsApproved)
             .OrderByDescending(b => b.Favorites.Count)
             .ThenByDescending(b => b.Reviews.Count)
@@ -55,10 +58,23 @@ public class BookRepository(ApplicationDbContext context) : BaseRepository<Book>
             .Take(limit)
             .ToListAsync();
 
+    public async Task<IEnumerable<Book>> GetMostRatedAsync(int limit) =>
+        await _dbSet
+            .AsNoTracking()
+            .Include(b => b.Category)
+            .Include(b => b.Reviews)
+            .Where(b => b.IsApproved && b.Reviews.Any())
+            .OrderByDescending(b => b.Reviews.Average(r => r.Rating))
+            .ThenByDescending(b => b.Reviews.Count)
+            .ThenBy(b => b.Title)
+            .Take(limit)
+            .ToListAsync();
+
     public async Task<IEnumerable<Book>> GetNewArrivalsAsync(int limit) =>
         await _dbSet
             .AsNoTracking()
             .Include(b => b.Category)
+            .Include(b => b.Reviews)
             .Where(b => b.IsApproved)
             .OrderByDescending(b => b.PublishedDate)
             .ThenByDescending(b => b.Id)
@@ -79,6 +95,7 @@ public class BookRepository(ApplicationDbContext context) : BaseRepository<Book>
         return await _dbSet
             .AsNoTracking()
             .Include(b => b.Category)
+            .Include(b => b.Reviews)
             .Where(b => b.IsApproved && b.Id != bookId && b.CategoryId == currentBook.CategoryId)
             .OrderByDescending(b => b.Favorites.Count)
             .ThenByDescending(b => b.Reviews.Count)

@@ -92,6 +92,59 @@ namespace Library.DAL.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a1d66f63-61e3-420c-8da7-4d8578e4f101",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "seed-concurrency-stamp-anna",
+                            Email = "anna.reader@library.demo",
+                            EmailConfirmed = true,
+                            FirstName = "Anna",
+                            LastName = "Reader",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ANNA.READER@LIBRARY.DEMO",
+                            NormalizedUserName = "ANNA.READER@LIBRARY.DEMO",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "seed-security-stamp-anna",
+                            TwoFactorEnabled = false,
+                            UserName = "anna.reader@library.demo"
+                        },
+                        new
+                        {
+                            Id = "bbefaf07-1e70-46a0-9f9a-bbb2db750102",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "seed-concurrency-stamp-david",
+                            Email = "david.page@library.demo",
+                            EmailConfirmed = true,
+                            FirstName = "David",
+                            LastName = "Page",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DAVID.PAGE@LIBRARY.DEMO",
+                            NormalizedUserName = "DAVID.PAGE@LIBRARY.DEMO",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "seed-security-stamp-david",
+                            TwoFactorEnabled = false,
+                            UserName = "david.page@library.demo"
+                        },
+                        new
+                        {
+                            Id = "c1baf065-5601-4c16-8e13-3bd1f59d2103",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "seed-concurrency-stamp-mila",
+                            Email = "mila.stone@library.demo",
+                            EmailConfirmed = true,
+                            FirstName = "Mila",
+                            LastName = "Stone",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MILA.STONE@LIBRARY.DEMO",
+                            NormalizedUserName = "MILA.STONE@LIBRARY.DEMO",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "seed-security-stamp-mila",
+                            TwoFactorEnabled = false,
+                            UserName = "mila.stone@library.demo"
+                        });
                 });
 
             modelBuilder.Entity("Library.DAL.Models.Author", b =>
@@ -9192,6 +9245,152 @@ namespace Library.DAL.Migrations
                     b.HasIndex("BookId");
 
                     b.ToTable("reviews", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ApplicationUserId = "a1d66f63-61e3-420c-8da7-4d8578e4f101",
+                            BookId = 14,
+                            Content = "Elegant, dark, and surprisingly modern. The moral tension in Dorian's choices still feels fresh.",
+                            CreatedAt = new DateTime(2026, 3, 10, 9, 30, 0, 0, DateTimeKind.Utc),
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ApplicationUserId = "bbefaf07-1e70-46a0-9f9a-bbb2db750102",
+                            BookId = 14,
+                            Content = "Loved the atmosphere and dialogue. The pacing is slower in parts, but the ending is worth it.",
+                            CreatedAt = new DateTime(2026, 3, 11, 14, 15, 0, 0, DateTimeKind.Utc),
+                            Rating = 4
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ApplicationUserId = "c1baf065-5601-4c16-8e13-3bd1f59d2103",
+                            BookId = 15,
+                            Content = "A classic that still raises big questions about responsibility, creation, and loneliness.",
+                            CreatedAt = new DateTime(2026, 3, 12, 18, 5, 0, 0, DateTimeKind.Utc),
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ApplicationUserId = "a1d66f63-61e3-420c-8da7-4d8578e4f101",
+                            BookId = 34,
+                            Content = "Immersive world-building and unforgettable scale. It rewards patience with a huge payoff.",
+                            CreatedAt = new DateTime(2026, 3, 13, 11, 45, 0, 0, DateTimeKind.Utc),
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ApplicationUserId = "bbefaf07-1e70-46a0-9f9a-bbb2db750102",
+                            BookId = 42,
+                            Content = "Fast-paced and fun. Great if you want a page-turner with puzzles and conspiracy twists.",
+                            CreatedAt = new DateTime(2026, 3, 14, 8, 20, 0, 0, DateTimeKind.Utc),
+                            Rating = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ApplicationUserId = "c1baf065-5601-4c16-8e13-3bd1f59d2103",
+                            BookId = 47,
+                            Content = "Heavy, intense, and brilliant. Not an easy read, but it stays with you for a long time.",
+                            CreatedAt = new DateTime(2026, 3, 14, 20, 10, 0, 0, DateTimeKind.Utc),
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ApplicationUserId = "a1d66f63-61e3-420c-8da7-4d8578e4f101",
+                            BookId = 6,
+                            Content = "A fascinating mix of robotics, philosophy, and bold future thinking. Very memorable.",
+                            CreatedAt = new DateTime(2026, 3, 9, 16, 40, 0, 0, DateTimeKind.Utc),
+                            Rating = 4
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ApplicationUserId = "bbefaf07-1e70-46a0-9f9a-bbb2db750102",
+                            BookId = 34,
+                            Content = "Epic in every sense. The world feels alive and the character arcs are beautifully earned.",
+                            CreatedAt = new DateTime(2026, 3, 14, 21, 25, 0, 0, DateTimeKind.Utc),
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ApplicationUserId = "c1baf065-5601-4c16-8e13-3bd1f59d2103",
+                            BookId = 34,
+                            Content = "Long but absolutely worth it; unforgettable setting and atmosphere.",
+                            CreatedAt = new DateTime(2026, 3, 13, 10, 12, 0, 0, DateTimeKind.Utc),
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ApplicationUserId = "a1d66f63-61e3-420c-8da7-4d8578e4f101",
+                            BookId = 42,
+                            Content = "A very fun thriller. Great tempo and puzzle-driven chapters.",
+                            CreatedAt = new DateTime(2026, 3, 12, 12, 10, 0, 0, DateTimeKind.Utc),
+                            Rating = 4
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ApplicationUserId = "c1baf065-5601-4c16-8e13-3bd1f59d2103",
+                            BookId = 42,
+                            Content = "Easy to binge-read. Not perfect, but highly entertaining.",
+                            CreatedAt = new DateTime(2026, 3, 12, 20, 22, 0, 0, DateTimeKind.Utc),
+                            Rating = 4
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ApplicationUserId = "bbefaf07-1e70-46a0-9f9a-bbb2db750102",
+                            BookId = 47,
+                            Content = "Intense and psychologically rich. Every chapter carries weight.",
+                            CreatedAt = new DateTime(2026, 3, 11, 19, 45, 0, 0, DateTimeKind.Utc),
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ApplicationUserId = "a1d66f63-61e3-420c-8da7-4d8578e4f101",
+                            BookId = 47,
+                            Content = "A difficult but rewarding read that keeps provoking thought.",
+                            CreatedAt = new DateTime(2026, 3, 10, 17, 18, 0, 0, DateTimeKind.Utc),
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ApplicationUserId = "bbefaf07-1e70-46a0-9f9a-bbb2db750102",
+                            BookId = 15,
+                            Content = "Atmospheric and emotional. Still one of the best gothic stories.",
+                            CreatedAt = new DateTime(2026, 3, 11, 9, 55, 0, 0, DateTimeKind.Utc),
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ApplicationUserId = "a1d66f63-61e3-420c-8da7-4d8578e4f101",
+                            BookId = 15,
+                            Content = "Great themes and unforgettable conflict. A classic for a reason.",
+                            CreatedAt = new DateTime(2026, 3, 9, 13, 35, 0, 0, DateTimeKind.Utc),
+                            Rating = 4
+                        },
+                        new
+                        {
+                            Id = 16,
+                            ApplicationUserId = "c1baf065-5601-4c16-8e13-3bd1f59d2103",
+                            BookId = 14,
+                            Content = "Sharp writing and rich symbolism. It held my attention from start to finish.",
+                            CreatedAt = new DateTime(2026, 3, 14, 7, 45, 0, 0, DateTimeKind.Utc),
+                            Rating = 5
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -112,6 +112,28 @@ export const getNewArrivals = async (limit = 10): Promise<BookDto[]> => {
     .slice(0, limit);
 };
 
+export const getMostRatedBooks = async (limit = 10): Promise<BookDto[]> => {
+  const baseUrl = normalizeBaseUrl(config.baseUrl);
+  const endpointData = await safeFetchJson<unknown>(
+    `${baseUrl}/api/books/most-rated?limit=${limit}`
+  );
+  const endpointBooks = toBookDtoArray(endpointData);
+
+  if (endpointBooks.length > 0) {
+    return endpointBooks.slice(0, limit);
+  }
+
+  const fallback = await getFeaturedBooks(limit * 2);
+
+  return [...fallback]
+    .sort(
+      (left, right) =>
+        (right.averageRating || 0) - (left.averageRating || 0) ||
+        (right.reviewsCount || 0) - (left.reviewsCount || 0)
+    )
+    .slice(0, limit);
+};
+
 export const getRelatedBooks = async (
   bookId: number,
   categoryName?: string,

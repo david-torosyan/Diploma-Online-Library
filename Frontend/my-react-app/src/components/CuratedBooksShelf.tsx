@@ -10,6 +10,7 @@ interface CuratedBooksShelfProps {
   books: BookDto[];
   loading: boolean;
   openAllHref?: string;
+  showRatings?: boolean;
 }
 
 const CuratedBooksShelf: React.FC<CuratedBooksShelfProps> = ({
@@ -18,6 +19,7 @@ const CuratedBooksShelf: React.FC<CuratedBooksShelfProps> = ({
   books,
   loading,
   openAllHref,
+  showRatings = false,
 }) => {
   const { t } = useTranslation();
   const listRef = useRef<HTMLDivElement>(null);
@@ -130,6 +132,20 @@ const CuratedBooksShelf: React.FC<CuratedBooksShelfProps> = ({
                         book.categoryName
                       )}
                     </Link>
+                  )}
+
+                  {showRatings && (book.averageRating || 0) > 0 && (
+                    <div className="curated-rating">
+                      <span className="curated-rating-star" aria-hidden="true">
+                        ★
+                      </span>
+                      <span className="fw-semibold">
+                        {(book.averageRating || 0).toFixed(1)}
+                      </span>
+                      <span className="text-muted">
+                        ({book.reviewsCount || 0})
+                      </span>
+                    </div>
                   )}
 
                   <button
