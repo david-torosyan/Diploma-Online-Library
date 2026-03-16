@@ -51,7 +51,7 @@ const AdminMessagesDrawer: React.FC = () => {
 
   return (
     <div
-      className="offcanvas offcanvas-end"
+      className="offcanvas offcanvas-end app-drawer admin-messages-drawer"
       tabIndex={-1}
       id="adminMessagesDrawer"
       aria-labelledby="adminMessagesDrawerLabel"
@@ -68,8 +68,8 @@ const AdminMessagesDrawer: React.FC = () => {
         ></button>
       </div>
 
-      <div className="offcanvas-body">
-        <h6 className="mb-3">{t("unapprovedBooks")}</h6>
+      <div className="offcanvas-body drawer-body">
+        <h6 className="mb-3 drawer-section-title">{t("unapprovedBooks")}</h6>
 
         {loading ? (
           <div className="d-flex justify-content-center align-items-center gap-2 loading-text mt-3">
@@ -81,32 +81,35 @@ const AdminMessagesDrawer: React.FC = () => {
         ) : books.length === 0 ? (
           <p className="empty-state mb-0">{t("noUnapprovedBooks")}</p>
         ) : (
-          <ul className="list-group search-results-list">
+          <ul className="list-group search-results-list drawer-list">
             {books.map((book) => (
               <li
                 key={`${book.id ?? "book"}-${book.title ?? "item"}`}
-                className="list-group-item d-flex align-items-center"
-                style={{ gap: "0.75rem" }}
+                className="list-group-item d-flex align-items-center drawer-list-item"
               >
                 {book.imageURL ? (
                   <img
                     src={book.imageURL}
                     alt={book.title}
-                    className="rounded"
+                    className="rounded drawer-thumb"
                     style={{ width: "40px", height: "56px", objectFit: "cover", flexShrink: 0 }}
                   />
-                ) : null}
+                ) : (
+                  <div className="drawer-thumb-fallback" aria-hidden="true">
+                    📘
+                  </div>
+                )}
 
-                <div className="flex-grow-1">
+                <div className="flex-grow-1 drawer-item-content">
                   <button
                     type="button"
-                    className="btn btn-link fw-semibold text-decoration-none text-primary p-0"
+                    className="btn btn-link fw-semibold text-decoration-none text-primary p-0 drawer-title-link"
                     data-bs-dismiss="offcanvas"
                     onClick={() => openBook(book.id)}
                   >
                     {book.title}
                   </button>
-                  <div className="small text-secondary">
+                  <div className="small text-secondary drawer-meta">
                     {t("pendingApproval")}
                   </div>
                 </div>

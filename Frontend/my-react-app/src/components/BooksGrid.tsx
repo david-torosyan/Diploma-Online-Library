@@ -163,7 +163,9 @@ const BooksGrid: React.FC<BooksGridProps> = ({
 
   return (
     <div
-      className="container my-5 app-section genre-section"
+      className={`container my-5 app-section genre-section ${
+        layout === "matrix" ? "genre-section--matrix" : "genre-section--slider"
+      }`}
       style={
         {
           "--genre-accent": genreTheme.accent,
@@ -267,7 +269,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({
           </button>
         </div>
       ) : (
-        <div className="row g-3">
+        <div className="row g-3 books-matrix">
           {processedBooks.map((book) => (
             <div key={book.id} className="col-6 col-sm-4 col-md-3 col-lg-2">
               <div className="card book-card h-100">

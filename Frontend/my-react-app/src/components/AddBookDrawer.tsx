@@ -134,7 +134,7 @@ const AddBookDrawer: React.FC = () => {
 
   return (
     <div
-      className="offcanvas offcanvas-end"
+      className="offcanvas offcanvas-end app-drawer add-book-drawer"
       tabIndex={-1}
       id="addBookDrawer"
       aria-labelledby="addBookDrawerLabel"
@@ -151,9 +151,9 @@ const AddBookDrawer: React.FC = () => {
         ></button>
       </div>
 
-      <div className="offcanvas-body">
-        <form className="d-flex flex-column gap-3" onSubmit={handleSubmit}>
-          <div>
+      <div className="offcanvas-body drawer-body">
+        <form className="d-flex flex-column gap-3 drawer-form" onSubmit={handleSubmit}>
+          <div className="drawer-field">
             <label className="form-label">{t("bookTitle")}</label>
             <input
               name="title"
@@ -164,7 +164,7 @@ const AddBookDrawer: React.FC = () => {
             />
           </div>
 
-          <div>
+          <div className="drawer-field">
             <label className="form-label">{t("authorName")}</label>
             <input
               name="authorName"
@@ -175,7 +175,7 @@ const AddBookDrawer: React.FC = () => {
             />
           </div>
 
-          <div>
+          <div className="drawer-field">
             <label className="form-label">{t("genre")}</label>
             <select
               name="genre"
@@ -197,7 +197,7 @@ const AddBookDrawer: React.FC = () => {
             </select>
           </div>
 
-          <div>
+          <div className="drawer-field">
             <label className="form-label">{t("bookDescription")}</label>
             <textarea
               name="description"
@@ -207,7 +207,7 @@ const AddBookDrawer: React.FC = () => {
             ></textarea>
           </div>
 
-          <div>
+          <div className="drawer-field">
             <label className="form-label">{t("isbnNumber")}</label>
             <input
               name="isbn"
@@ -217,12 +217,12 @@ const AddBookDrawer: React.FC = () => {
             />
           </div>
 
-          <div>
+          <div className="drawer-field">
             <label className="form-label">{t("releasedDay")}</label>
             <input name="releasedDay" type="date" className="form-control" />
           </div>
 
-          <div>
+          <div className="drawer-field">
             <label className="form-label">{t("pictureUrl")}</label>
             <input
               name="pictureUrl"
@@ -232,7 +232,7 @@ const AddBookDrawer: React.FC = () => {
             />
           </div>
 
-          <div>
+          <div className="drawer-field">
             <label className="form-label">{t("bookUrl")}</label>
             <input
               name="bookUrl"
@@ -245,7 +245,7 @@ const AddBookDrawer: React.FC = () => {
 
           <button
             type="submit"
-            className="btn btn-primary rounded-pill mt-2 py-2"
+            className="btn btn-primary rounded-pill mt-2 py-2 drawer-submit-btn"
             disabled={loading}
           >
             {loading ? t("saving") + "..." : t("saveBook")}
