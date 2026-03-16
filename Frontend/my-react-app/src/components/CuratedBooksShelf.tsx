@@ -112,7 +112,7 @@ const CuratedBooksShelf: React.FC<CuratedBooksShelfProps> = ({
                   )}
                 </div>
 
-                <div className="p-2 p-md-3 d-flex flex-column gap-2">
+                <div className="p-2 p-md-3 d-flex flex-column gap-2 curated-body">
                   <h4 className="h6 mb-0 curated-title" title={book.title || ""}>
                     {book.title || t("unknown")}
                   </h4>
@@ -150,7 +150,7 @@ const CuratedBooksShelf: React.FC<CuratedBooksShelfProps> = ({
 
                   <button
                     type="button"
-                    className="btn btn-sm btn-primary rounded-pill"
+                    className="btn btn-sm btn-primary rounded-pill mt-auto"
                     onClick={() => book.id && navigate(`/bookdetails/${book.id}`)}
                     disabled={!book.id}
                   >
