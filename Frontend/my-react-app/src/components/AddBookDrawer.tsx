@@ -108,7 +108,8 @@ const AddBookDrawer: React.FC = () => {
 
               localStorage.setItem(storageKey, JSON.stringify(updatedBooks));
             }
-          } catch {
+          } catch (parseError) {
+            console.warn("Failed to parse stored user data while saving my books cache.", parseError);
           }
         }
 

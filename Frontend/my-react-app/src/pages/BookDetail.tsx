@@ -27,7 +27,6 @@ const BookDetail: React.FC = () => {
   const [approvalLoading, setApprovalLoading] = useState(false);
   const [relatedBooks, setRelatedBooks] = useState<BookDto[]>([]);
   const [relatedLoading, setRelatedLoading] = useState(false);
-  const [reviewsOpen, setReviewsOpen] = useState(false);
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
   const [reviewError, setReviewError] = useState<string | null>(null);
   const [reviewSuccess, setReviewSuccess] = useState<string | null>(null);
@@ -141,21 +140,33 @@ const BookDetail: React.FC = () => {
       return;
     }
 
+    let isCurrent = true;
+
     const loadRelated = async () => {
-      setRelatedLoading(true);
+      if (isCurrent) {
+        setRelatedLoading(true);
+      }
       try {
         const items = await getRelatedBooks(
           currentBookId,
           book.categoryName,
           8
         );
-        setRelatedBooks(items);
+        if (isCurrent) {
+          setRelatedBooks(items);
+        }
       } finally {
-        setRelatedLoading(false);
+        if (isCurrent) {
+          setRelatedLoading(false);
+        }
       }
     };
 
     loadRelated();
+
+    return () => {
+      isCurrent = false;
+    };
   }, [book, id]);
 
   useEffect(() => {
@@ -243,7 +254,6 @@ const BookDetail: React.FC = () => {
       setReviewSuccess(
         t("reviewSaved", "Your review has been saved successfully.")
       );
-      setReviewsOpen(true);
     } catch (err) {
       console.error(err);
       setReviewError(
@@ -377,16 +387,6 @@ const BookDetail: React.FC = () => {
                     </span>
                   </div>
                 </div>
-
-                <button
-                  type="button"
-                  className="btn btn-outline-primary rounded-pill px-3"
-                  onClick={() => setReviewsOpen((current) => !current)}
-                >
-                  {reviewsOpen
-                    ? t("hideReviews", "Hide reviews")
-                    : t("showReviews", "Show reviews")}
-                </button>
               </div>
 
               {book.favorites && (
@@ -554,51 +554,42 @@ const BookDetail: React.FC = () => {
               </span>
             </div>
 
-            {reviewsOpen ? (
-              reviews.length > 0 ? (
-                <div className="review-list d-flex flex-column gap-3">
-                  {reviews.map((review: ReviewDto) => (
-                    <article
-                      key={review.id ?? `${review.applicationUserId}-${review.createdAt?.toISOString()}`}
-                      className={`review-item ${review.applicationUserId === currentUserId ? "is-mine" : ""}`}
-                    >
-                      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
-                        <div>
-                          <strong>{review.reviewerName || t("anonymousReader", "Anonymous reader")}</strong>
-                          {review.applicationUserId === currentUserId && (
-                            <span className="badge bg-primary-subtle text-primary-emphasis ms-2">
-                              {t("yourReview", "Your review")}
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="d-flex align-items-center gap-2 text-muted small">
-                          <span className="review-stars" aria-hidden="true">
-                            {renderStars(review.rating ?? 0)}
+            {reviews.length > 0 ? (
+              <div className="review-list d-flex flex-column gap-3">
+                {reviews.map((review: ReviewDto) => (
+                  <article
+                    key={review.id ?? `${review.applicationUserId}-${review.createdAt?.toISOString()}`}
+                    className={`review-item ${review.applicationUserId === currentUserId ? "is-mine" : ""}`}
+                  >
+                    <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+                      <div>
+                        <strong>{review.reviewerName || t("anonymousReader", "Anonymous reader")}</strong>
+                        {review.applicationUserId === currentUserId && (
+                          <span className="badge bg-primary-subtle text-primary-emphasis ms-2">
+                            {t("yourReview", "Your review")}
                           </span>
-                          <span>
-                            {review.createdAt
-                              ? new Date(review.createdAt).toLocaleDateString()
-                              : ""}
-                          </span>
-                        </div>
+                        )}
                       </div>
 
-                      <p className="mb-0 text-muted lh-lg">{review.content}</p>
-                    </article>
-                  ))}
-                </div>
-              ) : (
-                <p className="empty-state mb-0">
-                  {t("noReviewsYet", "No reviews yet. Be the first to share your thoughts.")}
-                </p>
-              )
+                      <div className="d-flex align-items-center gap-2 text-muted small">
+                        <span className="review-stars" aria-hidden="true">
+                          {renderStars(review.rating ?? 0)}
+                        </span>
+                        <span>
+                          {review.createdAt
+                            ? new Date(review.createdAt).toLocaleDateString()
+                            : ""}
+                        </span>
+                      </div>
+                    </div>
+
+                    <p className="mb-0 text-muted lh-lg">{review.content}</p>
+                  </article>
+                ))}
+              </div>
             ) : (
-              <p className="text-muted mb-0">
-                {t(
-                  "reviewsCollapsedHint",
-                  "Open the reviews section to read what other readers think."
-                )}
+              <p className="empty-state mb-0">
+                {t("noReviewsYet", "No reviews yet. Be the first to share your thoughts.")}
               </p>
             )}
           </div>

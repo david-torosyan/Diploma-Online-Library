@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import { LibraryClient, BookWithDetailsDto } from "../api/LibraryClient";
 import { Offcanvas } from "bootstrap";
@@ -21,18 +21,19 @@ const SearchDrawer: React.FC = () => {
   const [aiThinking, setAiThinking] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const aiDrawerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const api = new LibraryClient(config.baseUrl);
-
-  // --- Debounce logic for auto-search ---
   useEffect(() => {
-    if (query.length < 3) {
-      setResults([]);
-      return;
-    }
-    const delay = setTimeout(() => handleSearch(query, false), 500);
-    return () => clearTimeout(delay);
-  }, [query]);
+    return () => {
+      if (aiDrawerTimeoutRef.current) {
+        clearTimeout(aiDrawerTimeoutRef.current);
+      }
+      if (blurTimeoutRef.current) {
+        clearTimeout(blurTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (query.trim().length < 2) {
@@ -40,18 +41,27 @@ const SearchDrawer: React.FC = () => {
       return;
     }
 
+    let isCurrent = true;
+
     const delay = setTimeout(async () => {
       const nextSuggestions = await getSearchSuggestions(query, 6);
-      setSuggestions(nextSuggestions);
+      if (isCurrent) {
+        setSuggestions(nextSuggestions);
+      }
     }, 250);
 
-    return () => clearTimeout(delay);
+    return () => {
+      isCurrent = false;
+      clearTimeout(delay);
+    };
   }, [query]);
 
   // --- Search Function ---
   const handleSearch = useCallback(
     async (text: string, force = true) => {
       if (!text || text.length < 3) return;
+
+      const api = new LibraryClient(config.baseUrl);
 
       setLoading(true);
       setError(null);
@@ -72,7 +82,12 @@ const SearchDrawer: React.FC = () => {
             setResults([aiBookResult]);
             setIsAiResult(true);
             setAiBook(aiBookResult);
-            setTimeout(() => {
+
+            if (aiDrawerTimeoutRef.current) {
+              clearTimeout(aiDrawerTimeoutRef.current);
+            }
+
+            aiDrawerTimeoutRef.current = setTimeout(() => {
               const drawerEl = document.getElementById("bookDetailFromAiDrawer");
               if (drawerEl) {
                 const offcanvas = Offcanvas.getOrCreateInstance(drawerEl);
@@ -96,8 +111,19 @@ const SearchDrawer: React.FC = () => {
         setAiThinking(false);
       }
     },
-    [api, t]
+    [t]
   );
+
+  // --- Debounce logic for auto-search ---
+  useEffect(() => {
+    if (query.length < 3) {
+      setResults([]);
+      return;
+    }
+
+    const delay = setTimeout(() => handleSearch(query, false), 500);
+    return () => clearTimeout(delay);
+  }, [query, handleSearch]);
 
   const handleClear = () => {
     setQuery("");
@@ -150,7 +176,10 @@ const SearchDrawer: React.FC = () => {
                 }}
                 onFocus={() => setShowSuggestions(true)}
                 onBlur={() => {
-                  setTimeout(() => setShowSuggestions(false), 120);
+                  if (blurTimeoutRef.current) {
+                    clearTimeout(blurTimeoutRef.current);
+                  }
+                  blurTimeoutRef.current = setTimeout(() => setShowSuggestions(false), 120);
                 }}
                 style={{ maxWidth: "350px" }}
               />

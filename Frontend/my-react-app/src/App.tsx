@@ -9,6 +9,7 @@ const Home = lazy(() => import("./pages/Home"));
 const BookDetail = lazy(() => import("./pages/BookDetail"));
 const CategoryBooks = lazy(() => import("./pages/CategoryBooks"));
 const CollectionBooks = lazy(() => import("./pages/CollectionBooks"));
+const Explore = lazy(() => import("./pages/Explore"));
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           >
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/explore" element={<Explore />} />
               <Route path="/bookdetails/:id" element={<BookDetail />} />
               <Route path="/category/:categoryName" element={<CategoryBooks />} />
               <Route path="/collection/:collectionType" element={<CollectionBooks />} />

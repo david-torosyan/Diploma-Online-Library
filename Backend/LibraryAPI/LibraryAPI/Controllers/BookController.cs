@@ -79,6 +79,71 @@ namespace LibraryAPI.Controllers
         }
 
         /// <summary>
+        /// Browses approved books with professional filtering, sorting, and pagination.
+        /// </summary>
+        [HttpGet("browse")]
+        [ProducesResponseType(typeof(BrowseBooksResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<BrowseBooksResponseDto>> BrowseBooks(
+            [FromQuery] string? q,
+            [FromQuery] string? category,
+            [FromQuery] double? minRating,
+            [FromQuery] int? maxPages,
+            [FromQuery] string? sortBy = "newest",
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 18)
+        {
+            if (page <= 0)
+                return BadRequest("Page must be greater than 0.");
+
+            if (pageSize is <= 0 or > 60)
+                return BadRequest("Page size must be between 1 and 60.");
+
+            if (minRating is < 0 or > 5)
+                return BadRequest("Minimum rating must be between 0 and 5.");
+
+            if (maxPages is <= 0)
+                return BadRequest("Maximum pages must be greater than 0.");
+
+            var allowedSorts = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "newest",
+                "relevance",
+                "top-rated",
+                "most-reviewed",
+                "title"
+            };
+
+            if (!string.IsNullOrWhiteSpace(sortBy) && !allowedSorts.Contains(sortBy))
+                return BadRequest("Unsupported sorting option.");
+
+            var (books, totalCount) = await _unitOfWork.Books.BrowseApprovedAsync(
+                q,
+                category,
+                minRating,
+                maxPages,
+                sortBy,
+                page,
+                pageSize);
+
+            var totalPages = totalCount == 0
+                ? 0
+                : (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            var response = new BrowseBooksResponseDto
+            {
+                Items = books.Select(book => book.ToBookDto()),
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                HasNextPage = page < totalPages
+            };
+
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Retrieves a single book with detailed information by its ID.
         /// </summary>
         /// <param name="id">The unique identifier of the book.</param>

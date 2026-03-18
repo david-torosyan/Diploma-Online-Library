@@ -70,7 +70,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({
     };
 
     fetchBooks();
-  }, [genre]);
+  }, [genre, t]);
 
   const loadFavorites = useCallback(async () => {
     const token = Cookies.get("auth_token");

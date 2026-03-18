@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { BookDto, LibraryClient, CategoryDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
 import BooksGrid from "../components/BooksGrid";
@@ -64,6 +65,11 @@ const Home: React.FC = () => {
           <div className="hero-card">
             <h1 className="hero-title">{t("welcome")}</h1>
             <p className="hero-subtitle">{t("description")}</p>
+            <div className="d-flex justify-content-center mt-3 mb-2">
+              <Link to="/explore" className="btn btn-primary rounded-pill px-4">
+                {t("explore", "Explore smarter")}
+              </Link>
+            </div>
             <SearchDrawer />
           </div>
         </div>

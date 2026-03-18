@@ -9,6 +9,84 @@ public class BookRepository(ApplicationDbContext context) : BaseRepository<Book>
 {
     // Phase-4 backend expansion: these methods power discovery sections and
     // search suggestions while keeping all existing endpoints untouched.
+    public async Task<(IEnumerable<Book> Books, int TotalCount)> BrowseApprovedAsync(
+        string? query,
+        string? category,
+        double? minRating,
+        int? maxPages,
+        string? sortBy,
+        int page,
+        int pageSize)
+    {
+        var normalizedQuery = query?.Trim();
+        var normalizedCategory = category?.Trim();
+
+        var filteredQuery = _dbSet
+            .AsNoTracking()
+            .Include(b => b.Category)
+            .Include(b => b.Reviews)
+            .Where(b => b.IsApproved)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(normalizedQuery))
+        {
+            var search = normalizedQuery.ToLower();
+            filteredQuery = filteredQuery.Where(book =>
+                book.Title.ToLower().Contains(search) ||
+                book.Description.ToLower().Contains(search));
+        }
+
+        if (!string.IsNullOrWhiteSpace(normalizedCategory))
+        {
+            var categoryFilter = normalizedCategory.ToLower();
+            filteredQuery = filteredQuery.Where(book =>
+                book.Category.Name.ToLower() == categoryFilter);
+        }
+
+        if (maxPages.HasValue)
+        {
+            filteredQuery = filteredQuery.Where(book => book.Pages <= maxPages.Value);
+        }
+
+        if (minRating.HasValue)
+        {
+            filteredQuery = filteredQuery.Where(book =>
+                book.Reviews.Any() &&
+                book.Reviews.Average(review => review.Rating) >= minRating.Value);
+        }
+
+        var totalCount = await filteredQuery.CountAsync();
+
+        var orderedQuery = (sortBy ?? string.Empty).Trim().ToLower() switch
+        {
+            "top-rated" => filteredQuery
+                .OrderByDescending(book => book.Reviews.Any() ? book.Reviews.Average(review => review.Rating) : 0)
+                .ThenByDescending(book => book.Reviews.Count)
+                .ThenBy(book => book.Title),
+            "most-reviewed" => filteredQuery
+                .OrderByDescending(book => book.Reviews.Count)
+                .ThenByDescending(book => book.Reviews.Any() ? book.Reviews.Average(review => review.Rating) : 0)
+                .ThenBy(book => book.Title),
+            "title" => filteredQuery
+                .OrderBy(book => book.Title)
+                .ThenByDescending(book => book.Id),
+            "relevance" when !string.IsNullOrWhiteSpace(normalizedQuery) => filteredQuery
+                .OrderByDescending(book => book.Title.ToLower().StartsWith(normalizedQuery!.ToLower()))
+                .ThenByDescending(book => book.Reviews.Count)
+                .ThenBy(book => book.Title),
+            _ => filteredQuery
+                .OrderByDescending(book => book.PublishedDate)
+                .ThenByDescending(book => book.Id)
+        };
+
+        var books = await orderedQuery
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (books, totalCount);
+    }
+
     public async Task<IEnumerable<Book>> GetByCategoryAsync(string category) =>
         await _dbSet
            .Include(b => b.Category)

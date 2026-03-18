@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Cookies from "js-cookie";
@@ -18,31 +19,41 @@ const Header: React.FC = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const user = Cookies.get("user");
+    const syncAuthState = () => {
+      const user = Cookies.get("user");
 
-    if (user) {
-      setIsAuthenticated(true);
-      setIsAdmin(isAdminUser());
-      try {
-        const parsedUser = JSON.parse(user);
-        setUserName(
-          "👋 " + (parsedUser.firstName || parsedUser.email || t("profile"))
-        );
-      } catch {
-        setUserName(t("profile"));
+      if (user) {
+        setIsAuthenticated(true);
+        setIsAdmin(isAdminUser());
+        try {
+          const parsedUser = JSON.parse(user);
+          setUserName(
+            "👋 " + (parsedUser.firstName || parsedUser.email || t("profile"))
+          );
+        } catch {
+          setUserName(t("profile"));
+        }
+      } else {
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+        setUserName("");
       }
-    } else {
-      setIsAuthenticated(false);
-      setIsAdmin(false);
-    }
+    };
+
+    syncAuthState();
+    window.addEventListener("focus", syncAuthState);
+
+    return () => {
+      window.removeEventListener("focus", syncAuthState);
+    };
   }, [t]);
 
   return (
     <>
       <header className="navbar navbar-expand-lg navbar-dark app-navbar px-3 px-lg-4 py-2 py-lg-3">
-        <a className="navbar-brand fw-bold text-white app-brand" href="/">
+        <Link className="navbar-brand fw-bold text-white app-brand" to="/">
           {t("appName")}
-        </a>
+        </Link>
 
         <button
           className="navbar-toggler"
@@ -73,13 +84,15 @@ const Header: React.FC = () => {
             </li>
 
             <li className="nav-item">
-              <a className="btn btn-outline-light nav-chip px-3 py-1" href="/">
+              <Link className="btn btn-outline-light nav-chip px-3 py-1" to="/">
                 {t("library")}
-              </a>
+              </Link>
             </li>
 
             <li className="nav-item">
-              <LanguageSwitcher />
+              <Link className="btn btn-outline-light nav-chip px-3 py-1" to="/explore">
+                {t("explore", "Explore")}
+              </Link>
             </li>
 
             {isAuthenticated ? (
@@ -109,14 +122,17 @@ const Header: React.FC = () => {
                 </li>
 
                 <li className="nav-item">
-                  <a
+                  <button
+                    type="button"
                     className="btn btn-outline-light nav-chip px-3 py-1"
-                    href="#"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#profileDrawer"
                   >
                     {userName}
-                  </a>
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <LanguageSwitcher />
                 </li>
               </>
             ) : (
