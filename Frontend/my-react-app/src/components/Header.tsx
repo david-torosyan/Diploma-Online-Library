@@ -131,9 +131,6 @@ const Header: React.FC = () => {
                     {userName}
                   </button>
                 </li>
-                <li className="nav-item">
-                  <LanguageSwitcher />
-                </li>
               </>
             ) : (
               <li className="nav-item">
@@ -147,6 +144,10 @@ const Header: React.FC = () => {
                 </button>
               </li>
             )}
+
+            <li className="nav-item">
+              <LanguageSwitcher />
+            </li>
           </ul>
         </div>
       </header>
