@@ -50,6 +50,7 @@
   "firstName": "First Name",
   "genre": "Genre",
   "genres": {
+    "school books": "School Books",
     "another": "Another",
     "art": "Art",
     "biography": "Biography",

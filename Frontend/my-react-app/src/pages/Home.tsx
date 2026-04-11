@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { BookDto, LibraryClient, CategoryDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
@@ -54,9 +54,27 @@ const Home: React.FC = () => {
     loadDiscoveryShelves();
   }, []);
 
-  const genres = Array.from(
-    new Set(categories.map((c) => c.name).filter(Boolean))
-  );
+  const genres = useMemo(() => {
+    const trimmedNames = categories
+      .map((category) => (category.name || "").trim())
+      .filter(Boolean);
+
+    const uniqueNames = Array.from(new Set(trimmedNames));
+    const schoolBooksIndex = uniqueNames.findIndex(
+      (name) => name.toLowerCase() === "school books"
+    );
+
+    if (schoolBooksIndex <= 0) {
+      return uniqueNames;
+    }
+
+    const schoolBooks = uniqueNames[schoolBooksIndex];
+    return [
+      schoolBooks,
+      ...uniqueNames.slice(0, schoolBooksIndex),
+      ...uniqueNames.slice(schoolBooksIndex + 1),
+    ];
+  }, [categories]);
 
   return (
     <div className="app-section">
@@ -74,6 +92,17 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <CuratedBooksShelf
+        title={t("newArrivals", "New Arrivals")}
+        subtitle={t(
+          "newArrivalsSubtitle",
+          "Freshly added books ready to explore."
+        )}
+        books={newArrivals}
+        loading={discoveryLoading}
+        openAllHref="/collection/new-arrivals"
+      />
 
       <CuratedBooksShelf
         title={t("mostRatedBooks", "Top books ranked")}
@@ -96,17 +125,6 @@ const Home: React.FC = () => {
         books={featuredBooks}
         loading={discoveryLoading}
         openAllHref="/collection/featured"
-      />
-
-      <CuratedBooksShelf
-        title={t("newArrivals", "New Arrivals")}
-        subtitle={t(
-          "newArrivalsSubtitle",
-          "Freshly added books ready to explore."
-        )}
-        books={newArrivals}
-        loading={discoveryLoading}
-        openAllHref="/collection/new-arrivals"
       />
 
       {genres.length > 0 ? (

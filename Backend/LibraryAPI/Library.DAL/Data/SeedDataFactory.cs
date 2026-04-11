@@ -96,7 +96,8 @@ namespace Library.DAL.Data
                 new Category { Id = 8, Name = "technology" },
                 new Category { Id = 9, Name = "art" },
                 new Category { Id = 10, Name = "travel" },
-                new Category { Id = 11, Name = "another" });
+                new Category { Id = 11, Name = "another" },
+                new Category { Id = 12, Name = "school books" });
             #endregion
 
             #region Seed Authors
@@ -217,7 +218,8 @@ namespace Library.DAL.Data
                 new Author { Id = 114, FullName = "Steven F. McCool" },
                 new Author { Id = 115, FullName = "Christopher D. Hines" },
                 new Author { Id = 116, FullName = "United Nations Environment Programme" },
-                new Author { Id = 117, FullName = "World Tourism Organization" });
+                new Author { Id = 117, FullName = "World Tourism Organization" },
+                new Author { Id = 118, FullName = "Դպրոցական Գրականություն" });
             #endregion
 
             #region Seed Books
@@ -1102,7 +1104,7 @@ namespace Library.DAL.Data
                     CategoryId = 7,
                     IsApproved = true,
                     BookURL = "https://institutes.abu.edu.ng/idr/public/assets/docs/Eat,%20Pray,%20Love%20(%20PDFDrive%20).pdf",
-                    ImageURL = "https://m.media-amazon.com/images/I/71X0qU1mJpL.jpg"
+                    ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg"
                 },
                 new Book
                 {
@@ -1550,7 +1552,7 @@ namespace Library.DAL.Data
                      CategoryId = 10,
                      IsApproved = true,
                      BookURL = "https://institutes.abu.edu.ng/idr/public/assets/docs/Eat,%20Pray,%20Love%20(%20PDFDrive%20).pdf",
-                     ImageURL = "https://m.media-amazon.com/images/I/71X0qU1mJpL.jpg"
+                     ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg"
                  },
                  new Book
                  {
@@ -1607,6 +1609,104 @@ namespace Library.DAL.Data
                      IsApproved = true,
                      BookURL = "https://www.europarc.org/wp-content/uploads/2015/05/2012_Parks_and_Benefits_Guide_to_sustainable_tourism_in_Protected_Areas.pdf",
                      ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuN00TpctnWSLzvYdA_2rk8RxHDn9MM2hUwA&s"
+                 },
+                 new Book
+                 {
+                     Id = 101,
+                     Title = "Այբենարան",
+                     ISBN = "9781456720193",
+                     Pages = 0,
+                     PublishedDate = new DateTime(2026, 1, 10),
+                     Description = "Այս գիրքը նախատեսված է տառաճանաչության հիմքերը սովորելու համար։ Այն օգնում է երեխաներին ճանաչել այբուբենի տառերը, զարգացնել ընթերցանության և գրելու հմտությունները պարզ ու հասկանալի վարժությունների միջոցով։",
+                     AuthorId = 118,
+                     CategoryId = 12,
+                     IsApproved = true,
+                     BookURL = "https://online.fliphtml5.com/fumf/zjyf/",
+                     ImageURL = "https://online.fliphtml5.com/fumf/zjyf/files/shot.jpg"
+                 },
+                 new Book
+                 {
+                     Id = 102,
+                     Title = "Մաթեմատիկա 2",
+                     ISBN = "9782049138567",
+                     Pages = 240,
+                     PublishedDate = new DateTime(2026, 2, 5),
+                     Description = "Այս դասագիրքը նախատեսված է երկրորդ դասարանի աշակերտների համար։ Այն ներառում է թվաբանական գործողություններ, պարզ խնդիրներ և տրամաբանական մտածողության զարգացում։",
+                     AuthorId = 118,
+                     CategoryId = 12,
+                     IsApproved = true,
+                     BookURL = "https://online.fliphtml5.com/fumf/ofli/files/shot.jpg?1",
+                     ImageURL = "https://online.fliphtml5.com/fumf/ofli/files/shot.jpg?1"
+                 },
+                 new Book
+                 {
+                     Id = 103,
+                     Title = "Երաժշտություն",
+                     ISBN = "9783195872046",
+                     Pages = 124,
+                     PublishedDate = new DateTime(2026, 3, 12),
+                     Description = "Գիրքը ծանոթացնում է երաժշտության հիմունքներին, նոտաներին և ռիթմին։ Այն օգնում է զարգացնել լսողական ունակությունները և երաժշտական ճաշակը։",
+                     AuthorId = 118,
+                     CategoryId = 12,
+                     IsApproved = true,
+                     BookURL = "https://online.fliphtml5.com/fumf/igpq/#p=1",
+                     ImageURL = "https://online.fliphtml5.com/fumf/igpq/files/shot.jpg?1"
+                 },
+                 new Book
+                 {
+                     Id = 104,
+                     Title = "Տեխնոլոգիա",
+                     ISBN = "9785501938472",
+                     Pages = 212,
+                     PublishedDate = new DateTime(2026, 4, 18),
+                     Description = "Այս գիրքը ներկայացնում է տեխնոլոգիական պարզ գործընթացներ, նյութերի օգտագործում և գործնական աշխատանքներ՝ ստեղծագործ մտածողությունը զարգացնելու համար։",
+                     AuthorId = 118,
+                     CategoryId = 12,
+                     IsApproved = true,
+                     BookURL = "https://online.fliphtml5.com/fumf/iail/#p=1",
+                     ImageURL = "https://online.fliphtml5.com/fumf/iail/files/shot.jpg?1"
+                 },
+                 new Book
+                 {
+                     Id = 105,
+                     Title = "Անգլերեն",
+                     ISBN = "9787710246395",
+                     Pages = 189,
+                     PublishedDate = new DateTime(2026, 5, 22),
+                     Description = "Դասագիրքը նախատեսված է անգլերեն լեզվի հիմունքների ուսուցման համար։ Այն ընդգրկում է բառապաշար, քերականություն և պարզ խոսակցական վարժություններ։",
+                     AuthorId = 118,
+                     CategoryId = 12,
+                     IsApproved = true,
+                     BookURL = "https://online.fliphtml5.com/fumf/dxez/#p=1",
+                     ImageURL = "https://online.fliphtml5.com/fumf/dxez/files/shot.jpg?1"
+                 },
+                 new Book
+                 {
+                     Id = 106,
+                     Title = "Մայրենի",
+                     ISBN = "9786102948571",
+                     Pages = 132,
+                     PublishedDate = new DateTime(2026, 6, 14),
+                     Description = "Այս գիրքը նախատեսված է մայրենի լեզվի զարգացման համար։ Այն ներառում է ընթերցանություն, քերականություն և գրավոր խոսքի կատարելագործում։",
+                     AuthorId = 118,
+                     CategoryId = 12,
+                     IsApproved = true,
+                     BookURL = "https://online.fliphtml5.com/fumf/gcht/#p=1",
+                     ImageURL = "https://online.fliphtml5.com/fumf/gcht/files/shot.jpg?1"
+                 },
+                 new Book
+                 {
+                     Id = 107,
+                     Title = "Ֆիզիկական Կուլտուրա",
+                     ISBN = "9788924301765",
+                     Pages = 124,
+                     PublishedDate = new DateTime(2026, 7, 9),
+                     Description = "Գիրքը ուղղված է ֆիզիկական առողջության և շարժողական ակտիվության զարգացմանը։ Այն ներկայացնում է տարբեր վարժություններ և առողջ կենսակերպի սկզբունքներ։",
+                     AuthorId = 118,
+                     CategoryId = 12,
+                     IsApproved = true,
+                     BookURL = "https://online.fliphtml5.com/fumf/xgmp/",
+                     ImageURL = "https://online.fliphtml5.com/fumf/xgmp/files/shot.jpg"
                  });
             builder.Entity<Book>().HasData(GenerateSyntheticBooks(1000, 600));
 
@@ -1788,7 +1888,7 @@ namespace Library.DAL.Data
                 "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                 "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                 "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
-                "https://m.media-amazon.com/images/I/71X0qU1mJpL.jpg",
+                "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                 "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                 "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",

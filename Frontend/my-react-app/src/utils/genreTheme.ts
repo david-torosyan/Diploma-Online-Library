@@ -6,6 +6,7 @@ export interface GenreTheme {
 }
 
 const genreHueMap: Record<string, number> = {
+  "school books": 206,
   fiction: 226,
   fantasy: 270,
   mystery: 8,
@@ -16,7 +17,7 @@ const genreHueMap: Record<string, number> = {
   poetry: 292,
   biography: 146,
   adventure: 204,
-  thriller: 358,
+  thriller: 358
 };
 
 export const createGenreTheme = (rawGenre: string): GenreTheme => {
