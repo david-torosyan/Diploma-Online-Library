@@ -7,6 +7,7 @@ import {
   browseBooks,
 } from "../services/browseService";
 import type { BrowseSort, BrowseBooksResponse } from "../services/browseService";
+import { moveAnotherToEnd } from "../utils/categoryOrdering";
 
 const PAGE_SIZE = 18;
 
@@ -135,7 +136,7 @@ const Explore: React.FC = () => {
   }, [query, category, minRating, maxPages, sortBy, page, t]);
 
   const categoryNames = useMemo(
-    () => Array.from(new Set(categories.map((entry) => (entry.name || "").trim()).filter(Boolean))),
+    () => moveAnotherToEnd(Array.from(new Set(categories.map((entry) => (entry.name || "").trim()).filter(Boolean)))),
     [categories]
   );
 

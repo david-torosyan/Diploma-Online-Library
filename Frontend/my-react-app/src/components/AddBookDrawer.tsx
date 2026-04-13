@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LibraryClient, CategoryDto } from "../api/LibraryClient";
 import config from "../config/config.json";
 import { useNavigate } from "react-router-dom";
 import { Offcanvas } from "bootstrap";
 import Cookies from "js-cookie";
+import { moveAnotherToEnd } from "../utils/categoryOrdering";
 
 const isPdfFile = (file: File): boolean => {
   const mimeType = (file.type || "").toLowerCase();
@@ -83,6 +84,11 @@ const AddBookDrawer: React.FC = () => {
 
     fetchCategories();
   }, []);
+
+  const orderedCategories = useMemo(
+    () => moveAnotherToEnd(categories.map((category) => category.name || "")),
+    [categories]
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -327,11 +333,13 @@ const AddBookDrawer: React.FC = () => {
               required
             >
               <option value="">{t("selectGenre")}</option>
-              {categories.map((category) => {
-                const genreKey = (category.name || "").toLowerCase();
-                const translatedGenre = t(`genres.${genreKey}`, category.name || "");
+              {orderedCategories.map((categoryName, index) => {
+                const translatedGenre = t(
+                  `genres.${categoryName.toLowerCase()}`,
+                  categoryName
+                );
                 return (
-                  <option key={category.id} value={category.id}>
+                  <option key={`${categoryName}-${index}`} value={categories.find((category) => category.name === categoryName)?.id}>
                     {translatedGenre}
                   </option>
                 );

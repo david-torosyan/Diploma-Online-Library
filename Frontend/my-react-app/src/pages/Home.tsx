@@ -11,6 +11,7 @@ import {
   getNewArrivals,
 } from "../services/discoveryService";
 import config from "../config/config.json";
+import { orderCategoriesForHome } from "../utils/categoryOrdering";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -55,25 +56,7 @@ const Home: React.FC = () => {
   }, []);
 
   const genres = useMemo(() => {
-    const trimmedNames = categories
-      .map((category) => (category.name || "").trim())
-      .filter(Boolean);
-
-    const uniqueNames = Array.from(new Set(trimmedNames));
-    const schoolBooksIndex = uniqueNames.findIndex(
-      (name) => name.toLowerCase() === "school books"
-    );
-
-    if (schoolBooksIndex <= 0) {
-      return uniqueNames;
-    }
-
-    const schoolBooks = uniqueNames[schoolBooksIndex];
-    return [
-      schoolBooks,
-      ...uniqueNames.slice(0, schoolBooksIndex),
-      ...uniqueNames.slice(schoolBooksIndex + 1),
-    ];
+    return orderCategoriesForHome(categories.map((category) => category.name || ""));
   }, [categories]);
 
   return (

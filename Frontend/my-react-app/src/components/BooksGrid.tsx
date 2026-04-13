@@ -127,6 +127,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({
   };
 
   const openBookDetail = (id: string) => {
+    if (!id) return;
     navigate(`/bookdetails/${id}`);
   };
 
@@ -205,6 +206,16 @@ const BooksGrid: React.FC<BooksGridProps> = ({
                 key={book.id}
                 className="card flex-shrink-0 book-card"
                 style={{ width: "150px" }}
+                role="button"
+                tabIndex={0}
+                aria-label={t("openBookDetails", { title: book.title })}
+                onClick={() => openBookDetail(book.id)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openBookDetail(book.id);
+                  }
+                }}
               >
                 {book.img && (
                   <img
@@ -272,7 +283,19 @@ const BooksGrid: React.FC<BooksGridProps> = ({
         <div className="row g-3 books-matrix">
           {processedBooks.map((book) => (
             <div key={book.id} className="col-6 col-sm-4 col-md-3 col-lg-2">
-              <div className="card book-card h-100">
+              <div
+                className="card book-card h-100"
+                role="button"
+                tabIndex={0}
+                aria-label={t("openBookDetails", { title: book.title })}
+                onClick={() => openBookDetail(book.id)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openBookDetail(book.id);
+                  }
+                }}
+              >
                 {book.img && (
                   <img
                     src={book.img}

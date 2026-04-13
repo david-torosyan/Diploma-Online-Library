@@ -95,6 +95,18 @@ const CuratedBooksShelf: React.FC<CuratedBooksShelfProps> = ({
               <article
                 key={book.id || `${book.title}-${book.categoryName}`}
                 className="curated-item"
+                role="button"
+                tabIndex={0}
+                aria-label={t("openBookDetails", { title: book.title || t("unknown") })}
+                onClick={() => book.id && navigate(`/bookdetails/${book.id}`)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    if (book.id) {
+                      navigate(`/bookdetails/${book.id}`);
+                    }
+                  }
+                }}
                 style={{
                   borderColor: theme.border,
                   background: `linear-gradient(180deg, ${theme.soft}, #ffffff)`,
@@ -121,6 +133,7 @@ const CuratedBooksShelf: React.FC<CuratedBooksShelfProps> = ({
                     <Link
                       className="curated-pill"
                       to={`/category/${encodeURIComponent(book.categoryName)}`}
+                      onClick={(event) => event.stopPropagation()}
                       style={{
                         color: theme.accentDeep,
                         backgroundColor: theme.soft,
