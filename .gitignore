@@ -24,3 +24,11 @@ Frontend/my-react-app/.env
 
 # Environment files in any subdirectory
 **/.env
+
+# User-uploaded media files
+Backend/LibraryAPI/LibraryAPI/Media/pdfs/*
+Backend/LibraryAPI/LibraryAPI/Media/pictures/*
+
+# But keep the .gitkeep files so folders persist
+!Backend/LibraryAPI/LibraryAPI/Media/pdfs/.gitkeep
+!Backend/LibraryAPI/LibraryAPI/Media/pictures/.gitkeep

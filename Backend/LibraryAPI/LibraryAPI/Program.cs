@@ -7,6 +7,7 @@ using LibraryAPI.Models;
 using LibraryAPI.Services;
 using LibraryAPI.Services.IServices;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -71,6 +72,11 @@ builder.Services.AddModSwaggerGen();
 
 var app = builder.Build();
 
+var picturesPath = Path.Combine(app.Environment.ContentRootPath, "Media", "pictures");
+var pdfsPath = Path.Combine(app.Environment.ContentRootPath, "Media", "pdfs");
+Directory.CreateDirectory(picturesPath);
+Directory.CreateDirectory(pdfsPath);
+
 #region ========================== Database Migration ==========================
 using (var scope = app.Services.CreateScope())
 {
@@ -93,6 +99,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Media")),
+    RequestPath = "/media"
+});
 
 app.UseCors("AllowFrontend");
 app.UseAuthentication();

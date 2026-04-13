@@ -16,6 +16,7 @@ const AdminMessagesDrawer: React.FC = () => {
     const token = getAuthToken();
     if (!token) {
       setBooks([]);
+      window.dispatchEvent(new CustomEvent("admin-unapproved-count-changed", { detail: 0 }));
       return;
     }
 
@@ -25,9 +26,16 @@ const AdminMessagesDrawer: React.FC = () => {
     try {
       const api = new LibraryClient(config.baseUrl);
       const result = await api.unapproved(token);
-      setBooks(Array.isArray(result) ? result : []);
+      const nextBooks = Array.isArray(result) ? result : [];
+      setBooks(nextBooks);
+      window.dispatchEvent(
+        new CustomEvent("admin-unapproved-count-changed", {
+          detail: nextBooks.length,
+        })
+      );
     } catch {
       setError(t("fetchError"));
+      window.dispatchEvent(new CustomEvent("admin-unapproved-count-changed", { detail: 0 }));
     } finally {
       setLoading(false);
     }
@@ -81,7 +89,7 @@ const AdminMessagesDrawer: React.FC = () => {
         ) : books.length === 0 ? (
           <p className="empty-state mb-0">{t("noUnapprovedBooks")}</p>
         ) : (
-          <ul className="list-group search-results-list drawer-list">
+          <ul className="list-group search-results-list drawer-list admin-messages-list">
             {books.map((book) => (
               <li
                 key={`${book.id ?? "book"}-${book.title ?? "item"}`}

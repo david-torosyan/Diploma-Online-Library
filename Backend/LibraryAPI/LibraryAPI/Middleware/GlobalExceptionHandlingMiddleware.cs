@@ -45,7 +45,7 @@ public class GlobalExceptionHandlingMiddleware
         {
             StatusCode = context.Response.StatusCode,
             Message = exception?.Message,
-            StackTrace = exception?.StackTrace,
+            StackTrace = null,
         };
 
         await context.Response.WriteAsync(JsonConvert.SerializeObject(response));

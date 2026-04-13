@@ -9,6 +9,8 @@ import { getSearchSuggestions } from "../services/discoveryService";
 
 import backgroundImage from "../assets/grand-library.jpg";
 
+const isLocalMediaUrl = (url?: string) => !!url && url.includes("/media/");
+
 const SearchDrawer: React.FC = () => {
   const { t } = useTranslation();
 
@@ -234,7 +236,7 @@ const SearchDrawer: React.FC = () => {
 
         <div className="mt-4 container" style={{ maxWidth: "600px" }}>
           {results.length > 0 ? (
-            <ul className="list-group shadow search-results-list">
+            <ul className={`list-group shadow search-results-list ${isAiResult ? "ai-search-results-list" : ""}`}>
               {results.map((book) => (
                 <li
                   key={book.id}
@@ -282,17 +284,31 @@ const SearchDrawer: React.FC = () => {
                     </div>
                   </div>
 
-                  {!isAiResult && book.bookURL && (
-                    <a
-                      href={book.bookURL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-sm btn-outline-primary px-2 py-0 rounded-pill"
-                      style={{ fontSize: "0.75rem", height: "26px" }}
-                    >
-                      PDF
-                    </a>
-                  )}
+                  {!isAiResult && book.bookURL &&
+                    (isLocalMediaUrl(book.bookURL) ? (
+                      <a
+                        href={
+                          book.id && book.id > 0
+                            ? `${config.baseUrl}/api/books/${book.id}/download-pdf`
+                            : book.bookURL
+                        }
+                        download
+                        className="btn btn-sm btn-outline-primary px-2 py-0 rounded-pill"
+                        style={{ fontSize: "0.75rem", height: "26px" }}
+                      >
+                        PDF
+                      </a>
+                    ) : (
+                      <a
+                        href={book.bookURL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-sm btn-outline-primary px-2 py-0 rounded-pill"
+                        style={{ fontSize: "0.75rem", height: "26px" }}
+                      >
+                        🔗 {t("openLink")}
+                      </a>
+                    ))}
                 </li>
               ))}
             </ul>

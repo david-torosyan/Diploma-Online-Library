@@ -6,6 +6,7 @@ using LibraryAPI.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http;
 
 namespace LibraryAPI.Controllers
 {
@@ -17,12 +18,21 @@ namespace LibraryAPI.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBookAuthorService _bookAuthorService;
         private readonly IReviewService _reviewService;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public BookController(IUnitOfWork unitOfWork, IBookAuthorService bookAuthorService, IReviewService reviewService)
+        public BookController(
+            IUnitOfWork unitOfWork,
+            IBookAuthorService bookAuthorService,
+            IReviewService reviewService,
+            IWebHostEnvironment environment,
+            IHttpClientFactory httpClientFactory)
         {
             _unitOfWork = unitOfWork;
             _bookAuthorService = bookAuthorService;
             _reviewService = reviewService;
+            _environment = environment;
+            _httpClientFactory = httpClientFactory;
         }
 
         /// <summary>
@@ -37,7 +47,7 @@ namespace LibraryAPI.Controllers
         {
             var books = await _bookAuthorService.GetMyFavoriteBooksAsync();
 
-            return Ok(books.Select(b => b.ToBookDto()));
+            return Ok(books.Select(b => NormalizeBookDto(b.ToBookDto())));
         }
 
         /// <summary>
@@ -75,7 +85,7 @@ namespace LibraryAPI.Controllers
                 return BadRequest("Category cannot be empty.");
 
             var books = await _unitOfWork.Books.GetByCategoryAsync(category);
-            return Ok(books.Select(book => book.ToBookDto()));
+            return Ok(books.Select(book => NormalizeBookDto(book.ToBookDto())));
         }
 
         /// <summary>
@@ -132,7 +142,7 @@ namespace LibraryAPI.Controllers
 
             var response = new BrowseBooksResponseDto
             {
-                Items = books.Select(book => book.ToBookDto()),
+                Items = books.Select(book => NormalizeBookDto(book.ToBookDto())),
                 TotalCount = totalCount,
                 Page = page,
                 PageSize = pageSize,
@@ -162,7 +172,53 @@ namespace LibraryAPI.Controllers
             if (book == null)
                 return NotFound($"Book with ID {id} was not found.");
 
-            return Ok(book.ToBookWithDetailsDto());
+            return Ok(NormalizeBookWithDetailsDto(book.ToBookWithDetailsDto()));
+        }
+
+        /// <summary>
+        /// Downloads the book PDF as an attachment.
+        /// </summary>
+        [HttpGet("{id:int}/download-pdf")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DownloadBookPdf(int id)
+        {
+            if (id <= 0)
+                return BadRequest("Invalid book ID.");
+
+            var book = await _unitOfWork.Books.GetByIdAsync(id);
+            if (book == null)
+                return NotFound("Book not found.");
+
+            if (string.IsNullOrWhiteSpace(book.BookURL))
+                return NotFound("Book PDF is not available.");
+
+            var fileName = BuildDownloadFileName(book.Title);
+
+            if (book.BookURL.StartsWith("/media/", StringComparison.OrdinalIgnoreCase))
+            {
+                var relativePath = book.BookURL.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
+                var physicalPath = Path.Combine(_environment.ContentRootPath, relativePath);
+
+                if (!System.IO.File.Exists(physicalPath))
+                    return NotFound("Book file is missing on server.");
+
+                return PhysicalFile(physicalPath, "application/pdf", fileName);
+            }
+
+            var url = NormalizeMediaUrl(book.BookURL);
+            if (!Uri.TryCreate(url, UriKind.Absolute, out _))
+                return BadRequest("Invalid book file URL.");
+
+            var client = _httpClientFactory.CreateClient();
+            using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+
+            if (!response.IsSuccessStatusCode)
+                return NotFound("Unable to fetch the book file.");
+
+            var bytes = await response.Content.ReadAsByteArrayAsync();
+            return File(bytes, "application/pdf", fileName);
         }
 
         /// <summary>
@@ -194,15 +250,24 @@ namespace LibraryAPI.Controllers
         /// <returns>The ID of the newly created book.</returns>
         [Authorize]
         [HttpPost("addBookWithAuthor")]
+        [Consumes("multipart/form-data")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<int>> AddBook([FromBody] AddBookDto bookDto)
+        public async Task<ActionResult<int>> AddBook([FromForm] AddBookDto bookDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Invalid book data.");
 
-            var newBookId = await _bookAuthorService.AddBookWithAuthorAsync(bookDto);
+            int newBookId;
+            try
+            {
+                newBookId = await _bookAuthorService.AddBookWithAuthorAsync(bookDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
             return CreatedAtAction(
                 nameof(GetBookWithDetailsById),
@@ -231,7 +296,7 @@ namespace LibraryAPI.Controllers
         {
             var books = await _bookAuthorService.GetAllUnApprovedBooks();
 
-            var result = books.Select(book => book.ToBookWithDetailsDto());
+            var result = books.Select(book => NormalizeBookWithDetailsDto(book.ToBookWithDetailsDto()));
 
             return Ok(result);
         }
@@ -263,6 +328,28 @@ namespace LibraryAPI.Controllers
         }
 
         /// <summary>
+        /// Declines a pending book and deletes it from the system.
+        /// </summary>
+        /// <param name="id">The ID of the book to decline.</param>
+        /// <returns>
+        /// Returns 204 NoContent if the book is successfully declined and deleted.
+        /// Returns 404 if the book is not found.
+        /// </returns>
+        [Authorize(Roles = $"{RoleConstans.Admin}, {RoleConstans.Maintainer}")]
+        [HttpDelete("{id}/decline")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeclineBook(int id)
+        {
+            await _bookAuthorService.DeclineBookById(id);
+
+            return NoContent();
+        }
+
+        /// <summary>
         /// Searches for books by title or partial name.
         /// </summary>
         /// <param name="searchString">The book title or keyword to search for.</param>
@@ -277,7 +364,7 @@ namespace LibraryAPI.Controllers
                 return BadRequest("Search string cannot be empty.");
 
             var books = await _unitOfWork.Books.GetBookWithDetailsByNameAsync(searchString);
-            return Ok(books.Select(book => book.ToBookWithDetailsDto()));
+            return Ok(books.Select(book => NormalizeBookWithDetailsDto(book.ToBookWithDetailsDto())));
         }
 
         /// <summary>
@@ -292,7 +379,7 @@ namespace LibraryAPI.Controllers
                 return BadRequest("Limit must be between 1 and 50.");
 
             var books = await _unitOfWork.Books.GetFeaturedAsync(limit);
-            return Ok(books.Select(book => book.ToBookDto()));
+            return Ok(books.Select(book => NormalizeBookDto(book.ToBookDto())));
         }
 
         /// <summary>
@@ -307,7 +394,7 @@ namespace LibraryAPI.Controllers
                 return BadRequest("Limit must be between 1 and 50.");
 
             var books = await _unitOfWork.Books.GetMostRatedAsync(limit);
-            return Ok(books.Select(book => book.ToBookDto()));
+            return Ok(books.Select(book => NormalizeBookDto(book.ToBookDto())));
         }
 
         /// <summary>
@@ -322,7 +409,7 @@ namespace LibraryAPI.Controllers
                 return BadRequest("Limit must be between 1 and 50.");
 
             var books = await _unitOfWork.Books.GetNewArrivalsAsync(limit);
-            return Ok(books.Select(book => book.ToBookDto()));
+            return Ok(books.Select(book => NormalizeBookDto(book.ToBookDto())));
         }
 
         /// <summary>
@@ -340,7 +427,7 @@ namespace LibraryAPI.Controllers
                 return BadRequest("Limit must be between 1 and 50.");
 
             var books = await _unitOfWork.Books.GetRelatedAsync(id, limit);
-            return Ok(books.Select(book => book.ToBookDto()));
+            return Ok(books.Select(book => NormalizeBookDto(book.ToBookDto())));
         }
 
         /// <summary>
@@ -359,6 +446,44 @@ namespace LibraryAPI.Controllers
 
             var suggestions = await _unitOfWork.Books.GetTitleSuggestionsAsync(q, limit);
             return Ok(suggestions);
+        }
+
+        private BookDto NormalizeBookDto(BookDto dto)
+        {
+            dto.ImageURL = NormalizeMediaUrl(dto.ImageURL);
+            return dto;
+        }
+
+        private BookWithDetailsDto NormalizeBookWithDetailsDto(BookWithDetailsDto dto)
+        {
+            dto.ImageURL = NormalizeMediaUrl(dto.ImageURL);
+            dto.BookURL = NormalizeMediaUrl(dto.BookURL);
+            return dto;
+        }
+
+        private string NormalizeMediaUrl(string mediaValue)
+        {
+            if (string.IsNullOrWhiteSpace(mediaValue))
+                return mediaValue;
+
+            if (Uri.TryCreate(mediaValue, UriKind.Absolute, out _))
+                return mediaValue;
+
+            var relative = mediaValue.StartsWith('/') ? mediaValue : $"/{mediaValue}";
+            return $"{Request.Scheme}://{Request.Host}{relative}";
+        }
+
+        private static string BuildDownloadFileName(string? title)
+        {
+            var baseName = string.IsNullOrWhiteSpace(title) ? "book" : title.Trim();
+
+            foreach (var invalidChar in Path.GetInvalidFileNameChars())
+                baseName = baseName.Replace(invalidChar, '_');
+
+            if (!baseName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                baseName += ".pdf";
+
+            return baseName;
         }
     }
 }

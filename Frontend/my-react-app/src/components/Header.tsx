@@ -10,15 +10,56 @@ import LanguageSwitcher from "../languages/LanguageSwitcher";
 import AddBookDrawer from "../components/AddBookDrawer";
 import MyBooksDrawer from "../components/MyBooksDrawer";
 import AdminMessagesDrawer from "../components/AdminMessagesDrawer";
-import { isAdminUser } from "../utils/auth";
+import { getAuthToken, isAdminUser } from "../utils/auth";
+import { Offcanvas } from "bootstrap";
+import { LibraryClient } from "../api/LibraryClient";
+import config from "../config/config.json";
 
 const Header: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [unapprovedCount, setUnapprovedCount] = useState(0);
   const [userName, setUserName] = useState<string>("");
   const { t } = useTranslation();
 
+  const handleCloseDrawers = () => {
+    const openDrawer = document.querySelector<HTMLElement>(".offcanvas.show");
+    if (openDrawer) {
+      const instance = Offcanvas.getOrCreateInstance(openDrawer);
+      instance.hide();
+      // Clean up any lingering backdrops
+      setTimeout(() => {
+        document.querySelectorAll(".offcanvas-backdrop").forEach(backdrop => {
+          backdrop.remove();
+        });
+        document.body.style.removeProperty("overflow");
+        document.body.classList.remove("overflow-hidden");
+      }, 150);
+    }
+  };
+
   useEffect(() => {
+    const loadUnapprovedCount = async () => {
+      if (!isAdmin) {
+        setUnapprovedCount(0);
+        return;
+      }
+
+      const token = getAuthToken();
+      if (!token) {
+        setUnapprovedCount(0);
+        return;
+      }
+
+      try {
+        const api = new LibraryClient(config.baseUrl);
+        const result = await api.unapproved(token);
+        setUnapprovedCount(Array.isArray(result) ? result.length : 0);
+      } catch {
+        setUnapprovedCount(0);
+      }
+    };
+
     const syncAuthState = () => {
       const user = Cookies.get("user");
 
@@ -36,17 +77,71 @@ const Header: React.FC = () => {
       } else {
         setIsAuthenticated(false);
         setIsAdmin(false);
+        setUnapprovedCount(0);
         setUserName("");
       }
     };
 
+    const handleUnapprovedCountChanged = (event: Event) => {
+      const customEvent = event as CustomEvent<number>;
+      const nextCount = typeof customEvent.detail === "number" ? customEvent.detail : 0;
+      setUnapprovedCount(nextCount);
+    };
+
+    const handleOffcanvasSwitch = (event: Event) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+
+      const trigger = target.closest<HTMLElement>("[data-bs-toggle='offcanvas']");
+      if (!trigger) return;
+
+      const selector =
+        trigger.getAttribute("data-bs-target") ||
+        trigger.getAttribute("href");
+
+      if (!selector || !selector.startsWith("#")) return;
+
+      const nextDrawer = document.querySelector<HTMLElement>(selector);
+      if (!nextDrawer) return;
+
+      const currentDrawer = document.querySelector<HTMLElement>(".offcanvas.show");
+      if (!currentDrawer || currentDrawer === nextDrawer) return;
+
+      event.preventDefault();
+
+      const currentInstance = Offcanvas.getOrCreateInstance(currentDrawer);
+      const nextInstance = Offcanvas.getOrCreateInstance(nextDrawer);
+
+      const openNext = () => {
+        // Remove all lingering backdrops
+        document.querySelectorAll(".offcanvas-backdrop").forEach(backdrop => {
+          backdrop.remove();
+        });
+        // Remove the backdrop fade class from body if present
+        document.body.style.removeProperty("overflow");
+        document.body.classList.remove("overflow-hidden");
+        
+        nextInstance.show();
+      };
+
+      currentDrawer.addEventListener("hidden.bs.offcanvas", openNext, {
+        once: true,
+      });
+      currentInstance.hide();
+    };
+
     syncAuthState();
+    loadUnapprovedCount();
     window.addEventListener("focus", syncAuthState);
+    document.addEventListener("click", handleOffcanvasSwitch);
+    window.addEventListener("admin-unapproved-count-changed", handleUnapprovedCountChanged as EventListener);
 
     return () => {
       window.removeEventListener("focus", syncAuthState);
+      document.removeEventListener("click", handleOffcanvasSwitch);
+      window.removeEventListener("admin-unapproved-count-changed", handleUnapprovedCountChanged as EventListener);
     };
-  }, [t]);
+  }, [isAdmin, t]);
 
   return (
     <>
@@ -84,14 +179,12 @@ const Header: React.FC = () => {
             </li>
 
             <li className="nav-item">
-              <Link className="btn btn-outline-light nav-chip px-3 py-1" to="/">
+              <Link 
+                className="btn btn-outline-light nav-chip px-3 py-1" 
+                to="/"
+                onClick={handleCloseDrawers}
+              >
                 {t("library")}
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link className="btn btn-outline-light nav-chip px-3 py-1" to="/explore">
-                {t("explore", "Explore")}
               </Link>
             </li>
 
@@ -100,12 +193,17 @@ const Header: React.FC = () => {
                 {isAdmin && (
                   <li className="nav-item">
                     <button
-                      className="btn btn-outline-light nav-chip px-3 py-1"
+                      className="btn btn-outline-light nav-chip px-3 py-1 position-relative"
                       data-bs-toggle="offcanvas"
                       data-bs-target="#adminMessagesDrawer"
                       aria-controls="adminMessagesDrawer"
                     >
                       🔔 {t("messages")}
+                      {unapprovedCount > 0 && (
+                        <span className="messages-badge" aria-label={t("pendingApprovalsAria", { count: unapprovedCount })}>
+                          {unapprovedCount}
+                        </span>
+                      )}
                     </button>
                   </li>
                 )}

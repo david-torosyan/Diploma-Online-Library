@@ -10,4 +10,5 @@ public interface IBookAuthorService
     Task<IEnumerable<Book>> GetMyFavoriteBooksAsync();
     Task<IEnumerable<Book>> GetAllUnApprovedBooks();
     Task ApproveBookById(int id);
+    Task DeclineBookById(int id);
 }

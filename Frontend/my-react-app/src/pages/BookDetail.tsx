@@ -13,6 +13,8 @@ import Cookies from "js-cookie";
 import { getCurrentUserId, isAdminUser } from "../utils/auth";
 import { getRelatedBooks } from "../services/discoveryService";
 
+const isLocalMediaUrl = (url?: string) => !!url && url.includes("/media/");
+
 const BookDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -25,6 +27,7 @@ const BookDetail: React.FC = () => {
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const [isPendingApproval, setIsPendingApproval] = useState(false);
   const [approvalLoading, setApprovalLoading] = useState(false);
+  const [declineLoading, setDeclineLoading] = useState(false);
   const [relatedBooks, setRelatedBooks] = useState<BookDto[]>([]);
   const [relatedLoading, setRelatedLoading] = useState(false);
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
@@ -210,8 +213,55 @@ const BookDetail: React.FC = () => {
       const api = new LibraryClient(config.baseUrl);
       await api.approve(Number(id), token);
       setIsPendingApproval(false);
+
+      try {
+        const unapprovedBooks = await api.unapproved(token);
+        const nextCount = Array.isArray(unapprovedBooks) ? unapprovedBooks.length : 0;
+        window.dispatchEvent(
+          new CustomEvent("admin-unapproved-count-changed", {
+            detail: nextCount,
+          })
+        );
+      } catch {
+        window.dispatchEvent(
+          new CustomEvent("admin-unapproved-count-changed", {
+            detail: 0,
+          })
+        );
+      }
     } finally {
       setApprovalLoading(false);
+    }
+  };
+
+  const handleDecline = async () => {
+    if (!id || declineLoading) return;
+
+    const token = Cookies.get("auth_token");
+    if (!token) return;
+
+    setDeclineLoading(true);
+    try {
+      const api = new LibraryClient(config.baseUrl);
+      await api.decline(Number(id), token);
+
+      const unapprovedBooks = await api.unapproved(token);
+      const nextCount = Array.isArray(unapprovedBooks) ? unapprovedBooks.length : 0;
+      window.dispatchEvent(
+        new CustomEvent("admin-unapproved-count-changed", {
+          detail: nextCount,
+        })
+      );
+
+      navigate("/");
+    } catch {
+      window.dispatchEvent(
+        new CustomEvent("admin-unapproved-count-changed", {
+          detail: 0,
+        })
+      );
+    } finally {
+      setDeclineLoading(false);
     }
   };
 
@@ -356,16 +406,18 @@ const BookDetail: React.FC = () => {
                     ? new Date(book.publishedDate).toLocaleDateString()
                     : "N/A"}
                 </li>
-                <li>
-                  <strong>{t("statusLabel")}:</strong>{" "}
-                  <span
-                    className={`badge ${isPendingApproval ? "bg-warning text-dark" : "bg-success"}`}
-                  >
-                    {isPendingApproval
-                      ? t("pendingApproval")
-                      : t("approvedByAdmin")}
-                  </span>
-                </li>
+                {isAuthenticated && (
+                  <li>
+                    <strong>{t("statusLabel")}:</strong>{" "}
+                    <span
+                      className={`badge ${isPendingApproval ? "bg-warning text-dark" : "bg-success"}`}
+                    >
+                      {isPendingApproval
+                        ? t("pendingApproval")
+                        : t("approvedByAdmin")}
+                    </span>
+                  </li>
+                )}
               </ul>
 
               {book.description && (
@@ -399,28 +451,48 @@ const BookDetail: React.FC = () => {
 
             <div className="mt-3">
               {isAdmin && isPendingApproval && (
-                <button
-                  type="button"
-                  className="btn btn-success rounded-pill px-4 w-100 w-sm-auto me-2 mb-2"
-                  onClick={handleApprove}
-                  disabled={approvalLoading}
-                >
-                  {approvalLoading ? t("approving") : t("approveBook")}
-                </button>
+                <div className="d-flex align-items-center gap-2 flex-wrap mb-2">
+                  <button
+                    type="button"
+                    className="btn btn-success rounded-pill px-4 flex-fill"
+                    onClick={handleApprove}
+                    disabled={approvalLoading || declineLoading}
+                  >
+                    {approvalLoading ? t("approving") : t("approveBook")}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline-danger rounded-pill px-4 flex-fill"
+                    onClick={handleDecline}
+                    disabled={approvalLoading || declineLoading}
+                  >
+                    {declineLoading ? t("declining") : t("declineBook")}
+                  </button>
+                </div>
               )}
 
               {book.bookURL ? (
-                <a
-                  className="btn btn-primary rounded-pill px-4 w-100 w-sm-auto"
-                  href={book.bookURL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  📘 {t("downloadPdf")}
-                </a>
+                isLocalMediaUrl(book.bookURL) ? (
+                  <a
+                    className="btn btn-primary rounded-pill px-4 w-100"
+                    href={`${config.baseUrl}/api/books/${book.id}/download-pdf`}
+                    download
+                  >
+                    📘 {t("downloadPdf")}
+                  </a>
+                ) : (
+                  <a
+                    className="btn btn-primary rounded-pill px-4 w-100"
+                    href={book.bookURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    🔗 {t("openLink")}
+                  </a>
+                )
               ) : (
                 <button
-                  className="btn btn-outline-secondary rounded-pill px-4 w-100 w-sm-auto"
+                  className="btn btn-outline-secondary rounded-pill px-4 w-100"
                   disabled
                 >
                   {t("noPdfAvailable")}

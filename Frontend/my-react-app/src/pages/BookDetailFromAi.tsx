@@ -1,6 +1,9 @@
 import React from "react";
 import { BookWithDetailsDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
+import config from "../config/config.json";
+
+const isLocalMediaUrl = (url?: string) => !!url && url.includes("/media/");
 
 interface BookDetailFromAiProps {
   book: BookWithDetailsDto | null;
@@ -14,6 +17,12 @@ const BookDetailFromAi: React.FC<BookDetailFromAiProps> = ({
   const { t } = useTranslation();
 
   if (!book) return null;
+
+  const shouldDownload = isLocalMediaUrl(book.bookURL);
+  const downloadHref =
+    shouldDownload && book.id && book.id > 0
+      ? `${config.baseUrl}/api/books/${book.id}/download-pdf`
+      : book.bookURL || "";
 
   return (
     <div
@@ -34,7 +43,7 @@ const BookDetailFromAi: React.FC<BookDetailFromAiProps> = ({
         ></button>
       </div>
 
-      <div className="offcanvas-body">
+      <div className="offcanvas-body book-detail-from-ai-body">
         <div className="card detail-card p-3">
           {book.imageURL && (
             <div className="text-center mb-3">
@@ -85,14 +94,24 @@ const BookDetailFromAi: React.FC<BookDetailFromAiProps> = ({
           )}
 
           {book.bookURL ? (
-            <a
-              href={book.bookURL}
-              className="btn btn-primary rounded-pill w-100"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              📘 {t("downloadPdf")}
-            </a>
+            shouldDownload ? (
+              <a
+                href={downloadHref}
+                className="btn btn-primary rounded-pill w-100"
+                download
+              >
+                📘 {t("downloadPdf")}
+              </a>
+            ) : (
+              <a
+                href={downloadHref}
+                className="btn btn-primary rounded-pill w-100"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                🔗 {t("openLink")}
+              </a>
+            )
           ) : (
             <button className="btn btn-outline-secondary rounded-pill w-100" disabled>
               {t("noPdfAvailable")}

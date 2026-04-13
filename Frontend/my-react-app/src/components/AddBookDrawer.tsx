@@ -1,16 +1,71 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { LibraryClient, CategoryDto, AddBookDto } from "../api/LibraryClient";
+import { LibraryClient, CategoryDto } from "../api/LibraryClient";
 import config from "../config/config.json";
 import { useNavigate } from "react-router-dom";
 import { Offcanvas } from "bootstrap";
 import Cookies from "js-cookie";
+
+const isPdfFile = (file: File): boolean => {
+  const mimeType = (file.type || "").toLowerCase();
+  const fileName = (file.name || "").toLowerCase();
+
+  // Some browsers provide an empty MIME type for local files,
+  // so we accept either valid MIME type or .pdf extension.
+  return mimeType === "application/pdf" || fileName.endsWith(".pdf");
+};
+
+const extractBackendMessages = (raw: string): string[] => {
+  const pickMessage = (input: unknown): string[] => {
+    if (!input || typeof input !== "object") return [];
+
+    const payload = input as {
+      title?: string;
+      detail?: string;
+      message?: string;
+      Message?: string;
+      errors?: Record<string, string[]>;
+    };
+
+    const modelErrors = payload.errors
+      ? Object.values(payload.errors).flat().filter(Boolean)
+      : [];
+
+    if (modelErrors.length > 0) return modelErrors;
+
+    const single = payload.detail || payload.title || payload.message || payload.Message;
+    return single ? [single] : [];
+  };
+
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    const direct = pickMessage(parsed);
+    if (direct.length > 0) return direct;
+
+    if (typeof parsed === "string") {
+      try {
+        const nested = JSON.parse(parsed) as unknown;
+        const nestedMessages = pickMessage(nested);
+        if (nestedMessages.length > 0) return nestedMessages;
+      } catch {
+        return [parsed];
+      }
+
+      return [parsed];
+    }
+  } catch {
+    // Raw text fallback below.
+  }
+
+  return raw ? [raw] : [];
+};
 
 const AddBookDrawer: React.FC = () => {
   const { t } = useTranslation();
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [formErrors, setFormErrors] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +84,7 @@ const AddBookDrawer: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormErrors([]);
 
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
@@ -37,42 +93,99 @@ const AddBookDrawer: React.FC = () => {
     const authorName = (formData.get("authorName") as string)?.trim() ?? "";
     const categoryId = Number(selectedGenre);
     const description = (formData.get("description") as string)?.trim() ?? "";
-    const isbn = (formData.get("isbn") as string)?.trim() ?? "";
     const publishedDateString = formData.get("releasedDay") as string | null;
-    const imageUrl = (formData.get("pictureUrl") as string)?.trim() ?? "";
+    const imageUrl = (formData.get("imageUrl") as string)?.trim() ?? "";
     const bookUrl = (formData.get("bookUrl") as string)?.trim() ?? "";
+    const imageFile = formData.get("imageFile");
+    const bookFile = formData.get("bookFile");
 
-    if (!title || !authorName || !categoryId || !bookUrl) {
-      alert(t("pleaseFillAllRequiredFields"));
+    const hasImageFile = imageFile instanceof File && imageFile.size > 0;
+    const hasBookFile = bookFile instanceof File && bookFile.size > 0;
+    const hasImageUrl = imageUrl.length > 0;
+    const hasBookUrl = bookUrl.length > 0;
+
+    if (!title || !authorName || !categoryId) {
+      setFormErrors([t("pleaseFillAllRequiredFields")]);
       return;
     }
 
-    const publishedDate = publishedDateString
-      ? new Date(publishedDateString)
-      : new Date();
+    if (!hasImageFile && !hasImageUrl) {
+      setFormErrors([t("imageSourceRequired")]);
+      return;
+    }
 
-    const newBook = new AddBookDto({
-      title,
-      authorName,
-      categoryId,
-      description,
-      isbn,
-      publishedDate,
-      bookUrl,
-      imageUrl,
-    });
+    if (!hasBookFile && !hasBookUrl) {
+      setFormErrors([t("bookSourceRequired")]);
+      return;
+    }
+
+    if (hasBookFile && !isPdfFile(bookFile as File)) {
+      setFormErrors([t("bookPdfOnly")]);
+      return;
+    }
 
     const token = Cookies.get("auth_token");
     if (!token) {
-      alert(t("notLoggedIn"));
+      setFormErrors([t("notLoggedIn")]);
       return;
+    }
+
+    const payload = new FormData();
+    payload.append("title", title);
+    payload.append("authorName", authorName);
+    payload.append("categoryId", String(categoryId));
+    if (description) {
+      payload.append("description", description);
+    }
+
+    if (publishedDateString) {
+      payload.append("publishedDate", new Date(publishedDateString).toISOString());
+    }
+
+    if (hasImageUrl) {
+      payload.append("imageUrl", imageUrl);
+    }
+
+    if (hasBookUrl) {
+      payload.append("bookUrl", bookUrl);
+    }
+
+    if (hasImageFile) {
+      payload.append("imageFile", imageFile as File);
+    }
+
+    if (hasBookFile) {
+      payload.append("bookFile", bookFile as File);
     }
 
     try {
       setLoading(true);
-      const api = new LibraryClient(config.baseUrl);
+      const response = await fetch(`${config.baseUrl}/api/Book/addBookWithAuthor`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: payload,
+      });
 
-      const responseId = await api.addBookWithAuthor(newBook, token);
+      if (!response.ok) {
+        const defaultMessage = t("failedToAddBook");
+
+        try {
+          const payloadText = await response.text();
+          const messages = extractBackendMessages(payloadText);
+          if (messages.length > 0) {
+            setFormErrors(messages);
+            return;
+          }
+        } catch {
+          // fallback handled below
+        }
+
+        throw new Error(defaultMessage);
+      }
+
+      const responseId = (await response.json()) as number;
 
       if (responseId && typeof responseId === "number") {
         const storedUser = Cookies.get("user");
@@ -99,8 +212,8 @@ const AddBookDrawer: React.FC = () => {
                   title,
                   authorName,
                   categoryName: selectedCategoryName,
-                  imageURL: imageUrl,
-                  bookURL: bookUrl,
+                  imageURL: hasImageUrl ? imageUrl : "",
+                  bookURL: hasBookUrl ? bookUrl : "",
                   addedAt: new Date().toISOString(),
                 },
                 ...existingBooks.filter((book) => book.id !== responseId),
@@ -124,10 +237,13 @@ const AddBookDrawer: React.FC = () => {
 
         form.reset();
         setSelectedGenre("");
+        setFormErrors([]);
         navigate(`/bookdetails/${responseId}`);
       }
     } catch (error) {
       console.error("Error adding book:", error);
+      const message = error instanceof Error ? error.message : t("pleaseFillAllRequiredFields");
+      setFormErrors([message]);
     } finally {
       setLoading(false);
     }
@@ -154,6 +270,17 @@ const AddBookDrawer: React.FC = () => {
 
       <div className="offcanvas-body drawer-body">
         <form className="d-flex flex-column gap-3 drawer-form" onSubmit={handleSubmit}>
+          {formErrors.length > 0 && (
+            <div className="alert alert-danger add-book-validation" role="alert">
+              <div className="fw-semibold mb-1">{t("pleaseFixFollowing")}</div>
+              <ul className="mb-0 ps-3">
+                {formErrors.map((message, index) => (
+                  <li key={`${message}-${index}`}>{message}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="drawer-field">
             <label className="form-label">{t("bookTitle")}</label>
             <input
@@ -209,16 +336,6 @@ const AddBookDrawer: React.FC = () => {
           </div>
 
           <div className="drawer-field">
-            <label className="form-label">{t("isbnNumber")}</label>
-            <input
-              name="isbn"
-              type="text"
-              className="form-control"
-              placeholder={t("enterIsbn")!}
-            />
-          </div>
-
-          <div className="drawer-field">
             <label className="form-label">{t("releasedDay")}</label>
             <input name="releasedDay" type="date" className="form-control" />
           </div>
@@ -226,10 +343,16 @@ const AddBookDrawer: React.FC = () => {
           <div className="drawer-field">
             <label className="form-label">{t("pictureUrl")}</label>
             <input
-              name="pictureUrl"
+              name="imageUrl"
               type="url"
               className="form-control"
               placeholder={t("enterPictureUrl")!}
+            />
+            <input
+              name="imageFile"
+              type="file"
+              accept="image/*"
+              className="form-control mt-2"
             />
           </div>
 
@@ -240,7 +363,12 @@ const AddBookDrawer: React.FC = () => {
               type="url"
               className="form-control"
               placeholder={t("enterBookUrl")!}
-              required
+            />
+            <input
+              name="bookFile"
+              type="file"
+              accept="application/pdf"
+              className="form-control mt-2"
             />
           </div>
 

@@ -61,7 +61,7 @@ const MyBooksDrawer: React.FC = () => {
     >
       <div className="offcanvas-header">
         <h5 id="myBooksDrawerLabel" className="offcanvas-title">
-          ❤️ {t("myBooks")}
+          ❤️ {t("myBooks")} ({books.length})
         </h5>
         <button
           type="button"
@@ -82,7 +82,7 @@ const MyBooksDrawer: React.FC = () => {
         ) : books.length === 0 ? (
           <p className="empty-state mb-0">{t("noMyBooksYet")}</p>
         ) : (
-          <ul className="list-group search-results-list drawer-list">
+          <ul className="list-group search-results-list drawer-list my-books-list">
             {books.map((book) => (
               <li
                 key={`${book.id ?? "book"}-${book.title ?? "item"}`}
