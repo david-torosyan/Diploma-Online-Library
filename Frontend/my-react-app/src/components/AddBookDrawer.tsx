@@ -64,6 +64,8 @@ const AddBookDrawer: React.FC = () => {
   const { t } = useTranslation();
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string>("");
+  const [imageSourceType, setImageSourceType] = useState<"url" | "file">("url");
+  const [bookSourceType, setBookSourceType] = useState<"url" | "file">("url");
   const [loading, setLoading] = useState<boolean>(false);
   const [formErrors, setFormErrors] = useState<string[]>([]);
   const navigate = useNavigate();
@@ -99,27 +101,37 @@ const AddBookDrawer: React.FC = () => {
     const imageFile = formData.get("imageFile");
     const bookFile = formData.get("bookFile");
 
-    const hasImageFile = imageFile instanceof File && imageFile.size > 0;
-    const hasBookFile = bookFile instanceof File && bookFile.size > 0;
-    const hasImageUrl = imageUrl.length > 0;
-    const hasBookUrl = bookUrl.length > 0;
+    const hasImageFile = imageSourceType === "file" && imageFile instanceof File && imageFile.size > 0;
+    const hasBookFile = bookSourceType === "file" && bookFile instanceof File && bookFile.size > 0;
+    const hasImageUrl = imageSourceType === "url" && imageUrl.length > 0;
+    const hasBookUrl = bookSourceType === "url" && bookUrl.length > 0;
 
     if (!title || !authorName || !categoryId) {
       setFormErrors([t("pleaseFillAllRequiredFields")]);
       return;
     }
 
-    if (!hasImageFile && !hasImageUrl) {
+    if (imageSourceType === "url" && !hasImageUrl) {
       setFormErrors([t("imageSourceRequired")]);
       return;
     }
 
-    if (!hasBookFile && !hasBookUrl) {
+    if (imageSourceType === "file" && !hasImageFile) {
+      setFormErrors([t("imageSourceRequired")]);
+      return;
+    }
+
+    if (bookSourceType === "url" && !hasBookUrl) {
       setFormErrors([t("bookSourceRequired")]);
       return;
     }
 
-    if (hasBookFile && !isPdfFile(bookFile as File)) {
+    if (bookSourceType === "file" && !hasBookFile) {
+      setFormErrors([t("bookSourceRequired")]);
+      return;
+    }
+
+    if (bookSourceType === "file" && hasBookFile && !isPdfFile(bookFile as File)) {
       setFormErrors([t("bookPdfOnly")]);
       return;
     }
@@ -237,6 +249,8 @@ const AddBookDrawer: React.FC = () => {
 
         form.reset();
         setSelectedGenre("");
+        setImageSourceType("url");
+        setBookSourceType("url");
         setFormErrors([]);
         navigate(`/bookdetails/${responseId}`);
       }
@@ -342,34 +356,102 @@ const AddBookDrawer: React.FC = () => {
 
           <div className="drawer-field">
             <label className="form-label">{t("pictureUrl")}</label>
-            <input
-              name="imageUrl"
-              type="url"
-              className="form-control"
-              placeholder={t("enterPictureUrl")!}
-            />
-            <input
-              name="imageFile"
-              type="file"
-              accept="image/*"
-              className="form-control mt-2"
-            />
+            <div className="d-flex gap-3 mb-2">
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="imageSourceType"
+                  id="imageSourceUrl"
+                  checked={imageSourceType === "url"}
+                  onChange={() => setImageSourceType("url")}
+                />
+                <label className="form-check-label" htmlFor="imageSourceUrl">
+                  URL
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="imageSourceType"
+                  id="imageSourceFile"
+                  checked={imageSourceType === "file"}
+                  onChange={() => setImageSourceType("file")}
+                />
+                <label className="form-check-label" htmlFor="imageSourceFile">
+                  File
+                </label>
+              </div>
+            </div>
+
+            {imageSourceType === "url" ? (
+              <input
+                name="imageUrl"
+                type="url"
+                className="form-control"
+                placeholder={t("enterPictureUrl")!}
+                required
+              />
+            ) : (
+              <input
+                name="imageFile"
+                type="file"
+                accept="image/*"
+                className="form-control"
+                required
+              />
+            )}
           </div>
 
           <div className="drawer-field">
             <label className="form-label">{t("bookUrl")}</label>
-            <input
-              name="bookUrl"
-              type="url"
-              className="form-control"
-              placeholder={t("enterBookUrl")!}
-            />
-            <input
-              name="bookFile"
-              type="file"
-              accept="application/pdf"
-              className="form-control mt-2"
-            />
+            <div className="d-flex gap-3 mb-2">
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="bookSourceType"
+                  id="bookSourceUrl"
+                  checked={bookSourceType === "url"}
+                  onChange={() => setBookSourceType("url")}
+                />
+                <label className="form-check-label" htmlFor="bookSourceUrl">
+                  URL
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="bookSourceType"
+                  id="bookSourceFile"
+                  checked={bookSourceType === "file"}
+                  onChange={() => setBookSourceType("file")}
+                />
+                <label className="form-check-label" htmlFor="bookSourceFile">
+                  PDF
+                </label>
+              </div>
+            </div>
+
+            {bookSourceType === "url" ? (
+              <input
+                name="bookUrl"
+                type="url"
+                className="form-control"
+                placeholder={t("enterBookUrl")!}
+                required
+              />
+            ) : (
+              <input
+                name="bookFile"
+                type="file"
+                accept="application/pdf"
+                className="form-control"
+                required
+              />
+            )}
           </div>
 
           <button
