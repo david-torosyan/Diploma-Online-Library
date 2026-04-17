@@ -14,7 +14,7 @@ import {
 } from "../services/chatService";
 import type { ChatMessage, ChatUser, ConversationSummary, TypingEvent } from "../types/chat";
 import type { HubConnection } from "@microsoft/signalr";
-import { improveText, getQuickReplies } from "../services/aiWritingService";
+import { improveText, getQuickReplies } from "../services/aiWritingService.ts";
 
 const MAX_MESSAGE_LENGTH = 2000;
 

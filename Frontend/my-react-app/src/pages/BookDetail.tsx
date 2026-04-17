@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 import { getCurrentUserId, isAdminUser } from "../utils/auth";
 import { getRelatedBooks } from "../services/discoveryService";
 import { startPrivateConversation } from "../services/chatService";
-import { improveText } from "../services/aiWritingService";
+import { improveText } from "../services/aiWritingService.ts";
 
 const isLocalMediaUrl = (url?: string) => !!url && url.includes("/media/");
 
@@ -205,16 +205,19 @@ const BookDetail: React.FC = () => {
       // Update favorites count dynamically without page reload
       if (book) {
         setBook((prevBook) => {
-          if (!prevBook.favorites) return prevBook;
-          const newCount = nextFavoriteState 
-            ? prevBook.favorites.length + 1 
-            : Math.max(0, prevBook.favorites.length - 1);
-          
-          // Create a new empty array with the new count
-          return {
+          if (!prevBook) {
+            return prevBook;
+          }
+
+          const currentFavorites = prevBook.favorites ?? [];
+          const newCount = nextFavoriteState
+            ? currentFavorites.length + 1
+            : Math.max(0, currentFavorites.length - 1);
+
+          return BookWithDetailsDto.fromJS({
             ...prevBook,
-            favorites: Array(newCount).fill(null)
-          };
+            favorites: Array.from({ length: newCount }, () => ({} as any)),
+          });
         });
       }
     } finally {
