@@ -11,6 +11,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Book> Books { get; set; }
     public DbSet<Favorite> Favorites { get; set; }
     public DbSet<Review> Reviews { get; set; }
+    public DbSet<Conversation> Conversations { get; set; }
+    public DbSet<ConversationParticipant> ConversationParticipants { get; set; }
+    public DbSet<ChatMessage> ChatMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -21,6 +24,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         builder.Entity<Book>().ToTable("books");
         builder.Entity<Favorite>().ToTable("favorites");
         builder.Entity<Review>().ToTable("reviews");
+        builder.Entity<Conversation>().ToTable("conversations");
+        builder.Entity<ConversationParticipant>().ToTable("conversation_participants");
+        builder.Entity<ChatMessage>().ToTable("chat_messages");
 
         // ----------------------------
         // Primary Keys
@@ -40,6 +46,15 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
         builder.Entity<Favorite>()
             .HasKey(f => new { f.ApplicationUserId, f.BookId });
+
+        builder.Entity<Conversation>()
+            .HasKey(c => c.Id);
+
+        builder.Entity<ConversationParticipant>()
+            .HasKey(cp => new { cp.ConversationId, cp.ApplicationUserId });
+
+        builder.Entity<ChatMessage>()
+            .HasKey(m => m.Id);
 
         // ----------------------------
         // Relationships
@@ -86,6 +101,71 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithMany(b => b.Favorites)
             .HasForeignKey(f => f.BookId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Conversation -> Creator
+        builder.Entity<Conversation>()
+            .HasOne(c => c.CreatedByUser)
+            .WithMany(u => u.ConversationsCreated)
+            .HasForeignKey(c => c.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // ConversationParticipant -> Conversation
+        builder.Entity<ConversationParticipant>()
+            .HasOne(cp => cp.Conversation)
+            .WithMany(c => c.Participants)
+            .HasForeignKey(cp => cp.ConversationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // ConversationParticipant -> User
+        builder.Entity<ConversationParticipant>()
+            .HasOne(cp => cp.User)
+            .WithMany(u => u.ConversationParticipants)
+            .HasForeignKey(cp => cp.ApplicationUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // ChatMessage -> Conversation
+        builder.Entity<ChatMessage>()
+            .HasOne(m => m.Conversation)
+            .WithMany(c => c.Messages)
+            .HasForeignKey(m => m.ConversationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // ChatMessage -> Sender
+        builder.Entity<ChatMessage>()
+            .HasOne(m => m.SenderUser)
+            .WithMany(u => u.ChatMessagesSent)
+            .HasForeignKey(m => m.SenderUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Helpful indexes for chat querying at scale.
+        builder.Entity<Conversation>()
+            .HasIndex(c => c.LastMessageAtUtc);
+
+        builder.Entity<ConversationParticipant>()
+            .HasIndex(cp => cp.ApplicationUserId);
+
+        builder.Entity<ChatMessage>()
+            .HasIndex(m => new { m.ConversationId, m.SentAtUtc });
+
+        builder.Entity<ChatMessage>()
+            .Property(m => m.SentAtUtc)
+            .HasColumnType("timestamptz");
+
+        builder.Entity<Conversation>()
+            .Property(c => c.CreatedAtUtc)
+            .HasColumnType("timestamptz");
+
+        builder.Entity<Conversation>()
+            .Property(c => c.LastMessageAtUtc)
+            .HasColumnType("timestamptz");
+
+        builder.Entity<ConversationParticipant>()
+            .Property(cp => cp.JoinedAtUtc)
+            .HasColumnType("timestamptz");
+
+        builder.Entity<ConversationParticipant>()
+            .Property(cp => cp.LastReadAtUtc)
+            .HasColumnType("timestamptz");
 
         builder.Entity<Book>()
             .Property(b => b.PublishedDate)

@@ -2,11 +2,13 @@
 using Library.DAL.IRepositories;
 using Library.DAL.Models;
 using Library.DAL.Repositories;
+using LibraryAPI.Hubs;
 using LibraryAPI.Extension;
 using LibraryAPI.Models;
 using LibraryAPI.Services;
 using LibraryAPI.Services.IServices;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Encodings.Web;
@@ -47,15 +49,21 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
+builder.Services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBookAuthorService, BookAuthorService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddSingleton<IOnlineUserTracker, OnlineUserTracker>();
+builder.Services.AddSingleton<IUserIdProvider, SubClaimUserIdProvider>();
 builder.Services.AddScoped<AIAssistantHelper, AIAssistantHelper>();
 builder.Services.AddHttpClient<AIAssistantHelper>();
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSignalR();
 #endregion
 
 #region ========================== Controller & JSON Settings ==========================
@@ -113,6 +121,7 @@ app.UseAuthorization();
 app.ConfigureCustomExceptionHandler();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/hubs/chat");
 #endregion
 
 app.Run();

@@ -7,5 +7,7 @@ public interface IUnitOfWork
     ICategoryRepository Categories { get; }
     IFavoriteRepository Favorites { get; }
     IReviewRepository Reviews { get; }
+    IConversationRepository Conversations { get; }
+    IChatMessageRepository ChatMessages { get; }
     Task CommitAsync();
 }

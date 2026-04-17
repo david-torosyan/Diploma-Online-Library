@@ -13,12 +13,14 @@ import AdminMessagesDrawer from "../components/AdminMessagesDrawer";
 import { getAuthToken, isAdminUser } from "../utils/auth";
 import { Offcanvas } from "bootstrap";
 import { LibraryClient } from "../api/LibraryClient";
+import { createChatHubConnection, getUnreadCount } from "../services/chatService";
 import config from "../config/config.json";
 
 const Header: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [unapprovedCount, setUnapprovedCount] = useState(0);
+  const [chatUnreadCount, setChatUnreadCount] = useState(0);
   const [userName, setUserName] = useState<string>("");
   const { t } = useTranslation();
 
@@ -39,6 +41,8 @@ const Header: React.FC = () => {
   };
 
   useEffect(() => {
+    let unreadPollingInterval: number | undefined;
+
     const loadUnapprovedCount = async () => {
       if (!isAdmin) {
         setUnapprovedCount(0);
@@ -60,6 +64,21 @@ const Header: React.FC = () => {
       }
     };
 
+    const loadChatUnreadCount = async () => {
+      const token = getAuthToken();
+      if (!token) {
+        setChatUnreadCount(0);
+        return;
+      }
+
+      try {
+        const unread = await getUnreadCount(token);
+        setChatUnreadCount(unread);
+      } catch {
+        setChatUnreadCount(0);
+      }
+    };
+
     const syncAuthState = () => {
       const user = Cookies.get("user");
 
@@ -78,6 +97,7 @@ const Header: React.FC = () => {
         setIsAuthenticated(false);
         setIsAdmin(false);
         setUnapprovedCount(0);
+        setChatUnreadCount(0);
         setUserName("");
       }
     };
@@ -86,6 +106,12 @@ const Header: React.FC = () => {
       const customEvent = event as CustomEvent<number>;
       const nextCount = typeof customEvent.detail === "number" ? customEvent.detail : 0;
       setUnapprovedCount(nextCount);
+    };
+
+    const handleChatUnreadCountChanged = (event: Event) => {
+      const customEvent = event as CustomEvent<number>;
+      const nextCount = typeof customEvent.detail === "number" ? customEvent.detail : 0;
+      setChatUnreadCount(nextCount);
     };
 
     const handleOffcanvasSwitch = (event: Event) => {
@@ -130,16 +156,54 @@ const Header: React.FC = () => {
       currentInstance.hide();
     };
 
+    const handleWindowFocus = () => {
+      syncAuthState();
+      loadUnapprovedCount();
+      loadChatUnreadCount();
+    };
+
     syncAuthState();
     loadUnapprovedCount();
-    window.addEventListener("focus", syncAuthState);
+    loadChatUnreadCount();
+
+    const token = getAuthToken();
+    const hub = token ? createChatHubConnection(token) : null;
+
+    if (hub) {
+      hub.on("MessageReceived", () => {
+        loadChatUnreadCount();
+      });
+
+      hub.onreconnected(() => {
+        loadChatUnreadCount();
+      });
+
+      hub.start().catch(() => {
+        setChatUnreadCount(0);
+      });
+    }
+
+    // Keep unread badge fresh even outside Messenger route.
+    unreadPollingInterval = window.setInterval(() => {
+      loadChatUnreadCount();
+    }, 10000);
+
+    window.addEventListener("focus", handleWindowFocus);
     document.addEventListener("click", handleOffcanvasSwitch);
     window.addEventListener("admin-unapproved-count-changed", handleUnapprovedCountChanged as EventListener);
+    window.addEventListener("chat-unread-count-changed", handleChatUnreadCountChanged as EventListener);
 
     return () => {
-      window.removeEventListener("focus", syncAuthState);
+      if (hub) {
+        hub.stop().catch(() => undefined);
+      }
+      if (unreadPollingInterval) {
+        window.clearInterval(unreadPollingInterval);
+      }
+      window.removeEventListener("focus", handleWindowFocus);
       document.removeEventListener("click", handleOffcanvasSwitch);
       window.removeEventListener("admin-unapproved-count-changed", handleUnapprovedCountChanged as EventListener);
+      window.removeEventListener("chat-unread-count-changed", handleChatUnreadCountChanged as EventListener);
     };
   }, [isAdmin, t]);
 
@@ -147,7 +211,8 @@ const Header: React.FC = () => {
     <>
       <header className="navbar navbar-expand-lg navbar-dark app-navbar px-3 px-lg-4 py-2 py-lg-3">
         <Link className="navbar-brand fw-bold text-white app-brand" to="/">
-          {t("appName")}
+          <img src="/biblosLogo.png" alt="Biblos logo" className="app-brand-logo" />
+          <span className="app-brand-text">{t("appName")}</span>
         </Link>
 
         <button
@@ -217,6 +282,17 @@ const Header: React.FC = () => {
                   >
                     📚 {t("myBooks")}
                   </button>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="btn btn-outline-light nav-chip px-3 py-1 position-relative" to="/messenger" onClick={handleCloseDrawers}>
+                    💬 {t("messenger")}
+                    {chatUnreadCount > 0 && (
+                      <span className="messages-badge" aria-label={`You have ${chatUnreadCount} unread chat messages`}>
+                        {chatUnreadCount}
+                      </span>
+                    )}
+                  </Link>
                 </li>
 
                 <li className="nav-item">

@@ -1,4 +1,4 @@
-name: ♾️ CI - Build & Verify Diploma Online Library (Docker Compose)
+name: ♾️ CI - Build & Verify Diploma Biblios (Docker Compose)
 
 on:
   push:

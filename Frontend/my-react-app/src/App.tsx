@@ -10,6 +10,7 @@ const BookDetail = lazy(() => import("./pages/BookDetail"));
 const CategoryBooks = lazy(() => import("./pages/CategoryBooks"));
 const CollectionBooks = lazy(() => import("./pages/CollectionBooks"));
 const Explore = lazy(() => import("./pages/Explore"));
+const Messenger = lazy(() => import("./pages/Messenger"));
 
 const App: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ const App: React.FC = () => {
               <Route path="/bookdetails/:id" element={<BookDetail />} />
               <Route path="/category/:categoryName" element={<CategoryBooks />} />
               <Route path="/collection/:collectionType" element={<CollectionBooks />} />
+              <Route path="/messenger" element={<Messenger />} />
             </Routes>
           </Suspense>
         </main>

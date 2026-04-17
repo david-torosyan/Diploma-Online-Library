@@ -11,6 +11,8 @@ public class UnitOfWork : IUnitOfWork
     public ICategoryRepository Categories { get; private set; }
     public IFavoriteRepository Favorites { get; private set; }
     public IReviewRepository Reviews { get; private set; }
+    public IConversationRepository Conversations { get; private set; }
+    public IChatMessageRepository ChatMessages { get; private set; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -22,6 +24,8 @@ public class UnitOfWork : IUnitOfWork
         Categories = new CategoryRepository(_context);
         Favorites = new FavoriteRepository(_context);
         Reviews = new ReviewRepository(_context);
+        Conversations = new ConversationRepository(_context);
+        ChatMessages = new ChatMessageRepository(_context);
     }
 
     public async Task CommitAsync() =>

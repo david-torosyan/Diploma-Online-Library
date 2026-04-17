@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { LibraryClient, LoginModel } from "../api/LibraryClient";
 import { handleLoginResponse } from "../services/loginService.tsx";
 import { useTranslation } from "react-i18next";
@@ -7,10 +7,10 @@ import config from "../config/config.json";
 const SignIn: React.FC = () => {
   const { t } = useTranslation();
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,6 +18,14 @@ const SignIn: React.FC = () => {
     setLoading(true);
 
     try {
+      const email = emailRef.current?.value.trim() ?? "";
+      const password = passwordRef.current?.value ?? "";
+
+      if (!email || !password) {
+        setError(t("loginErrorDefault"));
+        return;
+      }
+
       const api = new LibraryClient(config.baseUrl);
       const loginModel = new LoginModel({ email, password });
 
@@ -62,8 +70,8 @@ const SignIn: React.FC = () => {
               type="email"
               className="form-control"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              ref={emailRef}
+              autoComplete="username email"
               placeholder={t("enterEmail")}
               required
             />
@@ -77,8 +85,8 @@ const SignIn: React.FC = () => {
               type="password"
               className="form-control"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              ref={passwordRef}
+              autoComplete="current-password"
               placeholder={t("enterPassword")}
               required
             />

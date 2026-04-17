@@ -12,6 +12,7 @@ import config from "../config/config.json";
 import Cookies from "js-cookie";
 import { getCurrentUserId, isAdminUser } from "../utils/auth";
 import { getRelatedBooks } from "../services/discoveryService";
+import { startPrivateConversation } from "../services/chatService";
 
 const isLocalMediaUrl = (url?: string) => !!url && url.includes("/media/");
 
@@ -311,6 +312,30 @@ const BookDetail: React.FC = () => {
       );
     } finally {
       setReviewSubmitting(false);
+    }
+  };
+
+  const handleMessageReviewer = async (reviewerUserId?: string) => {
+    if (!reviewerUserId || reviewerUserId === currentUserId) {
+      return;
+    }
+
+    const token = Cookies.get("auth_token");
+    if (!token) {
+      setReviewError(t("reviewSignIn", "Sign in to rate and review this book."));
+      return;
+    }
+
+    try {
+      const conversation = await startPrivateConversation(token, reviewerUserId);
+      navigate("/messenger", {
+        state: {
+          conversationId: conversation.id,
+          recipientUserId: reviewerUserId,
+        },
+      });
+    } catch {
+      setReviewError(t("chatStartFailed", "Could not start chat. Please try again."));
     }
   };
 
@@ -644,6 +669,15 @@ const BookDetail: React.FC = () => {
                       </div>
 
                       <div className="d-flex align-items-center gap-2 text-muted small">
+                        {review.applicationUserId && review.applicationUserId !== currentUserId && (
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-outline-primary rounded-pill"
+                            onClick={() => handleMessageReviewer(review.applicationUserId)}
+                          >
+                            {t("messageUser", "Message")}
+                          </button>
+                        )}
                         <span className="review-stars" aria-hidden="true">
                           {renderStars(review.rating ?? 0)}
                         </span>

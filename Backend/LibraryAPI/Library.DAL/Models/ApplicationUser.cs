@@ -10,4 +10,7 @@ public class ApplicationUser : IdentityUser
     // Navigation property
     public ICollection<Favorite> Favorites { get; set; }
     public ICollection<Review> Reviews { get; set; }
+    public ICollection<ConversationParticipant> ConversationParticipants { get; set; }
+    public ICollection<Conversation> ConversationsCreated { get; set; }
+    public ICollection<ChatMessage> ChatMessagesSent { get; set; }
 }
