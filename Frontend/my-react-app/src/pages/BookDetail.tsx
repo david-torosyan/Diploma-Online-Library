@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { getCurrentUserId, isAdminUser } from "../utils/auth";
 import { getRelatedBooks } from "../services/discoveryService";
 import { startPrivateConversation } from "../services/chatService";
+import { improveText } from "../services/aiWritingService";
 
 const isLocalMediaUrl = (url?: string) => !!url && url.includes("/media/");
 
@@ -36,6 +37,8 @@ const BookDetail: React.FC = () => {
   const [reviewSuccess, setReviewSuccess] = useState<string | null>(null);
   const [hoveredRating, setHoveredRating] = useState<number | null>(null);
   const [reviewForm, setReviewForm] = useState({ rating: 0, content: "" });
+  const [aiImproving, setAiImproving] = useState(false);
+  const [aiWriting, setAiWriting] = useState(false);
   const { t } = useTranslation();
   const currentUserId = getCurrentUserId();
 
@@ -198,6 +201,22 @@ const BookDetail: React.FC = () => {
       const api = new LibraryClient(config.baseUrl);
       await api.myFavorites(bookId, nextFavoriteState, token);
       setIsFavorite(nextFavoriteState);
+
+      // Update favorites count dynamically without page reload
+      if (book) {
+        setBook((prevBook) => {
+          if (!prevBook.favorites) return prevBook;
+          const newCount = nextFavoriteState 
+            ? prevBook.favorites.length + 1 
+            : Math.max(0, prevBook.favorites.length - 1);
+          
+          // Create a new empty array with the new count
+          return {
+            ...prevBook,
+            favorites: Array(newCount).fill(null)
+          };
+        });
+      }
     } finally {
       setFavoriteLoading(false);
     }
@@ -336,6 +355,48 @@ const BookDetail: React.FC = () => {
       });
     } catch {
       setReviewError(t("chatStartFailed", "Could not start chat. Please try again."));
+    }
+  };
+
+  const handleImproveReview = async () => {
+    if (!reviewForm.content.trim()) {
+      setReviewError(t("reviewCommentRequired", "Please write at least a short comment."));
+      return;
+    }
+
+    setAiImproving(true);
+    setReviewError(null);
+    setReviewSuccess(null);
+
+    try {
+      const improved = await improveText(reviewForm.content, "review comment");
+      setReviewForm((current) => ({ ...current, content: improved }));
+      setReviewSuccess(null);
+    } catch (err) {
+      console.error(err);
+      setReviewError(t("aiUnreachable", "AI Assistant is temporarily unavailable due to maintenance. Please try again later."));
+    } finally {
+      setAiImproving(false);
+    }
+  };
+
+  const handleWriteReviewWithAI = async () => {
+    setAiWriting(true);
+    setReviewError(null);
+    setReviewSuccess(null);
+
+    try {
+      const context = `${book?.title} is a ${book?.categoryName || "book"} by ${book?.authorFullName || "an author"}`;
+      const ratingInfo = reviewForm.rating > 0 ? `based on a rating of ${reviewForm.rating} stars` : "";
+      const prompt = `Write a brief professional book review ${ratingInfo} for "${context}".`.trim();
+      const generated = await improveText(prompt, "book review");
+      setReviewForm((current) => ({ ...current, content: generated }));
+      setReviewSuccess(null);
+    } catch (err) {
+      console.error(err);
+      setReviewError(t("aiUnreachable", "AI Assistant is temporarily unavailable due to maintenance. Please try again later."));
+    } finally {
+      setAiWriting(false);
     }
   };
 
@@ -611,15 +672,41 @@ const BookDetail: React.FC = () => {
                 </div>
 
                 {reviewError && (
-                  <div className="alert alert-danger py-2" role="alert">
+                  <div 
+                    className={`alert py-2 ${reviewError.includes("temporarily unavailable") || reviewError.includes("maintenance") ? "alert-warning small" : "alert-danger"}`}
+                    role="alert"
+                  >
                     {reviewError}
                   </div>
                 )}
-                {reviewSuccess && (
+                {reviewSuccess && !reviewError && (
                   <div className="alert alert-success py-2" role="alert">
                     {reviewSuccess}
                   </div>
                 )}
+
+                <div className="d-flex gap-2 mb-3 flex-wrap">
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary rounded-pill px-3"
+                    onClick={handleWriteReviewWithAI}
+                    disabled={aiWriting}
+                    title={t("aiWriteReview", "Generate review using AI")}
+                  >
+                    ✨ {aiWriting ? t("generating", "Generating...") : t("aiWrite", "Write with AI")}
+                  </button>
+                  {reviewForm.content.trim().length > 0 && (
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary rounded-pill px-3"
+                      onClick={handleImproveReview}
+                      disabled={aiImproving}
+                      title={t("aiImproveReview", "Improve review with AI")}
+                    >
+                      ✨ {aiImproving ? t("improving", "Improving...") : t("aiImprove", "Improve with AI")}
+                    </button>
+                  )}
+                </div>
 
                 <button
                   type="button"

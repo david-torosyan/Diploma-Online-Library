@@ -96,9 +96,9 @@ public class AIAssistantHelper
                 dto.BookURL = "https://www.amazon.com/s?k=" + Uri.EscapeDataString(dto.Title ?? "book");
             }
 
-            // Leave Favorites and Reviews as null
-            dto.Favorites = null;
-            dto.Reviews = null;
+            // Leave Favorites and Reviews as empty collections
+            dto.Favorites ??= new List<FavoriteDto>();
+            dto.Reviews ??= new List<ReviewDto>();
 
             return dto;
         }
@@ -173,6 +173,86 @@ public class AIAssistantHelper
         catch (Exception ex)
         {
             throw new InvalidOperationException("Failed to parse AI response.", ex);
+        }
+    }
+
+    /// <summary>
+    /// Improves the writing quality of the provided text using AI suggestions.
+    /// </summary>
+    /// <param name="text">The text to improve.</param>
+    /// <param name="context">Optional context to guide the improvement (e.g., "review comment", "chat message").</param>
+    /// <returns>Improved version of the text.</returns>
+    public async Task<string> ImproveTextAsync(string text, string? context = null)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            throw new ArgumentException("Text cannot be empty.", nameof(text));
+
+        var contextInfo = string.IsNullOrWhiteSpace(context) 
+            ? "a message or comment" 
+            : $"a {context}";
+
+        string prompt = $@"
+You are a professional writing assistant. Improve the following {contextInfo} to make it more professional, clear, and engaging. 
+Keep the original meaning and intent, but enhance grammar, tone, and readability.
+
+Original text: ""{text}""
+
+Return ONLY the improved text - no explanations, no markdown, no quotes.";
+
+        var result = await GenerateContentAsync(prompt);
+        return result?.Trim() ?? text;
+    }
+
+    /// <summary>
+    /// Generates quick reply suggestions based on the provided context.
+    /// </summary>
+    /// <param name="prompt">The conversation context or initial message.</param>
+    /// <param name="count">The number of quick replies to generate (default: 5).</param>
+    /// <returns>Array of suggested quick replies.</returns>
+    public async Task<string[]> GenerateQuickRepliesAsync(string prompt, int count = 5)
+    {
+        if (string.IsNullOrWhiteSpace(prompt))
+            throw new ArgumentException("Prompt cannot be empty.", nameof(prompt));
+
+        if (count <= 0 || count > 10)
+            count = 5;
+
+        string aiPrompt = $@"
+You are a helpful assistant generating quick reply suggestions for a chat or messaging application.
+Based on the following conversation context, generate exactly {count} short, natural, and contextually appropriate quick reply suggestions.
+Each reply should be 1-10 words and represent a typical response a person might send.
+
+Context: ""{prompt}""
+
+Return ONLY a JSON array of strings, with no markdown, no code fences, and no explanations.
+Example format: [""Hello!"", ""Thanks!"", ""How are you?"", ""See you later"", ""That sounds great""]
+";
+
+        var content = await GenerateContentAsync(aiPrompt);
+
+        try
+        {
+            // Handle any non-JSON text Gemini may include
+            int jsonStart = content.IndexOf('[');
+            int jsonEnd = content.LastIndexOf(']');
+            if (jsonStart >= 0 && jsonEnd > jsonStart)
+                content = content.Substring(jsonStart, jsonEnd - jsonStart + 1);
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var replies = JsonSerializer.Deserialize<string[]>(content, options);
+            return replies?.Where(r => !string.IsNullOrWhiteSpace(r))
+                         .Select(r => r.Trim())
+                         .ToArray() ?? Array.Empty<string>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Failed to parse quick replies: {ex.Message}");
+            // Return default suggestions if parsing fails
+            return new[] { "Hello!", "Thanks!", "OK", "Sounds good!", "Let me know" };
         }
     }
 

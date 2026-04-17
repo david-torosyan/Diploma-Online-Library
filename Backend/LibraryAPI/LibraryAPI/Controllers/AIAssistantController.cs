@@ -51,5 +51,46 @@ namespace LibraryAPI.Controllers
             var book = await _aIAssistantHelper.GenerateBookWithDetailsAsync(prompt);
             return Ok(book);
         }
+
+        /// <summary>
+        /// Improves the writing quality of provided text using AI suggestions.
+        /// </summary>
+        /// <param name="prompt">The text to improve.</param>
+        /// <param name="context">Optional context (e.g., "review comment", "chat message").</param>
+        /// <returns>Improved version of the text.</returns>
+        [HttpGet("improve-text")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<string>> ImproveText([Required] string prompt, string? context = null)
+        {
+            if (string.IsNullOrWhiteSpace(prompt))
+                return BadRequest("Text cannot be empty.");
+
+            var improvedText = await _aIAssistantHelper.ImproveTextAsync(prompt, context);
+            return Ok(improvedText);
+        }
+
+        /// <summary>
+        /// Generates quick reply suggestions based on conversation context.
+        /// </summary>
+        /// <param name="prompt">The conversation context or initial message.</param>
+        /// <param name="count">The number of quick replies to generate (1-10, default: 5).</param>
+        /// <returns>Array of suggested quick replies.</returns>
+        [HttpGet("quick-replies")]
+        [ProducesResponseType(typeof(string[]), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<string[]>> GetQuickReplies([Required] string prompt, [FromQuery] int count = 5)
+        {
+            if (string.IsNullOrWhiteSpace(prompt))
+                return BadRequest("Prompt cannot be empty.");
+
+            if (count <= 0 || count > 10)
+                return BadRequest("Count must be between 1 and 10.");
+
+            var replies = await _aIAssistantHelper.GenerateQuickRepliesAsync(prompt, count);
+            return Ok(replies);
+        }
     }
 }

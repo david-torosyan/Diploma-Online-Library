@@ -99,17 +99,6 @@ const Home: React.FC = () => {
         showRatings
       />
 
-      <CuratedBooksShelf
-        title={t("featuredBooks", "Featured Books")}
-        subtitle={t(
-          "featuredBooksSubtitle",
-          "Hand-picked titles readers are loving this week."
-        )}
-        books={featuredBooks}
-        loading={discoveryLoading}
-        openAllHref="/collection/featured"
-      />
-
       {genres.length > 0 ? (
         genres.map((genre) => (
           <section key={genre} className="app-section">
