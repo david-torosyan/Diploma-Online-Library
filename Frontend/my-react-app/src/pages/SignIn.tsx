@@ -1,38 +1,43 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { LibraryClient, LoginModel } from "../api/LibraryClient";
 import { handleLoginResponse } from "../services/loginService.tsx";
 import { useTranslation } from "react-i18next";
 import config from "../config/config";
+import { resolveAuthError, validateSignIn } from "../utils/authValidation";
 
 const SignIn: React.FC = () => {
   const { t } = useTranslation();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<"email" | "password", string>>>({});
   const [loading, setLoading] = useState<boolean>(false);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setFieldErrors({});
     setLoading(true);
 
     try {
-      const email = emailRef.current?.value.trim() ?? "";
-      const password = passwordRef.current?.value ?? "";
+      const normalizedEmail = email.trim();
+      const localErrors = validateSignIn(normalizedEmail, password, t);
 
-      if (!email || !password) {
-        setError(t("loginErrorDefault"));
+      if (Object.keys(localErrors).length > 0) {
+        setFieldErrors(localErrors);
+        setError(localErrors.email || localErrors.password || t("loginErrorDefault"));
         return;
       }
 
       const api = new LibraryClient(config.baseUrl);
-      const loginModel = new LoginModel({ email, password });
+      const loginModel = new LoginModel({ email: normalizedEmail, password });
 
       const response = await api.login(loginModel);
       handleLoginResponse(response);
     } catch (err) {
-      setError(t("authWrongLoginOrPassword"));
+      const { globalError } = resolveAuthError(err, t, "login");
+      setError(globalError || t("loginErrorDefault"));
       console.error("Login error:", err);
     } finally {
       setLoading(false);
@@ -59,20 +64,25 @@ const SignIn: React.FC = () => {
       </div>
 
       <div className="offcanvas-body">
-        <form onSubmit={handleSubmit} className="d-flex flex-column gap-2">
+        <form onSubmit={handleSubmit} noValidate className="d-flex flex-column gap-2">
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               {t("emailAddress")}
             </label>
             <input
               type="email"
-              className="form-control"
+              className={`form-control ${fieldErrors.email ? "is-invalid" : ""}`}
               id="email"
-              ref={emailRef}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setFieldErrors((prev) => ({ ...prev, email: "" }));
+              }}
               autoComplete="username email"
               placeholder={t("enterEmail")}
               required
             />
+            {fieldErrors.email && <div className="invalid-feedback">{fieldErrors.email}</div>}
           </div>
 
           <div className="mb-3">
@@ -81,13 +91,20 @@ const SignIn: React.FC = () => {
             </label>
             <input
               type="password"
-              className="form-control"
+              className={`form-control ${fieldErrors.password ? "is-invalid" : ""}`}
               id="password"
-              ref={passwordRef}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setFieldErrors((prev) => ({ ...prev, password: "" }));
+              }}
               autoComplete="current-password"
               placeholder={t("enterPassword")}
               required
             />
+            {fieldErrors.password && (
+              <div className="invalid-feedback">{fieldErrors.password}</div>
+            )}
           </div>
 
           {error && <div className="text-danger mb-2">{error}</div>}

@@ -3,6 +3,11 @@ import { LibraryClient, RegisterModel, LoginModel } from "../api/LibraryClient";
 import { handleLoginResponse } from "../services/loginService.tsx";
 import { useTranslation } from "react-i18next";
 import config from "../config/config";
+import {
+  resolveAuthError,
+  validateSignUp,
+  type RegisterFieldErrors,
+} from "../utils/authValidation";
 
 const SignUp: React.FC = () => {
   const { t } = useTranslation();
@@ -14,20 +19,38 @@ const SignUp: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [fieldErrors, setFieldErrors] = useState<RegisterFieldErrors>({});
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setSuccess(false);
     setFieldErrors({});
     setLoading(true);
 
     try {
+      const normalizedFirstName = firstName.trim();
+      const normalizedLastName = lastName.trim();
+      const normalizedEmail = email.trim();
+
+      const localValidationErrors = validateSignUp(
+        normalizedFirstName,
+        normalizedLastName,
+        normalizedEmail,
+        password,
+        t
+      );
+
+      if (Object.keys(localValidationErrors).length > 0) {
+        setFieldErrors(localValidationErrors);
+        return;
+      }
+
       const api = new LibraryClient(config.baseUrl);
       const body = new RegisterModel({
-        firstName,
-        lastName,
-        email,
+        firstName: normalizedFirstName,
+        lastName: normalizedLastName,
+        email: normalizedEmail,
         password,
       });
 
@@ -35,13 +58,18 @@ const SignUp: React.FC = () => {
 
       if (response?.message === "Registration successful.") {
         setSuccess(true);
-        const loginModel = new LoginModel({ email, password });
+        const loginModel = new LoginModel({ email: normalizedEmail, password });
         const loginResponse = await api.login(loginModel);
         handleLoginResponse(loginResponse);
       }
     } catch (err) {
-      setFieldErrors({});
-      setError(t("authWrongLoginOrPassword"));
+      const { globalError, fieldErrors: backendFieldErrors } = resolveAuthError(err, t, "register");
+
+      if (Object.keys(backendFieldErrors).length > 0) {
+        setFieldErrors(backendFieldErrors);
+      }
+
+      setError(globalError || null);
       console.error("Registration error:", err);
     } finally {
       setLoading(false);
@@ -68,7 +96,7 @@ const SignUp: React.FC = () => {
       </div>
 
       <div className="offcanvas-body">
-        <form onSubmit={handleSubmit} className="d-flex flex-column gap-1">
+        <form onSubmit={handleSubmit} noValidate className="d-flex flex-column gap-1">
           <div className="row">
             {/* First Name */}
             <div className="col-md-6 mb-3">
@@ -78,19 +106,19 @@ const SignUp: React.FC = () => {
               <input
                 type="text"
                 className={`form-control ${
-                  fieldErrors.firstname ? "is-invalid" : ""
+                  fieldErrors.firstName ? "is-invalid" : ""
                 }`}
                 id="firstName"
                 value={firstName}
                 onChange={(e) => {
                   setFirstName(e.target.value);
-                  setFieldErrors((prev) => ({ ...prev, firstname: "" }));
+                  setFieldErrors((prev) => ({ ...prev, firstName: "" }));
                 }}
                 placeholder={t("enterFirstName")}
                 required
               />
-              {fieldErrors.firstname && (
-                <div className="invalid-feedback">{fieldErrors.firstname}</div>
+              {fieldErrors.firstName && (
+                <div className="invalid-feedback">{fieldErrors.firstName}</div>
               )}
             </div>
 
@@ -102,19 +130,19 @@ const SignUp: React.FC = () => {
               <input
                 type="text"
                 className={`form-control ${
-                  fieldErrors.lastname ? "is-invalid" : ""
+                  fieldErrors.lastName ? "is-invalid" : ""
                 }`}
                 id="lastName"
                 value={lastName}
                 onChange={(e) => {
                   setLastName(e.target.value);
-                  setFieldErrors((prev) => ({ ...prev, lastname: "" }));
+                  setFieldErrors((prev) => ({ ...prev, lastName: "" }));
                 }}
                 placeholder={t("enterLastName")}
                 required
               />
-              {fieldErrors.lastname && (
-                <div className="invalid-feedback">{fieldErrors.lastname}</div>
+              {fieldErrors.lastName && (
+                <div className="invalid-feedback">{fieldErrors.lastName}</div>
               )}
             </div>
           </div>
