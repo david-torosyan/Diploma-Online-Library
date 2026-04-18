@@ -1,12 +1,14 @@
-﻿using Library.DAL.IRepositories;
+﻿using Amazon.S3;
+using Amazon.S3.Model;
+using Library.DAL.IRepositories;
 using LibraryAPI.Constans;
 using LibraryAPI.Mappers;
 using LibraryAPI.Models;
 using LibraryAPI.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
-using System.Net.Http;
 
 namespace LibraryAPI.Controllers
 {
@@ -20,19 +22,25 @@ namespace LibraryAPI.Controllers
         private readonly IReviewService _reviewService;
         private readonly IWebHostEnvironment _environment;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IAmazonS3 _amazonS3;
+        private readonly S3Options _s3Options;
 
         public BookController(
             IUnitOfWork unitOfWork,
             IBookAuthorService bookAuthorService,
             IReviewService reviewService,
             IWebHostEnvironment environment,
-            IHttpClientFactory httpClientFactory)
+            IHttpClientFactory httpClientFactory,
+            IAmazonS3 amazonS3,
+            IOptions<S3Options> s3Options)
         {
             _unitOfWork = unitOfWork;
             _bookAuthorService = bookAuthorService;
             _reviewService = reviewService;
             _environment = environment;
             _httpClientFactory = httpClientFactory;
+            _amazonS3 = amazonS3;
+            _s3Options = s3Options.Value;
         }
 
         /// <summary>
@@ -211,6 +219,26 @@ namespace LibraryAPI.Controllers
             if (!Uri.TryCreate(url, UriKind.Absolute, out _))
                 return BadRequest("Invalid book file URL.");
 
+            if (TryGetS3ObjectKey(url, out var objectKey))
+            {
+                try
+                {
+                    using var s3Response = await _amazonS3.GetObjectAsync(new GetObjectRequest
+                    {
+                        BucketName = _s3Options.BucketName,
+                        Key = objectKey
+                    });
+
+                    await using var memoryStream = new MemoryStream();
+                    await s3Response.ResponseStream.CopyToAsync(memoryStream);
+                    return File(memoryStream.ToArray(), "application/pdf", fileName);
+                }
+                catch (AmazonS3Exception)
+                {
+                    return NotFound("Unable to fetch the book file.");
+                }
+            }
+
             var client = _httpClientFactory.CreateClient();
             using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
@@ -219,6 +247,64 @@ namespace LibraryAPI.Controllers
 
             var bytes = await response.Content.ReadAsByteArrayAsync();
             return File(bytes, "application/pdf", fileName);
+        }
+
+        /// <summary>
+        /// Downloads or proxies a book image from S3 or external URL.
+        /// </summary>
+        [HttpGet("{bookId:int}/download-image")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DownloadBookImage(int bookId)
+        {
+            if (bookId <= 0)
+                return BadRequest("Invalid book ID.");
+
+            var book = await _unitOfWork.Books.GetByIdAsync(bookId);
+            if (book == null)
+                return NotFound("Book not found.");
+
+            if (string.IsNullOrWhiteSpace(book.ImageURL))
+                return NotFound("Book image not available.");
+
+            var url = book.ImageURL;
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out _))
+                return BadRequest("Invalid image URL.");
+
+            // Try S3 first if URL points to S3
+            if (TryGetS3ObjectKey(url, out var objectKey))
+            {
+                try
+                {
+                    using var s3Response = await _amazonS3.GetObjectAsync(new GetObjectRequest
+                    {
+                        BucketName = _s3Options.BucketName,
+                        Key = objectKey
+                    });
+
+                    await using var memoryStream = new MemoryStream();
+                    await s3Response.ResponseStream.CopyToAsync(memoryStream);
+                    var contentType = s3Response.Headers.ContentType ?? DetectImageContentType(objectKey);
+                    return File(memoryStream.ToArray(), contentType);
+                }
+                catch (AmazonS3Exception)
+                {
+                    return NotFound("Unable to fetch the book image.");
+                }
+            }
+
+            // Fallback to HTTP fetch for external URLs
+            var client = _httpClientFactory.CreateClient();
+            using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+
+            if (!response.IsSuccessStatusCode)
+                return NotFound("Unable to fetch the book image.");
+
+            var bytes = await response.Content.ReadAsByteArrayAsync();
+            var contentTypeHeader = response.Content.Headers.ContentType?.MediaType ?? "image/jpeg";
+            return File(bytes, contentTypeHeader);
         }
 
         /// <summary>
@@ -450,14 +536,27 @@ namespace LibraryAPI.Controllers
 
         private BookDto NormalizeBookDto(BookDto dto)
         {
-            dto.ImageURL = NormalizeMediaUrl(dto.ImageURL);
+            // If image is on S3, convert to download endpoint; otherwise normalize as static URL
+            if (dto.IsImageOnS3)
+                dto.ImageURL = $"{Request.Scheme}://{Request.Host}/api/books/{dto.Id}/download-image";
+            else
+                dto.ImageURL = NormalizeMediaUrl(dto.ImageURL);
             return dto;
         }
 
         private BookWithDetailsDto NormalizeBookWithDetailsDto(BookWithDetailsDto dto)
         {
-            dto.ImageURL = NormalizeMediaUrl(dto.ImageURL);
-            dto.BookURL = NormalizeMediaUrl(dto.BookURL);
+            // If image is on S3, convert to download endpoint; otherwise normalize as static URL
+            if (dto.IsImageOnS3)
+                dto.ImageURL = $"{Request.Scheme}://{Request.Host}/api/books/{dto.Id}/download-image";
+            else
+                dto.ImageURL = NormalizeMediaUrl(dto.ImageURL);
+
+            // If book is on S3, convert to download endpoint; otherwise normalize as static URL
+            if (dto.IsBookOnS3)
+                dto.BookURL = $"{Request.Scheme}://{Request.Host}/api/books/{dto.Id}/download-pdf";
+            else
+                dto.BookURL = NormalizeMediaUrl(dto.BookURL);
             return dto;
         }
 
@@ -471,6 +570,46 @@ namespace LibraryAPI.Controllers
 
             var relative = mediaValue.StartsWith('/') ? mediaValue : $"/{mediaValue}";
             return $"{Request.Scheme}://{Request.Host}{relative}";
+        }
+
+        private bool TryGetS3ObjectKey(string url, out string objectKey)
+        {
+            objectKey = string.Empty;
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
+                return false;
+
+            if (!uri.Host.Equals(GetS3Host(), StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            objectKey = Uri.UnescapeDataString(uri.AbsolutePath.TrimStart('/'));
+            return !string.IsNullOrWhiteSpace(objectKey);
+        }
+
+        private string GetS3Host()
+        {
+            var baseUrl = !string.IsNullOrWhiteSpace(_s3Options.BaseUrl)
+                ? _s3Options.BaseUrl.TrimEnd('/')
+                : $"https://{_s3Options.BucketName}.s3.{_s3Options.Region}.amazonaws.com";
+
+            return Uri.TryCreate(baseUrl, UriKind.Absolute, out var uri)
+                ? uri.Host
+                : $"{_s3Options.BucketName}.s3.{_s3Options.Region}.amazonaws.com";
+        }
+
+        private static string DetectImageContentType(string objectKey)
+        {
+            var extension = Path.GetExtension(objectKey)?.ToLowerInvariant() ?? "";
+            return extension switch
+            {
+                ".jpg" => "image/jpeg",
+                ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".webp" => "image/webp",
+                ".gif" => "image/gif",
+                ".bmp" => "image/bmp",
+                _ => "image/jpeg"
+            };
         }
 
         private static string BuildDownloadFileName(string? title)

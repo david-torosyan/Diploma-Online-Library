@@ -588,7 +588,7 @@ const BookDetail: React.FC = () => {
               )}
 
               {book.bookURL ? (
-                isLocalMediaUrl(book.bookURL) ? (
+                 isLocalMediaUrl(book.bookURL) || book.isBookOnS3 ? (
                   <a
                     className="btn btn-primary rounded-pill px-4 w-100"
                     href={`${config.baseUrl}/api/books/${book.id}/download-pdf`}

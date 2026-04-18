@@ -16,6 +16,8 @@ public class BookWithDetailsDto
     public string CategoryName { get; set; }
     public string BookURL { get; set; }
     public string ImageURL { get; set; }
+    public bool IsBookOnS3 { get; set; }
+    public bool IsImageOnS3 { get; set; }
     public double AverageRating { get; set; }
     public int ReviewsCount { get; set; }
 

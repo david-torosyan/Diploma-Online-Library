@@ -1,7 +1,10 @@
-﻿using Library.DAL.IRepositories;
+﻿using Amazon.S3;
+using Amazon.S3.Model;
+using Library.DAL.IRepositories;
 using Library.DAL.Models;
 using LibraryAPI.Models;
 using LibraryAPI.Services.IServices;
+using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
 namespace LibraryAPI.Services;
@@ -12,7 +15,8 @@ public class BookAuthorService : IBookAuthorService
     private readonly ILogger<BookAuthorService> _logger;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _environment;
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IAmazonS3 _amazonS3;
+    private readonly S3Options _s3Options;
 
     private static readonly string[] AllowedImageExtensions = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp"];
     private static readonly string[] AllowedPdfExtensions = [".pdf"];
@@ -22,13 +26,15 @@ public class BookAuthorService : IBookAuthorService
         ILogger<BookAuthorService> logger,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment environment,
-        IHttpClientFactory httpClientFactory)
+        IAmazonS3 amazonS3,
+        IOptions<S3Options> s3Options)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
         _httpContextAccessor = httpContextAccessor;
         _environment = environment;
-        _httpClientFactory = httpClientFactory;
+        _amazonS3 = amazonS3;
+        _s3Options = s3Options.Value;
     }
 
     public async Task CheckBookInMyFavoritesAsync(int bookId, bool isFavorite)
@@ -143,7 +149,9 @@ public class BookAuthorService : IBookAuthorService
                 BookURL = bookPath,
                 ImageURL = imagePath,
                 AuthorId = author.Id,
-                IsApproved = false
+                IsApproved = false,
+                IsBookOnS3 = IsS3Url(bookPath),
+                IsImageOnS3 = IsS3Url(imagePath)
             };
 
             await _unitOfWork.Books.AddAsync(book);
@@ -247,8 +255,8 @@ public class BookAuthorService : IBookAuthorService
         if (book.IsApproved)
             throw new ArgumentException("Only pending books can be declined.");
 
-        DeleteLocalMediaFile(book.BookURL);
-        DeleteLocalMediaFile(book.ImageURL);
+        await DeleteMediaFileAsync(book.BookURL);
+        await DeleteMediaFileAsync(book.ImageURL);
 
         _unitOfWork.Books.Delete(book);
         await _unitOfWork.CommitAsync();
@@ -263,57 +271,83 @@ public class BookAuthorService : IBookAuthorService
         if (string.IsNullOrWhiteSpace(extension) || !allowedExtensions.Contains(extension))
             throw new ArgumentException($"Unsupported file extension '{extension}'.");
 
-        var mediaRoot = EnsureMediaFolder(subFolder);
         var safeFileName = $"{Guid.NewGuid():N}{extension}";
-        var filePath = Path.Combine(mediaRoot, safeFileName);
+        var objectKey = $"{subFolder}/{safeFileName}";
 
-        await using var stream = new FileStream(filePath, FileMode.Create);
-        await file.CopyToAsync(stream);
+        await using var stream = file.OpenReadStream();
+        var request = new PutObjectRequest
+        {
+            BucketName = _s3Options.BucketName,
+            Key = objectKey,
+            InputStream = stream,
+            ContentType = file.ContentType ?? GuessContentType(extension)
+        };
 
-        return $"/media/{subFolder}/{safeFileName}";
+        await _amazonS3.PutObjectAsync(request);
+
+        return BuildS3Url(objectKey);
     }
 
-    private async Task<string> DownloadAndSaveFromUrlAsync(
-        string sourceUrl,
-        string subFolder,
-        string[] allowedExtensions,
-        string fallbackExtension)
+    private async Task DeleteMediaFileAsync(string? url)
     {
-        if (!Uri.TryCreate(sourceUrl, UriKind.Absolute, out var uri) ||
-            (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+        if (string.IsNullOrWhiteSpace(url))
+            return;
+
+        if (url.StartsWith("/media/", StringComparison.OrdinalIgnoreCase))
         {
-            throw new ArgumentException("Invalid URL provided.");
+            DeleteLocalMediaFile(url);
+            return;
         }
 
-        var extension = Path.GetExtension(uri.AbsolutePath)?.ToLowerInvariant();
-        if (string.IsNullOrWhiteSpace(extension) || !allowedExtensions.Contains(extension))
-            extension = fallbackExtension;
+        if (!TryGetS3ObjectKey(url, out var objectKey))
+            return;
 
-        if (!allowedExtensions.Contains(extension))
-            throw new ArgumentException("Unsupported file type provided by URL.");
-
-        var client = _httpClientFactory.CreateClient();
-        using var response = await client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
-        response.EnsureSuccessStatusCode();
-
-        var mediaRoot = EnsureMediaFolder(subFolder);
-        var safeFileName = $"{Guid.NewGuid():N}{extension}";
-        var filePath = Path.Combine(mediaRoot, safeFileName);
-
-        await using var source = await response.Content.ReadAsStreamAsync();
-        await using var destination = new FileStream(filePath, FileMode.Create);
-        await source.CopyToAsync(destination);
-
-        return $"/media/{subFolder}/{safeFileName}";
+        try
+        {
+            await _amazonS3.DeleteObjectAsync(new DeleteObjectRequest
+            {
+                BucketName = _s3Options.BucketName,
+                Key = objectKey
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to delete S3 object '{ObjectKey}'", objectKey);
+        }
     }
 
-    private string EnsureMediaFolder(string subFolder)
+    private bool TryGetS3ObjectKey(string url, out string objectKey)
     {
-        var root = Path.Combine(_environment.ContentRootPath, "Media", subFolder);
-        if (!Directory.Exists(root))
-            Directory.CreateDirectory(root);
+        objectKey = string.Empty;
 
-        return root;
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
+            return false;
+
+        if (!uri.Host.Equals(GetS3Host(), StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        objectKey = Uri.UnescapeDataString(uri.AbsolutePath.TrimStart('/'));
+        return !string.IsNullOrWhiteSpace(objectKey);
+    }
+
+    private string BuildS3Url(string objectKey)
+    {
+        return $"{GetS3BaseUrl()}/{objectKey}";
+    }
+
+    private static string GuessContentType(string extension)
+    {
+        return extension switch
+        {
+            ".pdf" => "application/pdf",
+            ".jpg" => "image/jpeg",
+            ".jpeg" => "image/jpeg",
+            ".png" => "image/png",
+            ".webp" => "image/webp",
+            ".gif" => "image/gif",
+            ".bmp" => "image/bmp",
+            _ => "application/octet-stream"
+        };
     }
 
     private void DeleteLocalMediaFile(string? url)
@@ -341,6 +375,31 @@ public class BookAuthorService : IBookAuthorService
             "image/bmp" => ".bmp",
             _ => null
         };
+    }
+
+    private bool IsS3Url(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return false;
+
+        return url.Contains(GetS3Host(), StringComparison.OrdinalIgnoreCase) ||
+               url.StartsWith(GetS3BaseUrl(), StringComparison.OrdinalIgnoreCase);
+    }
+
+    private string GetS3BaseUrl()
+    {
+        if (!string.IsNullOrWhiteSpace(_s3Options.BaseUrl))
+            return _s3Options.BaseUrl.TrimEnd('/');
+
+        return $"https://{_s3Options.BucketName}.s3.{_s3Options.Region}.amazonaws.com";
+    }
+
+    private string GetS3Host()
+    {
+        var baseUrl = GetS3BaseUrl();
+        return Uri.TryCreate(baseUrl, UriKind.Absolute, out var uri)
+            ? uri.Host
+            : $"{_s3Options.BucketName}.s3.{_s3Options.Region}.amazonaws.com";
     }
 
     private static string GenerateIsbn13()

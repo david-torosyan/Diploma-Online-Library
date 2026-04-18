@@ -1,4 +1,6 @@
-﻿using Library.DAL.Data;
+﻿using Amazon;
+using Amazon.S3;
+using Library.DAL.Data;
 using Library.DAL.IRepositories;
 using Library.DAL.Models;
 using Library.DAL.Repositories;
@@ -11,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
@@ -37,6 +40,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 #region ========================== App Options ==========================
 builder.Services.Configure<AIAssistantOptions>(builder.Configuration.GetSection("AIAssistant"));
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
+builder.Services.Configure<S3Options>(builder.Configuration.GetSection("S3"));
 #endregion
 
 #region ========================== JWT Authentication ==========================
@@ -61,6 +65,22 @@ builder.Services.AddSingleton<IOnlineUserTracker, OnlineUserTracker>();
 builder.Services.AddSingleton<IUserIdProvider, SubClaimUserIdProvider>();
 builder.Services.AddScoped<AIAssistantHelper, AIAssistantHelper>();
 builder.Services.AddHttpClient<AIAssistantHelper>();
+builder.Services.AddSingleton<IAmazonS3>(sp =>
+{
+    var s3Options = sp.GetRequiredService<IOptions<S3Options>>().Value;
+
+    if (string.IsNullOrWhiteSpace(s3Options.AccessKey) ||
+        string.IsNullOrWhiteSpace(s3Options.SecretKey) ||
+        string.IsNullOrWhiteSpace(s3Options.Region))
+    {
+        throw new InvalidOperationException("S3 settings are missing. Configure S3:AccessKey, S3:SecretKey and S3:Region.");
+    }
+
+    return new AmazonS3Client(
+        s3Options.AccessKey,
+        s3Options.SecretKey,
+        RegionEndpoint.GetBySystemName(s3Options.Region));
+});
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSignalR();

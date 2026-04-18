@@ -15,6 +15,7 @@ public static class MapperExtentions
                 CategoryId = book.CategoryId,
                 CategoryName = book.Category.Name,
                 ImageURL = book.ImageURL,
+                IsImageOnS3 = book.IsImageOnS3,
                 AverageRating = book.Reviews?.Count > 0
                     ? Math.Round(book.Reviews.Average(r => r.Rating), 1)
                     : 0,
@@ -36,6 +37,8 @@ public static class MapperExtentions
                 CategoryName = book.Category.Name,
                 BookURL = book.BookURL,
                 ImageURL = book.ImageURL,
+                IsBookOnS3 = book.IsBookOnS3,
+                IsImageOnS3 = book.IsImageOnS3,
                 AverageRating = book.Reviews?.Count > 0
                     ? Math.Round(book.Reviews.Average(r => r.Rating), 1)
                     : 0,

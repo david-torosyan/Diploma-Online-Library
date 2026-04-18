@@ -18,9 +18,9 @@ const BookDetailFromAi: React.FC<BookDetailFromAiProps> = ({
 
   if (!book) return null;
 
-  const shouldDownload = isLocalMediaUrl(book.bookURL);
+  const shouldDownload = isLocalMediaUrl(book.bookURL) || book.isBookOnS3;
   const downloadHref =
-    shouldDownload && book.id && book.id > 0
+    (shouldDownload || book.isBookOnS3) && book.id && book.id > 0
       ? `${config.baseUrl}/api/books/${book.id}/download-pdf`
       : book.bookURL || "";
 

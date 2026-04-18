@@ -285,7 +285,7 @@ const SearchDrawer: React.FC = () => {
                   </div>
 
                   {!isAiResult && book.bookURL &&
-                    (isLocalMediaUrl(book.bookURL) ? (
+                      (isLocalMediaUrl(book.bookURL) || book.isBookOnS3 ? (
                       <a
                         href={
                           book.id && book.id > 0
