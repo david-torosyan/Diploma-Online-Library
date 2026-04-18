@@ -29,7 +29,7 @@ const MyBooksDrawer: React.FC = () => {
 
     try {
       const api = new LibraryClient(config.baseUrl);
-      const result = await api.myFavoritesAll(token);
+      const result = await api.myFavoritesAll();
       setBooks(Array.isArray(result) ? result : []);
     } catch {
       setError(t("fetchError"));

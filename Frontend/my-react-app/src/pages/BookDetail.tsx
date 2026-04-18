@@ -132,7 +132,7 @@ const BookDetail: React.FC = () => {
 
     try {
       const api = new LibraryClient(config.baseUrl);
-      const favorites = await api.myFavoritesAll(token);
+      const favorites = await api.myFavoritesAll();
       const currentBookId = Number(id);
       const exists = favorites.some((item) => item.id === currentBookId);
       setIsFavorite(exists);
@@ -231,7 +231,7 @@ const BookDetail: React.FC = () => {
     setFavoriteLoading(true);
     try {
       const api = new LibraryClient(config.baseUrl);
-      await api.myFavorites(bookId, nextFavoriteState, token);
+      await api.myFavorites(bookId, nextFavoriteState);
       setIsFavorite(nextFavoriteState);
 
       // Update favorites count dynamically without page reload
@@ -346,13 +346,12 @@ const BookDetail: React.FC = () => {
 
     try {
       const api = new LibraryClient(config.baseUrl);
-      await api.upsertReview(
+      await api.reviews(
         Number(id),
         new UpsertReviewDto({
           rating: reviewForm.rating,
           content: normalizedContent,
-        }),
-        token
+        })
       );
 
       await loadBook(false);

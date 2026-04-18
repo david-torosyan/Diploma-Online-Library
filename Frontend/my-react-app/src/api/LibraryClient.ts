@@ -19,8 +19,39 @@ export class LibraryClient {
 
         this.instance = instance || axios.create();
 
+        const token = this.getAuthTokenFromCookie();
+        if (token) {
+            this.instance.defaults.headers.common = {
+                ...this.instance.defaults.headers.common,
+                "Authorization": `Bearer ${token}`
+            };
+        }
+
         this.baseUrl = baseUrl ?? "";
 
+    }
+
+    private getAuthTokenFromCookie(): string | undefined {
+        if (typeof document === "undefined") {
+            return undefined;
+        }
+
+        const cookieName = "auth_token=";
+        const cookies = document.cookie ? document.cookie.split(";") : [];
+
+        for (const rawCookie of cookies) {
+            const cookie = rawCookie.trim();
+            if (cookie.startsWith(cookieName)) {
+                const encodedValue = cookie.substring(cookieName.length);
+                try {
+                    return decodeURIComponent(encodedValue);
+                } catch {
+                    return encodedValue;
+                }
+            }
+        }
+
+        return undefined;
     }
 
     /**

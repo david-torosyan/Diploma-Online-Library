@@ -78,7 +78,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({
     setIsAuthenticated(true);
     try {
       const api = new LibraryClient(config.baseUrl);
-      const favorites = await api.myFavoritesAll(token);
+      const favorites = await api.myFavoritesAll();
       const ids = new Set(
         favorites
           .map((f) => f.id)
@@ -104,7 +104,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({
     setTogglingId(bookId);
     try {
       const api = new LibraryClient(config.baseUrl);
-      await api.myFavorites(bookId, nextFavoriteState, token);
+      await api.myFavorites(bookId, nextFavoriteState);
       setFavoriteIds((prev) => {
         const updated = new Set(prev);
         if (nextFavoriteState) {
