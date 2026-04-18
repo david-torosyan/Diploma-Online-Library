@@ -181,19 +181,32 @@ public class AIAssistantHelper
     /// </summary>
     /// <param name="text">The text to improve.</param>
     /// <param name="context">Optional context to guide the improvement (e.g., "review comment", "chat message").</param>
+    /// <param name="language">Optional output language code (e.g., "en", "ru", "hy").</param>
     /// <returns>Improved version of the text.</returns>
-    public async Task<string> ImproveTextAsync(string text, string? context = null)
+    public async Task<string> ImproveTextAsync(string text, string? context = null, string? language = null)
     {
         if (string.IsNullOrWhiteSpace(text))
             throw new ArgumentException("Text cannot be empty.", nameof(text));
 
-        var contextInfo = string.IsNullOrWhiteSpace(context) 
+        var contextInfo = string.IsNullOrWhiteSpace(context)
             ? "a message or comment" 
             : $"a {context}";
+
+        var normalizedContext = (context ?? string.Empty).Trim().ToLowerInvariant();
+        var isReviewContext = normalizedContext.Contains("review");
+        var lengthInstruction = isReviewContext
+            ? "Return 2 to 3 sentences only."
+            : "Keep the result concise.";
+
+        var languageInstruction = string.IsNullOrWhiteSpace(language)
+            ? string.Empty
+            : $"Write the output in {ResolveLanguageName(language)}.";
 
         string prompt = $@"
 You are a professional writing assistant. Improve the following {contextInfo} to make it more professional, clear, and engaging. 
 Keep the original meaning and intent, but enhance grammar, tone, and readability.
+{lengthInstruction}
+{languageInstruction}
 
 Original text: ""{text}""
 
@@ -201,6 +214,28 @@ Return ONLY the improved text - no explanations, no markdown, no quotes.";
 
         var result = await GenerateContentAsync(prompt);
         return result?.Trim() ?? text;
+    }
+
+    private static string ResolveLanguageName(string language)
+    {
+        var value = language.Trim().ToLowerInvariant();
+
+        if (value.StartsWith("en"))
+            return "English";
+        if (value.StartsWith("hy"))
+            return "Armenian";
+        if (value.StartsWith("ru"))
+            return "Russian";
+        if (value.StartsWith("de"))
+            return "German";
+        if (value.StartsWith("es"))
+            return "Spanish";
+        if (value.StartsWith("fr"))
+            return "French";
+        if (value.StartsWith("sa") || value.StartsWith("ar"))
+            return "Arabic";
+
+        return "the same language as the input";
     }
 
     /// <summary>

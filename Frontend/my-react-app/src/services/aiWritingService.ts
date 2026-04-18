@@ -13,14 +13,16 @@ type ImproveTextResponse = {
  * Improves the provided text using AI suggestions
  * @param text The text to improve
  * @param context Optional context (e.g., "review comment", "chat message")
+ * @param language Optional output language code (e.g., "en", "ru", "hy")
  * @returns Improved version of the text
  */
-export async function improveText(text: string, context?: string): Promise<string> {
+export async function improveText(text: string, context?: string, language?: string): Promise<string> {
   try {
     const { data } = await api.get<string | ImproveTextResponse>("/api/AIAssistant/improve-text", {
       params: {
         prompt: text,
         context,
+        language,
       },
     });
 

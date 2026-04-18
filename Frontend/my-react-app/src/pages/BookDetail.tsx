@@ -17,6 +17,23 @@ import { improveText } from "../services/aiWritingService.ts";
 
 const isLocalMediaUrl = (url?: string) => !!url && url.includes("/media/");
 
+const getReviewRatingGuidance = (rating: number) => {
+  switch (rating) {
+    case 1:
+      return "1 star: write a strongly negative review. Emphasize major problems, disappointment, and why the book did not work.";
+    case 2:
+      return "2 stars: write a mostly negative review. Mention several issues, but keep it fair and specific.";
+    case 3:
+      return "3 stars: write a balanced review. Mention both strengths and weaknesses with a neutral tone.";
+    case 4:
+      return "4 stars: write a positive review. Highlight the good parts and mention only minor drawbacks.";
+    case 5:
+      return "5 stars: write an enthusiastic review. Focus on the strongest qualities and why the book was excellent.";
+    default:
+      return "No rating selected: write a neutral, general book review.";
+  }
+};
+
 const BookDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
@@ -39,7 +56,7 @@ const BookDetail: React.FC = () => {
   const [reviewForm, setReviewForm] = useState({ rating: 0, content: "" });
   const [aiImproving, setAiImproving] = useState(false);
   const [aiWriting, setAiWriting] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const currentUserId = getCurrentUserId();
 
   const renderStars = useCallback((rating: number) => {
@@ -403,7 +420,11 @@ const BookDetail: React.FC = () => {
     setReviewSuccess(null);
 
     try {
-      const improved = await improveText(reviewForm.content, "review comment");
+      const improved = await improveText(
+        reviewForm.content,
+        "review comment",
+        i18n.resolvedLanguage ?? i18n.language
+      );
       setReviewForm((current) => ({ ...current, content: improved }));
       setReviewSuccess(null);
     } catch (err) {
@@ -421,9 +442,13 @@ const BookDetail: React.FC = () => {
 
     try {
       const context = `${book?.title} is a ${book?.categoryName || "book"} by ${book?.authorFullName || "an author"}`;
-      const ratingInfo = reviewForm.rating > 0 ? `based on a rating of ${reviewForm.rating} stars` : "";
-      const prompt = `Write a brief professional book review ${ratingInfo} for "${context}".`.trim();
-      const generated = await improveText(prompt, "book review");
+      const ratingGuidance = getReviewRatingGuidance(reviewForm.rating);
+      const prompt = `Write a brief professional book review for "${context}". ${ratingGuidance} Keep it natural and suitable for a reader review.`;
+      const generated = await improveText(
+        prompt,
+        "book review",
+        i18n.resolvedLanguage ?? i18n.language
+      );
       setReviewForm((current) => ({ ...current, content: generated }));
       setReviewSuccess(null);
     } catch (err) {
@@ -619,8 +644,8 @@ const BookDetail: React.FC = () => {
       </div>
 
       <section className="mt-4 card p-3 p-md-4 detail-card app-section">
-        <div className="d-flex flex-column flex-lg-row gap-4">
-          <div className="review-form-panel flex-grow-1">
+        <div className="review-layout">
+          <div className="review-form-panel">
             <h3 className="h5 fw-bold mb-2">
               {t("writeReview", "Rate this book")}
             </h3>
@@ -757,7 +782,7 @@ const BookDetail: React.FC = () => {
             )}
           </div>
 
-          <div className="review-list-panel flex-grow-1">
+          <div className="review-list-panel">
             <div className="d-flex align-items-center justify-content-between mb-3">
               <h3 className="h5 fw-bold mb-0">
                 {t("reviews", "Reviews")}

@@ -57,17 +57,18 @@ namespace LibraryAPI.Controllers
         /// </summary>
         /// <param name="prompt">The text to improve.</param>
         /// <param name="context">Optional context (e.g., "review comment", "chat message").</param>
+        /// <param name="language">Optional output language code (e.g., "en", "ru", "hy").</param>
         /// <returns>Improved version of the text.</returns>
         [HttpGet("improve-text")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<string>> ImproveText([Required] string prompt, string? context = null)
+        public async Task<ActionResult<string>> ImproveText([Required] string prompt, string? context = null, string? language = null)
         {
             if (string.IsNullOrWhiteSpace(prompt))
                 return BadRequest("Text cannot be empty.");
 
-            var improvedText = await _aIAssistantHelper.ImproveTextAsync(prompt, context);
+            var improvedText = await _aIAssistantHelper.ImproveTextAsync(prompt, context, language);
             return Ok(improvedText);
         }
 

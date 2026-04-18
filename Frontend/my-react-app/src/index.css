@@ -1067,6 +1067,19 @@ a {
   min-width: 0;
 }
 
+.review-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 992px) {
+  .review-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
 .star-picker {
   display: inline-flex;
   flex-wrap: wrap;
