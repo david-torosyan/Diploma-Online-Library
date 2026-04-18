@@ -244,21 +244,66 @@ const AddBookDrawer: React.FC = () => {
           }
         }
 
-        const drawer = document.getElementById("addBookDrawer");
-        if (drawer) {
-          let offcanvas = Offcanvas.getInstance(drawer);
-          if (!offcanvas) {
-            offcanvas = new Offcanvas(drawer);
-          }
-          offcanvas.hide();
-        }
-
         form.reset();
         setSelectedGenre("");
         setImageSourceType("url");
         setBookSourceType("url");
         setFormErrors([]);
-        navigate(`/bookdetails/${responseId}`);
+
+        const clearStaleOffcanvasState = () => {
+          // Only force cleanup when no drawer is currently visible.
+          if (document.querySelector(".offcanvas.show")) {
+            return;
+          }
+
+          document.querySelectorAll(".offcanvas-backdrop").forEach((backdrop) => {
+            backdrop.remove();
+          });
+          document.body.classList.remove("overflow-hidden", "modal-open");
+          document.body.style.removeProperty("overflow");
+          document.body.style.removeProperty("padding-right");
+        };
+
+        const goToBookDetails = () => {
+          clearStaleOffcanvasState();
+          navigate(`/bookdetails/${responseId}`, {
+            state: { refreshAfterCreate: true },
+          });
+        };
+
+        const drawer = document.getElementById("addBookDrawer");
+        if (!drawer) {
+          goToBookDetails();
+          return;
+        }
+
+        const offcanvas = Offcanvas.getOrCreateInstance(drawer);
+        if (!drawer.classList.contains("show")) {
+          goToBookDetails();
+          return;
+        }
+
+        let didNavigate = false;
+        const navigateOnce = () => {
+          if (didNavigate) return;
+          didNavigate = true;
+          goToBookDetails();
+        };
+
+        const hiddenHandler = () => {
+          navigateOnce();
+        };
+
+        drawer.addEventListener("hidden.bs.offcanvas", hiddenHandler, {
+          once: true,
+        });
+
+        // Safety fallback in case hidden event is interrupted by fast UI changes.
+        window.setTimeout(() => {
+          navigateOnce();
+        }, 650);
+
+        offcanvas.hide();
       }
     } catch (error) {
       console.error("Error adding book:", error);

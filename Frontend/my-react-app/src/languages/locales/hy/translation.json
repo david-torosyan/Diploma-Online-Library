@@ -119,6 +119,7 @@
   "lastName": "Ազգանուն",
   "library": "Գրադարան",
   "loadingBooks": "Գրքերը բեռնվում են...",
+  "authWrongLoginOrPassword": "Սխալ մուտքանուն կամ գաղտնաբառ",
   "loginErrorDefault": "Մուտքը չհաջողվեց։ Խնդրում ենք փորձել կրկին։",
   "logout": "Դուրս գալ հաշվից",
   "myProfile": "Իմ հաշիվը",

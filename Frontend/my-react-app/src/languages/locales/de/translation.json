@@ -119,6 +119,7 @@
   "lastName": "Nachname",
   "library": "Bibliothek",
   "loadingBooks": "Bücher werden geladen...",
+  "authWrongLoginOrPassword": "Falscher Login oder falsches Passwort",
   "loginErrorDefault": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
   "logout": "Abmelden",
   "myProfile": "Mein Profil",

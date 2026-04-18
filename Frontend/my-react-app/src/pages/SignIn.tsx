@@ -32,9 +32,7 @@ const SignIn: React.FC = () => {
       const response = await api.login(loginModel);
       handleLoginResponse(response);
     } catch (err) {
-      const errorMsg =
-        err instanceof Error ? err.message : t("loginErrorDefault");
-      setError(errorMsg);
+      setError(t("authWrongLoginOrPassword"));
       console.error("Login error:", err);
     } finally {
       setLoading(false);
@@ -104,14 +102,16 @@ const SignIn: React.FC = () => {
 
           <p className="mt-3 text-center">
             {t("noAccount")}{" "}
-            <a
-              href="#signupDrawer"
+            <button
+              type="button"
+              className="btn btn-link p-0 align-baseline"
               data-bs-toggle="offcanvas"
+              data-bs-target="#signupDrawer"
               role="button"
               aria-controls="signupDrawer"
             >
               {t("register")}
-            </a>
+            </button>
           </p>
         </form>
       </div>

@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTopButton from "./components/ScrollToTopButton";
@@ -34,6 +34,7 @@ const App: React.FC = () => {
               <Route path="/category/:categoryName" element={<CategoryBooks />} />
               <Route path="/collection/:collectionType" element={<CollectionBooks />} />
               <Route path="/messenger" element={<Messenger />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Suspense>
         </main>

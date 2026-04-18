@@ -119,6 +119,7 @@
   "lastName": "Apellido",
   "library": "Biblioteca",
   "loadingBooks": "Cargando libros...",
+  "authWrongLoginOrPassword": "Usuario o contraseña incorrectos",
   "loginErrorDefault": "Error al iniciar sesión. Por favor, inténtalo de nuevo.",
   "logout": "Cerrar sesión",
   "myProfile": "Mi perfil",

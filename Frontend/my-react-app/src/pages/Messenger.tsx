@@ -14,7 +14,6 @@ import {
 } from "../services/chatService";
 import type { ChatMessage, ChatUser, ConversationSummary, TypingEvent } from "../types/chat";
 import type { HubConnection } from "@microsoft/signalr";
-import { improveText, getQuickReplies } from "../services/aiWritingService.ts";
 
 const MAX_MESSAGE_LENGTH = 2000;
 
@@ -41,9 +40,6 @@ const Messenger = () => {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isHubReady, setIsHubReady] = useState(false);
-  const [quickReplies, setQuickReplies] = useState<string[]>([]);
-  const [loadingReplies, setLoadingReplies] = useState(false);
-  const [aiImproving, setAiImproving] = useState(false);
 
   const hubRef = useRef<HubConnection | null>(null);
   const messageEndRef = useRef<HTMLDivElement | null>(null);
@@ -587,45 +583,6 @@ const Messenger = () => {
     }
   };
 
-  const handleLoadQuickReplies = async () => {
-    if (!messages.length) return;
-
-    setLoadingReplies(true);
-    try {
-      const lastMessage = messages[messages.length - 1];
-      const context = `Last message: "${lastMessage.content}"`;
-      const replies = await getQuickReplies(context, messageText, 5);
-      setQuickReplies(replies);
-    } catch (err) {
-      console.error("Error loading quick replies:", err);
-      setError(t("aiUnreachable", "AI Assistant is temporarily unavailable due to maintenance. Please try again later."));
-      setQuickReplies([]);
-    } finally {
-      setLoadingReplies(false);
-    }
-  };
-
-  const handleImproveMessage = async () => {
-    if (!messageText.trim()) return;
-
-    setAiImproving(true);
-    try {
-      const improved = await improveText(messageText, "chat message");
-      setMessageText(improved);
-      setQuickReplies([]);
-    } catch (err) {
-      console.error("Error improving message:", err);
-      setError(t("aiUnreachable", "AI Assistant is temporarily unavailable due to maintenance. Please try again later."));
-    } finally {
-      setAiImproving(false);
-    }
-  };
-
-  const handleSelectQuickReply = (reply: string) => {
-    setMessageText(reply);
-    setQuickReplies([]);
-  };
-
   if (!token) {
     return (
       <section className="container py-4 messenger-page">
@@ -863,28 +820,6 @@ const Messenger = () => {
                 <div ref={messageEndRef} />
               </div>
 
-              {/* Quick Replies Section */}
-              {quickReplies.length > 0 && (
-                <div className="messenger-quick-replies p-2 bg-light border-top">
-                  <p className="small text-muted mb-2">
-                    ✨ {t("quickReplies", "Quick replies:")}
-                  </p>
-                  <div className="d-flex flex-wrap gap-2">
-                    {quickReplies.map((reply, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        className="btn btn-sm btn-outline-primary rounded-pill"
-                        onClick={() => handleSelectQuickReply(reply)}
-                        title={reply}
-                      >
-                        {reply.length > 20 ? reply.substring(0, 20) + "..." : reply}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               <footer className="messenger-input-row">
                 <textarea
                   className="form-control"
@@ -896,28 +831,6 @@ const Messenger = () => {
                   rows={2}
                 />
                 <div className="d-flex gap-2">
-                  {messageText.trim().length > 0 && (
-                    <>
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={handleImproveMessage}
-                        disabled={aiImproving}
-                        title={t("aiImproveMessage", "Improve message with AI")}
-                      >
-                        ✨ {aiImproving ? t("improving", "Improving...") : t("aiImprove", "Improve")}
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={handleLoadQuickReplies}
-                        disabled={loadingReplies}
-                        title={t("quickRepliesSuggest", "Get quick reply suggestions")}
-                      >
-                        💬 {loadingReplies ? t("loading", "Loading...") : t("quickReplies", "Replies")}
-                      </button>
-                    </>
-                  )}
                   <button className="btn btn-primary" onClick={handleSendMessage} disabled={sending || !messageText.trim()}>
                     {t("send", "Send")}
                   </button>

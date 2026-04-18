@@ -119,6 +119,7 @@
   "lastName": "اسم العائلة",
   "library": "المكتبة",
   "loadingBooks": "جارٍ تحميل الكتب...",
+  "authWrongLoginOrPassword": "اسم المستخدم أو كلمة المرور غير صحيحة",
   "loginErrorDefault": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
   "logout": "تسجيل الخروج",
   "myProfile": "ملفي الشخصي",

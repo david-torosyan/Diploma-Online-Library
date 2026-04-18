@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import {
   LibraryClient,
   BookDto,
@@ -19,10 +19,10 @@ const isLocalMediaUrl = (url?: string) => !!url && url.includes("/media/");
 
 const BookDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
   const navigate = useNavigate();
   const [book, setBook] = useState<BookWithDetailsDto>();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -56,7 +56,16 @@ const BookDetail: React.FC = () => {
 
   const loadBook = useCallback(
     async (showLoading = true) => {
-      if (!id) return;
+      if (!id) {
+        navigate("/", { replace: true });
+        return;
+      }
+
+      const bookId = Number(id);
+      if (!Number.isFinite(bookId) || bookId <= 0) {
+        navigate("/", { replace: true });
+        return;
+      }
 
       if (showLoading) {
         setLoading(true);
@@ -64,24 +73,23 @@ const BookDetail: React.FC = () => {
 
       try {
         const api = new LibraryClient(config.baseUrl);
-        const result = await api.id(Number(id));
+        const result = await api.id(bookId);
 
         if (result) {
           setBook(result);
-          setError(null);
         } else {
-          setError(t("fetchError"));
+          navigate("/", { replace: true });
         }
       } catch (err) {
         console.error(err);
-        setError(t("fetchError"));
+        navigate("/", { replace: true });
       } finally {
         if (showLoading) {
           setLoading(false);
         }
       }
     },
-    [id, t]
+    [id, navigate]
   );
 
   useEffect(() => {
@@ -132,6 +140,30 @@ const BookDetail: React.FC = () => {
       setIsFavorite(false);
     }
   }, [id]);
+
+  useEffect(() => {
+    const state = location.state as { refreshAfterCreate?: boolean } | null;
+    if (!id || !state?.refreshAfterCreate) {
+      return;
+    }
+
+    const refreshKey = `bookdetails-create-refresh-${id}`;
+    if (sessionStorage.getItem(refreshKey) === "1") {
+      navigate(location.pathname, { replace: true, state: null });
+      return;
+    }
+
+    sessionStorage.setItem(refreshKey, "1");
+    const refreshTimer = window.setTimeout(() => {
+      loadBook(false);
+    }, 150);
+
+    navigate(location.pathname, { replace: true, state: null });
+
+    return () => {
+      window.clearTimeout(refreshTimer);
+    };
+  }, [id, loadBook, location.pathname, location.state, navigate]);
 
   useEffect(() => {
     loadFavoriteState();
@@ -411,12 +443,7 @@ const BookDetail: React.FC = () => {
     return (
       <p className="text-center mt-5 fw-semibold">{t("loadingBooks")}</p>
     );
-  if (error || !book)
-    return (
-      <p className="text-center mt-5 text-danger">
-        {error || t("bookNotFound", "Book not found.")}
-      </p>
-    );
+  if (!book) return null;
 
   return (
     <div className="container detail-shell app-section">

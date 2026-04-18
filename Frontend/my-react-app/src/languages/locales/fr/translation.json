@@ -118,6 +118,7 @@
   "lastName": "Nom",
   "library": "Bibliothèque",
   "loadingBooks": "Chargement des livres...",
+  "authWrongLoginOrPassword": "Identifiant ou mot de passe incorrect",
   "loginErrorDefault": "Échec de la connexion. Veuillez réessayer.",
   "logout": "Se déconnecter",
   "myProfile": "Mon profil",

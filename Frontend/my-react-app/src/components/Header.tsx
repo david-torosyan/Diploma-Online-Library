@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import SignIn from "../pages/SignIn";
@@ -11,7 +11,7 @@ import AddBookDrawer from "../components/AddBookDrawer";
 import MyBooksDrawer from "../components/MyBooksDrawer";
 import AdminMessagesDrawer from "../components/AdminMessagesDrawer";
 import { getAuthToken, isAdminUser } from "../utils/auth";
-import { Offcanvas } from "bootstrap";
+import { Collapse, Offcanvas } from "bootstrap";
 import { LibraryClient } from "../api/LibraryClient";
 import { createChatHubConnection, getUnreadCount } from "../services/chatService";
 import config from "../config/config";
@@ -22,26 +22,54 @@ const Header: React.FC = () => {
   const [unapprovedCount, setUnapprovedCount] = useState(0);
   const [chatUnreadCount, setChatUnreadCount] = useState(0);
   const [userName, setUserName] = useState<string>("");
+  const [isNavbarExpanded, setIsNavbarExpanded] = useState(false);
   const { t } = useTranslation();
+  const isSwitchingOffcanvasRef = useRef(false);
+
+  const hideNavbarMenu = () => {
+    const navbar = document.getElementById("navbarNav");
+    if (!navbar || !navbar.classList.contains("show")) {
+      return;
+    }
+
+    const collapse = Collapse.getOrCreateInstance(navbar, { toggle: false });
+    collapse.hide();
+  };
+
+  const handleNavbarToggle = () => {
+    const navbar = document.getElementById("navbarNav");
+    if (!navbar) {
+      return;
+    }
+
+    const collapse = Collapse.getOrCreateInstance(navbar, { toggle: false });
+    if (navbar.classList.contains("show")) {
+      collapse.hide();
+      return;
+    }
+
+    collapse.show();
+  };
 
   const handleCloseDrawers = () => {
-    const openDrawer = document.querySelector<HTMLElement>(".offcanvas.show");
-    if (openDrawer) {
-      const instance = Offcanvas.getOrCreateInstance(openDrawer);
+    hideNavbarMenu();
+    document.querySelectorAll<HTMLElement>(".offcanvas.show").forEach((drawer) => {
+      const instance = Offcanvas.getOrCreateInstance(drawer);
       instance.hide();
-      // Clean up any lingering backdrops
-      setTimeout(() => {
-        document.querySelectorAll(".offcanvas-backdrop").forEach(backdrop => {
-          backdrop.remove();
-        });
-        document.body.style.removeProperty("overflow");
-        document.body.classList.remove("overflow-hidden");
-      }, 150);
-    }
+    });
   };
 
   useEffect(() => {
     let unreadPollingInterval: number | undefined;
+    const navbar = document.getElementById("navbarNav");
+
+    const handleNavbarShown = () => setIsNavbarExpanded(true);
+    const handleNavbarHidden = () => setIsNavbarExpanded(false);
+
+    if (navbar) {
+      navbar.addEventListener("shown.bs.collapse", handleNavbarShown);
+      navbar.addEventListener("hidden.bs.collapse", handleNavbarHidden);
+    }
 
     const loadUnapprovedCount = async () => {
       if (!isAdmin) {
@@ -133,21 +161,22 @@ const Header: React.FC = () => {
       const currentDrawer = document.querySelector<HTMLElement>(".offcanvas.show");
       if (!currentDrawer || currentDrawer === nextDrawer) return;
 
+      if (isSwitchingOffcanvasRef.current) {
+        event.preventDefault();
+        return;
+      }
+
       event.preventDefault();
+      hideNavbarMenu();
 
       const currentInstance = Offcanvas.getOrCreateInstance(currentDrawer);
       const nextInstance = Offcanvas.getOrCreateInstance(nextDrawer);
 
+      isSwitchingOffcanvasRef.current = true;
+
       const openNext = () => {
-        // Remove all lingering backdrops
-        document.querySelectorAll(".offcanvas-backdrop").forEach(backdrop => {
-          backdrop.remove();
-        });
-        // Remove the backdrop fade class from body if present
-        document.body.style.removeProperty("overflow");
-        document.body.classList.remove("overflow-hidden");
-        
         nextInstance.show();
+        isSwitchingOffcanvasRef.current = false;
       };
 
       currentDrawer.addEventListener("hidden.bs.offcanvas", openNext, {
@@ -204,6 +233,10 @@ const Header: React.FC = () => {
       document.removeEventListener("click", handleOffcanvasSwitch);
       window.removeEventListener("admin-unapproved-count-changed", handleUnapprovedCountChanged as EventListener);
       window.removeEventListener("chat-unread-count-changed", handleChatUnreadCountChanged as EventListener);
+      if (navbar) {
+        navbar.removeEventListener("shown.bs.collapse", handleNavbarShown);
+        navbar.removeEventListener("hidden.bs.collapse", handleNavbarHidden);
+      }
     };
   }, [isAdmin, t]);
 
@@ -218,11 +251,10 @@ const Header: React.FC = () => {
         <button
           className="navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
-          aria-expanded="false"
+          aria-expanded={isNavbarExpanded}
           aria-label="Toggle navigation"
+          onClick={handleNavbarToggle}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -238,6 +270,7 @@ const Header: React.FC = () => {
                 data-bs-toggle="offcanvas"
                 data-bs-target="#aiAssistantDrawer"
                 aria-controls="aiAssistantDrawer"
+                onClick={hideNavbarMenu}
               >
                 🤖 {t("aiAssistant")}
               </button>
@@ -262,6 +295,7 @@ const Header: React.FC = () => {
                       data-bs-toggle="offcanvas"
                       data-bs-target="#adminMessagesDrawer"
                       aria-controls="adminMessagesDrawer"
+                      onClick={hideNavbarMenu}
                     >
                       🔔 {t("messages")}
                       {unapprovedCount > 0 && (
@@ -279,6 +313,7 @@ const Header: React.FC = () => {
                     data-bs-toggle="offcanvas"
                     data-bs-target="#myBooksDrawer"
                     aria-controls="myBooksDrawer"
+                    onClick={hideNavbarMenu}
                   >
                     📚 {t("myBooks")}
                   </button>
@@ -301,6 +336,7 @@ const Header: React.FC = () => {
                     className="btn btn-outline-light nav-chip px-3 py-1"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#profileDrawer"
+                    onClick={hideNavbarMenu}
                   >
                     {userName}
                   </button>
@@ -313,6 +349,7 @@ const Header: React.FC = () => {
                   data-bs-toggle="offcanvas"
                   data-bs-target="#signinDrawer"
                   aria-controls="signinDrawer"
+                  onClick={hideNavbarMenu}
                 >
                   {t("signIn")}
                 </button>

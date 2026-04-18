@@ -119,6 +119,7 @@
   "lastName": "Фамилия",
   "library": "Библиотека",
   "loadingBooks": "Загрузка книг...",
+  "authWrongLoginOrPassword": "Неверный логин или пароль",
   "loginErrorDefault": "Ошибка входа. Попробуйте снова.",
   "logout": "Выйти из аккаунта",
   "myProfile": "Мой профиль",

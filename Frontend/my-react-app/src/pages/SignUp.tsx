@@ -4,12 +4,6 @@ import { handleLoginResponse } from "../services/loginService.tsx";
 import { useTranslation } from "react-i18next";
 import config from "../config/config";
 
-interface BackendErrorResponse {
-  email?: string | null;
-  message?: string;
-  errors?: Record<string, string[]>;
-}
-
 const SignUp: React.FC = () => {
   const { t } = useTranslation();
 
@@ -46,45 +40,9 @@ const SignUp: React.FC = () => {
         handleLoginResponse(loginResponse);
       }
     } catch (err) {
-      let backendError: BackendErrorResponse | null = null;
-
-      // Safely extract error payload
-      if (typeof err === "object" && err !== null) {
-        const maybeError = err as Record<string, unknown>;
-        if ("response" in maybeError && maybeError.response) {
-          backendError = maybeError.response as BackendErrorResponse;
-        } else if ("message" in maybeError) {
-          backendError = maybeError as BackendErrorResponse;
-        }
-      }
-
-      if (backendError) {
-        // If backend sends field errors
-        if (backendError.errors) {
-          const mapped: Record<string, string> = {};
-          for (const key in backendError.errors) {
-            mapped[key.toLowerCase()] = backendError.errors[key][0];
-          }
-          setFieldErrors(mapped);
-        }
-        // If backend sends a top-level message
-        else if (backendError.message) {
-          const msg = backendError.message;
-
-          // Auto-map message to likely field
-          if (msg.toLowerCase().includes("password")) {
-            setFieldErrors({ password: msg });
-          } else if (msg.toLowerCase().includes("email")) {
-            setFieldErrors({ email: msg });
-          } else {
-            setError(msg);
-          }
-        } else {
-          setError("Registration failed. Please try again.");
-        }
-      } else {
-        setError("Registration failed. Please try again.");
-      }
+      setFieldErrors({});
+      setError(t("authWrongLoginOrPassword"));
+      console.error("Registration error:", err);
     } finally {
       setLoading(false);
     }
@@ -225,14 +183,16 @@ const SignUp: React.FC = () => {
 
           <p className="mt-3 text-center">
             {t("alreadyHaveAccount")}{" "}
-            <a
-              href="#signinDrawer"
+            <button
+              type="button"
+              className="btn btn-link p-0 align-baseline"
               data-bs-toggle="offcanvas"
+              data-bs-target="#signinDrawer"
               role="button"
               aria-controls="signinDrawer"
             >
               {t("signIn")}
-            </a>
+            </button>
           </p>
         </form>
       </div>

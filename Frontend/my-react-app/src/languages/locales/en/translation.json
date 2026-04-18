@@ -119,6 +119,7 @@
   "lastName": "Last Name",
   "library": "Library",
   "loadingBooks": "Loading books...",
+  "authWrongLoginOrPassword": "Wrong Login Or Password",
   "loginErrorDefault": "Login failed. Please try again.",
   "logout": "Log Out",
   "myProfile": "My Profile",
