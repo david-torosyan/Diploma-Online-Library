@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Library.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260417111318_MassangerCommit")]
-    partial class MassangerCommit
+    [Migration("20260418201319_Initial-Create")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -792,6 +792,12 @@ namespace Library.DAL.Migrations
                     b.Property<bool>("IsApproved")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsBookOnS3")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsImageOnS3")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("Pages")
                         .HasColumnType("integer");
 
@@ -821,6 +827,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780199554232",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 369,
                             PublishedDate = new DateTime(2010, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All"
@@ -835,6 +843,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781444357554",
                             ImageURL = "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4615-2111-2",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 679,
                             PublishedDate = new DateTime(2011, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use"
@@ -849,6 +859,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780520244061",
                             ImageURL = "https://m.media-amazon.com/images/I/91H7u1fM9vL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 619,
                             PublishedDate = new DateTime(2004, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Encyclopedia of Animals"
@@ -863,6 +875,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015041310320",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 312,
                             PublishedDate = new DateTime(1997, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Darwin Among The Machines"
@@ -877,6 +891,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781402039942",
                             ImageURL = "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4020-3995-9",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 859,
                             PublishedDate = new DateTime(2007, 11, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Encyclopedia of Soil Science"
@@ -891,6 +907,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780674576186",
                             ImageURL = "https://www.hup.harvard.edu/img/feeds/jackets/9780674576186.png?fm=jpg&q=80&fit=max&w=630",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 228,
                             PublishedDate = new DateTime(1988, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mind Children"
@@ -905,6 +923,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781107069626",
                             ImageURL = "https://m.media-amazon.com/images/I/813-Uql4q7L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 267,
                             PublishedDate = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Covariant Loop Quantum Gravity"
@@ -919,6 +939,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015025158489",
                             ImageURL = "https://m.media-amazon.com/images/I/61iwcrSHQ6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 282,
                             PublishedDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans"
@@ -933,6 +955,8 @@ namespace Library.DAL.Migrations
                             ISBN = "BSB:BSB10997144",
                             ImageURL = "https://assets.cambridge.org/97811080/61834/large_cover/9781108061834i.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 406,
                             PublishedDate = new DateTime(1872, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Expression of the Emotions in Man and Animals"
@@ -947,6 +971,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781040195369",
                             ImageURL = "https://m.media-amazon.com/images/I/819c-MQARGL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 331,
                             PublishedDate = new DateTime(2009, 11, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Medical Parasitology"
@@ -961,6 +987,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9788446023708",
                             ImageURL = "https://ww2.ebookelo.com/images/cover/21286.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 154,
                             PublishedDate = new DateTime(2006, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Taras Bulba"
@@ -975,6 +1003,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9783968656762",
                             ImageURL = "https://cdn.kobo.com/book-images/d4a3769f-012a-48dc-a096-08e287b03557/1200/1200/False/the-history-of-the-peloponnesian-war-with-18-illustrations-and-a-free-audio-link.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 738,
                             PublishedDate = new DateTime(2021, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War"
@@ -989,6 +1019,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780141186184",
                             ImageURL = "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1650844397l/60784591.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 356,
                             PublishedDate = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Mystery of mysteries"
@@ -1003,6 +1035,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780359788330",
                             ImageURL = "https://storage.googleapis.com/media365-live.appspot.com/266c3ce1-c23a-4770-bbe7-8e37467cc81c/0d22b809-2cf9-463f-a0d4-2bbb98dbc5a9/eabb424e-d460-44c3-ab64-ef47be8b87f5.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 188,
                             PublishedDate = new DateTime(2019, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray"
@@ -1017,6 +1051,8 @@ namespace Library.DAL.Migrations
                             ISBN = "EAN:8596547791485",
                             ImageURL = "https://img.perlego.com/book-covers/2501062/9782378072452_300_450.webp",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 234,
                             PublishedDate = new DateTime(2023, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein"
@@ -1031,6 +1067,8 @@ namespace Library.DAL.Migrations
                             ISBN = "STANFORD:36105003773616",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 312,
                             PublishedDate = new DateTime(1925, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway"
@@ -1045,6 +1083,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9788087830277",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrhv8HOOGw56ABHammfAbunGUhTAi_F_2eQQ&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 136,
                             PublishedDate = new DateTime(2025, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Street of Crocodiles"
@@ -1059,6 +1099,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780553811889",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwLvDmcI4YiQIE4eU9mKt_NuPUVulD8hiZxA&ss",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 516,
                             PublishedDate = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Visitor"
@@ -1073,6 +1115,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781387679249",
                             ImageURL = "https://archive.org/services/img/portrait_artist_pb_librivox/full/pct:500/0/default.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 194,
                             PublishedDate = new DateTime(2018, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man"
@@ -1087,6 +1131,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781681951607",
                             ImageURL = "https://www.epubbooks.com/images/covers/woolf-jacobs-room.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 183,
                             PublishedDate = new DateTime(2015, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Jacob's Room"
@@ -1101,6 +1147,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781416517214",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 386,
                             PublishedDate = new DateTime(2005, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Holiday of Love"
@@ -1115,6 +1163,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780007866090",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAYviU6qJ8Y4lqDwBrA7s1fN7ZWGErMtRBcQ&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 462,
                             PublishedDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Jane Eyre"
@@ -1129,6 +1179,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780192815033",
                             ImageURL = "https://storage.googleapis.com/media365-live.appspot.com/266c3ce1-c23a-4770-bbe7-8e37467cc81c/22ce3cd6-766e-420b-98a2-bbdcd42d0605/9a042421-4511-4505-91dd-5f9b3429479c.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 388,
                             PublishedDate = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Pride and Prejudice"
@@ -1143,6 +1195,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780671870966",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1610568034i/55509539.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 564,
                             PublishedDate = new DateTime(1995, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Prince Charming"
@@ -1157,6 +1211,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780143109464",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 402,
                             PublishedDate = new DateTime(2016, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Me Before You (Movie Tie-In)"
@@ -1171,6 +1227,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015055087590",
                             ImageURL = "https://livrariapublica.com.br/capa/por-do-sol-em-saint-tropez-danielle-steel-pdf-B0176TJFF8.webp",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 248,
                             PublishedDate = new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Sunset in St. Tropez"
@@ -1185,6 +1243,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780743299435",
                             ImageURL = "https://archive.org/services/img/lastvoyageofvale0000mont_v8n7/full/pct:200/0/default.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 417,
                             PublishedDate = new DateTime(2006, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Last Voyage of the Valentina"
@@ -1199,6 +1259,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015041359921",
                             ImageURL = "https://media.oceanofpdf.com/2023/04/PDF-EPUB-Special-Delivery-A-short-crime-fiction-story-Case-Files-pocket-sized-murder-mysteries-by-Rachel-Amphlett-Download.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 232,
                             PublishedDate = new DateTime(1997, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Special Delivery"
@@ -1213,6 +1275,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780739446461",
                             ImageURL = "https://image.ebooks.com/cover/692903.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 452,
                             PublishedDate = new DateTime(1985, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Love Only Once"
@@ -1227,6 +1291,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015062619377",
                             ImageURL = "https://archive.org/services/img/toxicbachelors0000dani",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 344,
                             PublishedDate = new DateTime(2005, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Toxic Bachelors"
@@ -1241,6 +1307,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780060530846",
                             ImageURL = "https://churchsource.com/cdn/shop/products/9780064471107_988c6bba-41a4-4f41-ac7b-52f6154e499f_1024x.jpg?v=1644428660",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 122,
                             PublishedDate = new DateTime(2003, 11, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Magician's Nephew Color Gift Edition"
@@ -1255,6 +1323,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780547851396",
                             ImageURL = "https://cdn.kobo.com/book-images/cdebd2d5-7b6e-4447-9990-4630e6c29e35/1200/1200/False/a-wizard-of-earthsea-1.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 267,
                             PublishedDate = new DateTime(2012, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Wizard of Earthsea"
@@ -1269,6 +1339,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780953522743",
                             ImageURL = "https://imgv2-2-f.scribdassets.com/img/document/720685287/original/6bfbb8842c/1?v=1",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 0,
                             PublishedDate = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Moomin, Mymble and Little My"
@@ -1283,6 +1355,8 @@ namespace Library.DAL.Migrations
                             ISBN = "PSU:000045256417",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 1176,
                             PublishedDate = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings"
@@ -1297,6 +1371,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780688120498",
                             ImageURL = "https://www.pdfbooksworld.com/image/cache/catalog/256-500x500.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 248,
                             PublishedDate = new DateTime(1993, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Through the Looking-Glass"
@@ -1311,6 +1387,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780006716655",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 196,
                             PublishedDate = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Voyage of the Dawn Treader"
@@ -1325,6 +1403,8 @@ namespace Library.DAL.Migrations
                             ISBN = "PSU:000028266402",
                             ImageURL = "https://imgv2-2-f.scribdassets.com/img/document/432919347/original/c0ed155ebd/1?v=1",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 168,
                             PublishedDate = new DateTime(1950, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lion, the Witch and the Wardrobe"
@@ -1339,6 +1419,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781905716524",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhsCGaMxMJsWSl5RMQ7za1U_HTzWSNhSJn_g&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 188,
                             PublishedDate = new DateTime(2009, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz"
@@ -1353,6 +1435,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015008859509",
                             ImageURL = "https://www.rif.org/sites/default/files/images/2022/06/14/Book_Covers/wind-in-willows.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 322,
                             PublishedDate = new DateTime(1908, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wind in the Willows"
@@ -1367,6 +1451,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781534441637",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 576,
                             PublishedDate = new DateTime(2022, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked"
@@ -1381,6 +1467,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780007948697",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL6oNHnP30AFFa0TerAy860nUAY1jNCpyUOg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 0,
                             PublishedDate = new DateTime(2015, 6, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "QBD Murder on the Orient Express"
@@ -1395,6 +1483,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780593054253",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 484,
                             PublishedDate = new DateTime(2004, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code"
@@ -1409,6 +1499,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015062063501",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtlv5N0MAfZQuADdOiaWgIZb8jaciZxqMYxw&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 288,
                             PublishedDate = new DateTime(2003, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Curious Incident of the Dog in the Night-time"
@@ -1423,6 +1515,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780743219617",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDNcrRkQWMvXON46YjBGwXfOEMR4jAL8UWhA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 352,
                             PublishedDate = new DateTime(2001, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Black Tower"
@@ -1437,6 +1531,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780006167242",
                             ImageURL = "https://hive.dmmserver.com/media/640/97800071/9780007184798.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 224,
                             PublishedDate = new DateTime(1993, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The ABC Murders"
@@ -1451,6 +1547,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780425099223",
                             ImageURL = "https://m.media-amazon.com/images/I/810O+cRm1DL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 244,
                             PublishedDate = new DateTime(1984, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Golden Ball and Other Stories"
@@ -1465,6 +1563,8 @@ namespace Library.DAL.Migrations
                             ISBN = "RUTGERS:390300038488030",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 520,
                             PublishedDate = new DateTime(1955, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment"
@@ -1479,6 +1579,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780743284028",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiSPUuLhWO8R55NFwa9CFni3bZb5YRy32hHQ&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 307,
                             PublishedDate = new DateTime(2006, 11, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Seeking Whom He May Devour"
@@ -1493,6 +1595,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780020545507",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi55-EYvE9QWrcLwywNEee5WGxayNGrwJdAw&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 212,
                             PublishedDate = new DateTime(1988, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Daughter of Time"
@@ -1507,6 +1611,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781416550532",
                             ImageURL = "https://media.oceanofpdf.com/2019/10/PDF-EPUB-The-House-at-Riverton-Download.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 496,
                             PublishedDate = new DateTime(2009, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The House at Riverton"
@@ -1521,6 +1627,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780521477352",
                             ImageURL = "https://img.perlego.com/book-covers/588293/9780062313706_300_450.webp",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 248,
                             PublishedDate = new DateTime(1994, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image"
@@ -1535,6 +1643,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781439193280",
                             ImageURL = "https://online.flipbuilder.com/fdyv/lcvg/files/mobile/1.jpg?201020211740",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 418,
                             PublishedDate = new DateTime(2011, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Alexander the Great"
@@ -1549,6 +1659,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015040081864",
                             ImageURL = "https://0.academia-photos.com/attachment_thumbnails/118032214/mini_magick20240907-1-c0ef9j.png?1725739352",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 298,
                             PublishedDate = new DateTime(1984, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Making of the Roman Army"
@@ -1563,6 +1675,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780806128498",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNPK5irLXh4fL2zwTrziJM8ZMK-b_K0ZLMKw&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 420,
                             PublishedDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Pocahontas's People"
@@ -1577,6 +1691,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780415159524",
                             ImageURL = "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781627933650/the-essential-oscar-wilde-9781627933650_hr.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 454,
                             PublishedDate = new DateTime(1997, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Oscar Wilde"
@@ -1591,6 +1707,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780691037110",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo_RV5oIFgxcTAFME084XVW6DQEOMihwYgmQ&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 476,
                             PublishedDate = new DateTime(1997, 5, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservatism"
@@ -1605,6 +1723,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780826430861",
                             ImageURL = "https://0.academia-photos.com/attachment_thumbnails/90991769/mini_magick20220913-1-bv6h0f.png?1663060204",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 308,
                             PublishedDate = new DateTime(2009, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Constantinople: Capital of Byzantium"
@@ -1619,6 +1739,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780465073948",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa3veMqYITcruRWDhinKwL1BbD3aSanEqF6Q&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 433,
                             PublishedDate = new DateTime(2015, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Gates of Europe"
@@ -1633,6 +1755,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781317293132",
                             ImageURL = "https://static.wixstatic.com/media/5ac455_64db10cfe2ab471fb0a3de1c37c1b854~mv2.jpg/v1/fill/w_638,h_1000,al_c,q_85,usm_0.66_1.00_0.01/5ac455_64db10cfe2ab471fb0a3de1c37c1b854~mv2.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 294,
                             PublishedDate = new DateTime(2016, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Language Loss of the Indigenous"
@@ -1647,6 +1771,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781604449112",
                             ImageURL = "https://archive.org/services/img/historyofarmenia0000bour/full/pct:200/0/default.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 414,
                             PublishedDate = new DateTime(2018, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A History of Armenia"
@@ -1661,6 +1787,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780521351584",
                             ImageURL = "https://assets.cambridge.org/97805213/51584/large_cover/9780521351584i.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 537,
                             PublishedDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of Uraniborg"
@@ -1675,6 +1803,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UCAL:$B415016",
                             ImageURL = "https://assets.cambridge.org/97811080/60790/cover/9781108060790.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 1238,
                             PublishedDate = new DateTime(1846, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Dictionary of Greek and Roman Biography and Mythology: Earinus-Nyx"
@@ -1689,6 +1819,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780747585664",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 385,
                             PublishedDate = new DateTime(2007, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love"
@@ -1703,6 +1835,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781501167638",
                             ImageURL = "https://img.perlego.com/book-covers/2453188/9781788850278_300_450.webp",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 208,
                             PublishedDate = new DateTime(2017, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Drowned and the Saved"
@@ -1717,6 +1851,8 @@ namespace Library.DAL.Migrations
                             ISBN = "WISC:89094373321",
                             ImageURL = "https://marketplace.canva.com/EADaiR6K_s8/1/0/1003w/canva-white-night-sky-autobiography-book-cover-a71TNv3gBWU.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 532,
                             PublishedDate = new DateTime(1868, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Biography"
@@ -1731,6 +1867,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781982156169",
                             ImageURL = "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781982156176/red-roulette-9781982156176_hr.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 336,
                             PublishedDate = new DateTime(2022, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Red Roulette"
@@ -1745,6 +1883,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781841157535",
                             ImageURL = "https://cdn.penguin.co.uk/dam-assets/books/9780241963777/9780241963777-jacket-large.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 612,
                             PublishedDate = new DateTime(2004, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "My Heart is My Own"
@@ -1759,6 +1899,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780802809711",
                             ImageURL = "https://img.perlego.com/book-covers/1588168/9781481308762_300_450.webp",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 384,
                             PublishedDate = new DateTime(2004, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "What Are the Gospels?"
@@ -1773,6 +1915,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UCSD:31822043010875",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPBgHZR7JwNhOrjgWbXPNs6WZY-SrFGSauew&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 1214,
                             PublishedDate = new DateTime(1579, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lives of the Noble Grecians and Romaines"
@@ -1787,6 +1931,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UIUC:30112089235862",
                             ImageURL = "https://www.globalgreyebooks.com/content/book-covers/plutarch_plutarchs-lives-large.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 478,
                             PublishedDate = new DateTime(1873, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Plutarch's Lives Translated from the Original Greek"
@@ -1801,6 +1947,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780415193993",
                             ImageURL = "https://images.routledge.com/common/jackets/crclarge/978041519/9780415193993.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 1527,
                             PublishedDate = new DateTime(1998, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Biographical Dictionary of the History of Technology"
@@ -1815,6 +1963,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015025158489",
                             ImageURL = "https://static.scientificamerican.com/sciam/cache/file/A3A34264-DE16-411B-B52C470B5968527B_source.jpg?w=1200",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 282,
                             PublishedDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans"
@@ -1829,6 +1979,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780262037297",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXDdonDaLNMGsKp3gZPB1iWmLayDUGADWCDA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 203,
                             PublishedDate = new DateTime(2017, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Lifelong Kindergarten"
@@ -1843,6 +1995,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015021517928",
                             ImageURL = "https://m.media-amazon.com/images/I/31K71B64NXL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 264,
                             PublishedDate = new DateTime(1991, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Critical Theory of Technology"
@@ -1857,6 +2011,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780415189644",
                             ImageURL = "https://images.routledge.com/common/jackets/crclarge/978041518/9780415189651.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 516,
                             PublishedDate = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Splintering Urbanism"
@@ -1871,6 +2027,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780415189132",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6y-gz8U6L28l2CB1b3ao-9jRktL019hQwvw&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 23,
                             PublishedDate = new DateTime(1958, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Human Condition"
@@ -1885,6 +2043,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780306465628",
                             ImageURL = "https://imgv2-1-f.scribdassets.com/img/document/413150200/original/c7f42cf998/1?v=1",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 642,
                             PublishedDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Origin of Elements in the Solar System"
@@ -1899,6 +2059,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UCAL:B4584395",
                             ImageURL = "https://m.media-amazon.com/images/I/51xa0kQZRFL.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 720,
                             PublishedDate = new DateTime(1991, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Ullmann's Encyclopedia of Industrial Chemistry"
@@ -1913,6 +2075,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780195133516",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu4wT6_TQJWAnyKjsRUqaeuNYyuK-knc-yng&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 423,
                             PublishedDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Machine in the Garden"
@@ -1927,6 +2091,8 @@ namespace Library.DAL.Migrations
                             ISBN = "UOM:39015031845681",
                             ImageURL = "https://upload.wikimedia.org/wikipedia/en/e/e4/Ullmann%27s_Encyclopedia_of_Industrial_Chemistry.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 796,
                             PublishedDate = new DateTime(1995, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Ullmann's Encyclopedia of Industrial Chemistry"
@@ -1941,6 +2107,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780399531972",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1388193799i/75291.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 385,
                             PublishedDate = new DateTime(2005, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Art as Experience"
@@ -1955,6 +2123,8 @@ namespace Library.DAL.Migrations
                             ISBN = "NWU:35556029031994",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHCJq1wVMlYTdTu7Fxa4Q0YhgHTnhr29Ik9g&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 62,
                             PublishedDate = new DateTime(1989, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Man who Planted Trees"
@@ -1969,6 +2139,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781932476033",
                             ImageURL = "https://images.thenile.io/r1000/9781590301005.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 284,
                             PublishedDate = new DateTime(2003, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Handbook of Tibetan Buddhist Symbols"
@@ -1983,6 +2155,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780500051290",
                             ImageURL = "https://imgv2-1-f.scribdassets.com/img/document/14071925/original/d1353bceda/1?v=1",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 304,
                             PublishedDate = new DateTime(2004, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Courtly Art of the Ancient Maya"
@@ -1997,6 +2171,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780191622601",
                             ImageURL = "https://storage.googleapis.com/media365-live.appspot.com/266c3ce1-c23a-4770-bbe7-8e37467cc81c/5a73122f-5a3b-408f-860c-2f940b2a1118/3d25cbe1-0aea-44f4-9937-a7965bae660b.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 429,
                             PublishedDate = new DateTime(2007, 10, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Leonardo da Vinci"
@@ -2011,6 +2187,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9798887440651",
                             ImageURL = "https://files.libcom.org/files/images/library/The%20Society%20of%20the%20Spectacle.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 161,
                             PublishedDate = new DateTime(2024, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Society of the Spectacle"
@@ -2025,6 +2203,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781387849604",
                             ImageURL = "https://imgv2-1-f.scribdassets.com/img/document/544887197/original/f6fa979757/1?v=1",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 266,
                             PublishedDate = new DateTime(2018, 5, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Dead Souls"
@@ -2039,6 +2219,8 @@ namespace Library.DAL.Migrations
                             ISBN = "EAN:8596547065753",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtKlPZuYsF1QTJ4Sidh6J-vgfpLtEMx3P1dw&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 241,
                             PublishedDate = new DateTime(2022, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Man and Superman"
@@ -2053,6 +2235,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781861892362",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJlOlS_kfSDfGud9SpzFvUJEIya1EVtxfohw&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 196,
                             PublishedDate = new DateTime(2005, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Art Under Control in North Korea"
@@ -2067,6 +2251,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781838696467",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNUuCWHjW9A1S4zxpkVxpPvmRHGxD5cjpfIg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 579,
                             PublishedDate = new DateTime(2022, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Lonely Planet Georgia, Armenia & Azerbaijan"
@@ -2081,6 +2267,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780571268412",
                             ImageURL = "https://archive.org/services/img/museumofinnocenc00pamu_0/full/pct:200/0/default.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 756,
                             PublishedDate = new DateTime(2011, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Museum of Innocence"
@@ -2095,6 +2283,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9788831815727",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSDCNHjDxwYLddg8OcxgdwSY6f4vs8mFzwGQ&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 387,
                             PublishedDate = new DateTime(2024, 6, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Lord Jim"
@@ -2109,6 +2299,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781582345185",
                             ImageURL = "https://assets.isu.pub/document-structure/241031180940-61a70be0017371569659054b3760945b/v1/abd52574d2850256bdcbf1543dd3c2b7.jpeg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 340,
                             PublishedDate = new DateTime(2008, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Zeus"
@@ -2123,6 +2315,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780788181795",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQUZdjqQuWk2AGTQqMDXpWz0nds_QWN4q-A&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 720,
                             PublishedDate = new DateTime(1999, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Germany"
@@ -2137,6 +2331,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9780747585664",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 386,
                             PublishedDate = new DateTime(2007, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love"
@@ -2151,6 +2347,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789625930725",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStBIY-qHyoYmT5xTLTRQnxDrhbc_5Ym5CDjw&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 1040,
                             PublishedDate = new DateTime(1996, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Ecology of Java & Bali"
@@ -2165,6 +2363,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781423611165",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5ZqQcG7_pKTdOaXQspMyO7-fKrxoNidRpyw&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 440,
                             PublishedDate = new DateTime(2009, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Architectural Guidebook to New York City"
@@ -2179,6 +2379,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9782831706481",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuN00TpctnWSLzvYdA_2rk8RxHDn9MM2hUwA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 191,
                             PublishedDate = new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Sustainable Tourism in Protected Areas"
@@ -2193,6 +2395,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9782831706481",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuN00TpctnWSLzvYdA_2rk8RxHDn9MM2hUwA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 191,
                             PublishedDate = new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Sustainable Tourism in Protected Areas"
@@ -2207,6 +2411,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9781456720193",
                             ImageURL = "https://online.fliphtml5.com/fumf/zjyf/files/shot.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 0,
                             PublishedDate = new DateTime(2026, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Այբենարան"
@@ -2221,6 +2427,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9782049138567",
                             ImageURL = "https://online.fliphtml5.com/fumf/ofli/files/shot.jpg?1",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 240,
                             PublishedDate = new DateTime(2026, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Մաթեմատիկա 2"
@@ -2235,6 +2443,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9783195872046",
                             ImageURL = "https://online.fliphtml5.com/fumf/igpq/files/shot.jpg?1",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 124,
                             PublishedDate = new DateTime(2026, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Երաժշտություն"
@@ -2249,6 +2459,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9785501938472",
                             ImageURL = "https://online.fliphtml5.com/fumf/iail/files/shot.jpg?1",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 212,
                             PublishedDate = new DateTime(2026, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Տեխնոլոգիա"
@@ -2263,6 +2475,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9787710246395",
                             ImageURL = "https://online.fliphtml5.com/fumf/dxez/files/shot.jpg?1",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 189,
                             PublishedDate = new DateTime(2026, 5, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Անգլերեն"
@@ -2277,6 +2491,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9786102948571",
                             ImageURL = "https://online.fliphtml5.com/fumf/gcht/files/shot.jpg?1",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 132,
                             PublishedDate = new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Մայրենի"
@@ -2291,6 +2507,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9788924301765",
                             ImageURL = "https://online.fliphtml5.com/fumf/xgmp/files/shot.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 124,
                             PublishedDate = new DateTime(2026, 7, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Ֆիզիկական Կուլտուրա"
@@ -2305,6 +2523,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001000",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 180,
                             PublishedDate = new DateTime(1995, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 1 · Variant 1)"
@@ -2319,6 +2539,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001001",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 187,
                             PublishedDate = new DateTime(1998, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 1 · Variant 2)"
@@ -2333,6 +2555,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001002",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 194,
                             PublishedDate = new DateTime(2001, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 1 · Variant 3)"
@@ -2347,6 +2571,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001003",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 193,
                             PublishedDate = new DateTime(2006, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 2 · Variant 1)"
@@ -2361,6 +2587,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001004",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 200,
                             PublishedDate = new DateTime(2009, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 2 · Variant 2)"
@@ -2375,6 +2603,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001005",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 207,
                             PublishedDate = new DateTime(2012, 4, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 2 · Variant 3)"
@@ -2389,6 +2619,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001006",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 206,
                             PublishedDate = new DateTime(2017, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 3 · Variant 1)"
@@ -2403,6 +2635,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001007",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 213,
                             PublishedDate = new DateTime(1995, 4, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 3 · Variant 2)"
@@ -2417,6 +2651,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001008",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 220,
                             PublishedDate = new DateTime(1998, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 3 · Variant 3)"
@@ -2431,6 +2667,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001009",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 219,
                             PublishedDate = new DateTime(2003, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 4 · Variant 1)"
@@ -2445,6 +2683,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001010",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 226,
                             PublishedDate = new DateTime(2006, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 4 · Variant 2)"
@@ -2459,6 +2699,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001011",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 233,
                             PublishedDate = new DateTime(2009, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 4 · Variant 3)"
@@ -2473,6 +2715,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001012",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 232,
                             PublishedDate = new DateTime(2014, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 5 · Variant 1)"
@@ -2487,6 +2731,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001013",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 239,
                             PublishedDate = new DateTime(2017, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 5 · Variant 2)"
@@ -2501,6 +2747,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001014",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 246,
                             PublishedDate = new DateTime(1995, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 5 · Variant 3)"
@@ -2515,6 +2763,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001015",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 245,
                             PublishedDate = new DateTime(2000, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 6 · Variant 1)"
@@ -2529,6 +2779,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001016",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 252,
                             PublishedDate = new DateTime(2003, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 6 · Variant 2)"
@@ -2543,6 +2795,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001017",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 259,
                             PublishedDate = new DateTime(2006, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 6 · Variant 3)"
@@ -2557,6 +2811,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001018",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 258,
                             PublishedDate = new DateTime(2011, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 7 · Variant 1)"
@@ -2571,6 +2827,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001019",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 265,
                             PublishedDate = new DateTime(2014, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 7 · Variant 2)"
@@ -2585,6 +2843,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001020",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 272,
                             PublishedDate = new DateTime(2017, 9, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 7 · Variant 3)"
@@ -2599,6 +2859,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001021",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 271,
                             PublishedDate = new DateTime(1997, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 8 · Variant 1)"
@@ -2613,6 +2875,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001022",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 278,
                             PublishedDate = new DateTime(2000, 9, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 8 · Variant 2)"
@@ -2627,6 +2891,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001023",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 285,
                             PublishedDate = new DateTime(2003, 10, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 8 · Variant 3)"
@@ -2641,6 +2907,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001024",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 284,
                             PublishedDate = new DateTime(2008, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 9 · Variant 1)"
@@ -2655,6 +2923,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001025",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 291,
                             PublishedDate = new DateTime(2011, 10, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 9 · Variant 2)"
@@ -2669,6 +2939,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001026",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 298,
                             PublishedDate = new DateTime(2014, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 9 · Variant 3)"
@@ -2683,6 +2955,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001027",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 297,
                             PublishedDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 10 · Variant 1)"
@@ -2697,6 +2971,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001028",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 304,
                             PublishedDate = new DateTime(1997, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 10 · Variant 2)"
@@ -2711,6 +2987,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001029",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 311,
                             PublishedDate = new DateTime(2000, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 10 · Variant 3)"
@@ -2725,6 +3003,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001030",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 310,
                             PublishedDate = new DateTime(2005, 11, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 11 · Variant 1)"
@@ -2739,6 +3019,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001031",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 317,
                             PublishedDate = new DateTime(2008, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 11 · Variant 2)"
@@ -2753,6 +3035,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001032",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 324,
                             PublishedDate = new DateTime(2011, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Conservation Biology for All (Edition 11 · Variant 3)"
@@ -2767,6 +3051,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001033",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 191,
                             PublishedDate = new DateTime(2002, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 2 · Variant 1)"
@@ -2781,6 +3067,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001034",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 198,
                             PublishedDate = new DateTime(2005, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 2 · Variant 2)"
@@ -2795,6 +3083,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001035",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 205,
                             PublishedDate = new DateTime(2008, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 2 · Variant 3)"
@@ -2809,6 +3099,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001036",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 204,
                             PublishedDate = new DateTime(2013, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 3 · Variant 1)"
@@ -2823,6 +3115,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001037",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 211,
                             PublishedDate = new DateTime(2016, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 3 · Variant 2)"
@@ -2837,6 +3131,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001038",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 218,
                             PublishedDate = new DateTime(2019, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 3 · Variant 3)"
@@ -2851,6 +3147,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001039",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 217,
                             PublishedDate = new DateTime(1999, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 4 · Variant 1)"
@@ -2865,6 +3163,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001040",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 224,
                             PublishedDate = new DateTime(2002, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 4 · Variant 2)"
@@ -2879,6 +3179,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001041",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 231,
                             PublishedDate = new DateTime(2005, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 4 · Variant 3)"
@@ -2893,6 +3195,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001042",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 230,
                             PublishedDate = new DateTime(2010, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 5 · Variant 1)"
@@ -2907,6 +3211,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001043",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 237,
                             PublishedDate = new DateTime(2013, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 5 · Variant 2)"
@@ -2921,6 +3227,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001044",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 244,
                             PublishedDate = new DateTime(2016, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 5 · Variant 3)"
@@ -2935,6 +3243,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001045",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 243,
                             PublishedDate = new DateTime(1996, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 6 · Variant 1)"
@@ -2949,6 +3259,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001046",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 250,
                             PublishedDate = new DateTime(1999, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 6 · Variant 2)"
@@ -2963,6 +3275,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001047",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 257,
                             PublishedDate = new DateTime(2002, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 6 · Variant 3)"
@@ -2977,6 +3291,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001048",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 256,
                             PublishedDate = new DateTime(2007, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 7 · Variant 1)"
@@ -2991,6 +3307,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001049",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 263,
                             PublishedDate = new DateTime(2010, 8, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 7 · Variant 2)"
@@ -3005,6 +3323,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001050",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 270,
                             PublishedDate = new DateTime(2013, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 7 · Variant 3)"
@@ -3019,6 +3339,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001051",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 269,
                             PublishedDate = new DateTime(2018, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 8 · Variant 1)"
@@ -3033,6 +3355,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001052",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 276,
                             PublishedDate = new DateTime(1996, 9, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 8 · Variant 2)"
@@ -3047,6 +3371,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001053",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 283,
                             PublishedDate = new DateTime(1999, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 8 · Variant 3)"
@@ -3061,6 +3387,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001054",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 282,
                             PublishedDate = new DateTime(2004, 9, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 9 · Variant 1)"
@@ -3075,6 +3403,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001055",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 289,
                             PublishedDate = new DateTime(2007, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 9 · Variant 2)"
@@ -3089,6 +3419,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001056",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 296,
                             PublishedDate = new DateTime(2010, 11, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 9 · Variant 3)"
@@ -3103,6 +3435,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001057",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 295,
                             PublishedDate = new DateTime(2015, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 10 · Variant 1)"
@@ -3117,6 +3451,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001058",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 302,
                             PublishedDate = new DateTime(2018, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 10 · Variant 2)"
@@ -3131,6 +3467,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001059",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 309,
                             PublishedDate = new DateTime(1996, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 10 · Variant 3)"
@@ -3145,6 +3483,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001060",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 308,
                             PublishedDate = new DateTime(2001, 11, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 11 · Variant 1)"
@@ -3159,6 +3499,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001061",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 315,
                             PublishedDate = new DateTime(2004, 12, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 11 · Variant 2)"
@@ -3173,6 +3515,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001062",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 322,
                             PublishedDate = new DateTime(2007, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 11 · Variant 3)"
@@ -3187,6 +3531,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001063",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 321,
                             PublishedDate = new DateTime(2012, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 12 · Variant 1)"
@@ -3201,6 +3547,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001064",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 328,
                             PublishedDate = new DateTime(2015, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 12 · Variant 2)"
@@ -3215,6 +3563,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001065",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 335,
                             PublishedDate = new DateTime(2018, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Industrial Chocolate Manufacture and Use (Edition 12 · Variant 3)"
@@ -3229,6 +3579,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001066",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 202,
                             PublishedDate = new DateTime(2009, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 3 · Variant 1)"
@@ -3243,6 +3595,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001067",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 209,
                             PublishedDate = new DateTime(2012, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 3 · Variant 2)"
@@ -3257,6 +3611,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001068",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 216,
                             PublishedDate = new DateTime(2015, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 3 · Variant 3)"
@@ -3271,6 +3627,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001069",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 215,
                             PublishedDate = new DateTime(1995, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 4 · Variant 1)"
@@ -3285,6 +3643,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001070",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 222,
                             PublishedDate = new DateTime(1998, 5, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 4 · Variant 2)"
@@ -3299,6 +3659,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001071",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 229,
                             PublishedDate = new DateTime(2001, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 4 · Variant 3)"
@@ -3313,6 +3675,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001072",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 228,
                             PublishedDate = new DateTime(2006, 5, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 5 · Variant 1)"
@@ -3327,6 +3691,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001073",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 235,
                             PublishedDate = new DateTime(2009, 6, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 5 · Variant 2)"
@@ -3341,6 +3707,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001074",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 242,
                             PublishedDate = new DateTime(2012, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 5 · Variant 3)"
@@ -3355,6 +3723,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001075",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 241,
                             PublishedDate = new DateTime(2017, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 6 · Variant 1)"
@@ -3369,6 +3739,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001076",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 248,
                             PublishedDate = new DateTime(1995, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 6 · Variant 2)"
@@ -3383,6 +3755,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001077",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 255,
                             PublishedDate = new DateTime(1998, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 6 · Variant 3)"
@@ -3397,6 +3771,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001078",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 254,
                             PublishedDate = new DateTime(2003, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 7 · Variant 1)"
@@ -3411,6 +3787,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001079",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 261,
                             PublishedDate = new DateTime(2006, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 7 · Variant 2)"
@@ -3425,6 +3803,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001080",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 268,
                             PublishedDate = new DateTime(2009, 9, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 7 · Variant 3)"
@@ -3439,6 +3819,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001081",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 267,
                             PublishedDate = new DateTime(2014, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 8 · Variant 1)"
@@ -3453,6 +3835,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001082",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 274,
                             PublishedDate = new DateTime(2017, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 8 · Variant 2)"
@@ -3467,6 +3851,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001083",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 281,
                             PublishedDate = new DateTime(1995, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 8 · Variant 3)"
@@ -3481,6 +3867,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001084",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 280,
                             PublishedDate = new DateTime(2000, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 9 · Variant 1)"
@@ -3495,6 +3883,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001085",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 287,
                             PublishedDate = new DateTime(2003, 10, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 9 · Variant 2)"
@@ -3509,6 +3899,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001086",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 294,
                             PublishedDate = new DateTime(2006, 11, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 9 · Variant 3)"
@@ -3523,6 +3915,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001087",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 293,
                             PublishedDate = new DateTime(2011, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 10 · Variant 1)"
@@ -3537,6 +3931,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001088",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 300,
                             PublishedDate = new DateTime(2014, 11, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 10 · Variant 2)"
@@ -3551,6 +3947,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001089",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 307,
                             PublishedDate = new DateTime(2017, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 10 · Variant 3)"
@@ -3565,6 +3963,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001090",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 306,
                             PublishedDate = new DateTime(1997, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 11 · Variant 1)"
@@ -3579,6 +3979,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001091",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 313,
                             PublishedDate = new DateTime(2000, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 11 · Variant 2)"
@@ -3593,6 +3995,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001092",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 320,
                             PublishedDate = new DateTime(2003, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 11 · Variant 3)"
@@ -3607,6 +4011,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001093",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 319,
                             PublishedDate = new DateTime(2008, 12, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 12 · Variant 1)"
@@ -3621,6 +4027,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001094",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 326,
                             PublishedDate = new DateTime(2011, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 12 · Variant 2)"
@@ -3635,6 +4043,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001095",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 333,
                             PublishedDate = new DateTime(2014, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 12 · Variant 3)"
@@ -3649,6 +4059,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001096",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 332,
                             PublishedDate = new DateTime(2019, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 13 · Variant 1)"
@@ -3663,6 +4075,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001097",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 339,
                             PublishedDate = new DateTime(1997, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 13 · Variant 2)"
@@ -3677,6 +4091,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001098",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 346,
                             PublishedDate = new DateTime(2000, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Picture of Dorian Gray (Edition 13 · Variant 3)"
@@ -3691,6 +4107,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001099",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 213,
                             PublishedDate = new DateTime(2016, 4, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 4 · Variant 1)"
@@ -3705,6 +4123,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001100",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 220,
                             PublishedDate = new DateTime(2019, 5, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 4 · Variant 2)"
@@ -3719,6 +4139,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001101",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 227,
                             PublishedDate = new DateTime(1997, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 4 · Variant 3)"
@@ -3733,6 +4155,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001102",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 226,
                             PublishedDate = new DateTime(2002, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 5 · Variant 1)"
@@ -3747,6 +4171,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001103",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 233,
                             PublishedDate = new DateTime(2005, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 5 · Variant 2)"
@@ -3761,6 +4187,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001104",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 240,
                             PublishedDate = new DateTime(2008, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 5 · Variant 3)"
@@ -3775,6 +4203,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001105",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 239,
                             PublishedDate = new DateTime(2013, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 6 · Variant 1)"
@@ -3789,6 +4219,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001106",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 246,
                             PublishedDate = new DateTime(2016, 7, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 6 · Variant 2)"
@@ -3803,6 +4235,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001107",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 253,
                             PublishedDate = new DateTime(2019, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 6 · Variant 3)"
@@ -3817,6 +4251,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001108",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 252,
                             PublishedDate = new DateTime(1999, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 7 · Variant 1)"
@@ -3831,6 +4267,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001109",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 259,
                             PublishedDate = new DateTime(2002, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 7 · Variant 2)"
@@ -3845,6 +4283,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001110",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 266,
                             PublishedDate = new DateTime(2005, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 7 · Variant 3)"
@@ -3859,6 +4299,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001111",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 265,
                             PublishedDate = new DateTime(2010, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 8 · Variant 1)"
@@ -3873,6 +4315,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001112",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 272,
                             PublishedDate = new DateTime(2013, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 8 · Variant 2)"
@@ -3887,6 +4331,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001113",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 279,
                             PublishedDate = new DateTime(2016, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 8 · Variant 3)"
@@ -3901,6 +4347,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001114",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 278,
                             PublishedDate = new DateTime(1996, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 9 · Variant 1)"
@@ -3915,6 +4363,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001115",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 285,
                             PublishedDate = new DateTime(1999, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 9 · Variant 2)"
@@ -3929,6 +4379,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001116",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 292,
                             PublishedDate = new DateTime(2002, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 9 · Variant 3)"
@@ -3943,6 +4395,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001117",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 291,
                             PublishedDate = new DateTime(2007, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 10 · Variant 1)"
@@ -3957,6 +4411,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001118",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 298,
                             PublishedDate = new DateTime(2010, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 10 · Variant 2)"
@@ -3971,6 +4427,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001119",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 305,
                             PublishedDate = new DateTime(2013, 12, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 10 · Variant 3)"
@@ -3985,6 +4443,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001120",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 304,
                             PublishedDate = new DateTime(2018, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 11 · Variant 1)"
@@ -3999,6 +4459,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001121",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 311,
                             PublishedDate = new DateTime(1996, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 11 · Variant 2)"
@@ -4013,6 +4475,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001122",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 318,
                             PublishedDate = new DateTime(1999, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 11 · Variant 3)"
@@ -4027,6 +4491,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001123",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 317,
                             PublishedDate = new DateTime(2004, 12, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 12 · Variant 1)"
@@ -4041,6 +4507,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001124",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 324,
                             PublishedDate = new DateTime(2007, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 12 · Variant 2)"
@@ -4055,6 +4523,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001125",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 331,
                             PublishedDate = new DateTime(2010, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 12 · Variant 3)"
@@ -4069,6 +4539,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001126",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 330,
                             PublishedDate = new DateTime(2015, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 13 · Variant 1)"
@@ -4083,6 +4555,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001127",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 337,
                             PublishedDate = new DateTime(2018, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 13 · Variant 2)"
@@ -4097,6 +4571,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001128",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 344,
                             PublishedDate = new DateTime(1996, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 13 · Variant 3)"
@@ -4111,6 +4587,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001129",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 343,
                             PublishedDate = new DateTime(2001, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 14 · Variant 1)"
@@ -4125,6 +4603,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001130",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 350,
                             PublishedDate = new DateTime(2004, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 14 · Variant 2)"
@@ -4139,6 +4619,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001131",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 357,
                             PublishedDate = new DateTime(2007, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Frankenstein (Edition 14 · Variant 3)"
@@ -4153,6 +4635,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001132",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 224,
                             PublishedDate = new DateTime(1998, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 5 · Variant 1)"
@@ -4167,6 +4651,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001133",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 231,
                             PublishedDate = new DateTime(2001, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 5 · Variant 2)"
@@ -4181,6 +4667,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001134",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 238,
                             PublishedDate = new DateTime(2004, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 5 · Variant 3)"
@@ -4195,6 +4683,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001135",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 237,
                             PublishedDate = new DateTime(2009, 6, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 6 · Variant 1)"
@@ -4209,6 +4699,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001136",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 244,
                             PublishedDate = new DateTime(2012, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 6 · Variant 2)"
@@ -4223,6 +4715,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001137",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 251,
                             PublishedDate = new DateTime(2015, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 6 · Variant 3)"
@@ -4237,6 +4731,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001138",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 250,
                             PublishedDate = new DateTime(1995, 7, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 7 · Variant 1)"
@@ -4251,6 +4747,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001139",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 257,
                             PublishedDate = new DateTime(1998, 8, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 7 · Variant 2)"
@@ -4265,6 +4763,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001140",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 264,
                             PublishedDate = new DateTime(2001, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 7 · Variant 3)"
@@ -4279,6 +4779,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001141",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 263,
                             PublishedDate = new DateTime(2006, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 8 · Variant 1)"
@@ -4293,6 +4795,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001142",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 270,
                             PublishedDate = new DateTime(2009, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 8 · Variant 2)"
@@ -4307,6 +4811,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001143",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 277,
                             PublishedDate = new DateTime(2012, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 8 · Variant 3)"
@@ -4321,6 +4827,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001144",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 276,
                             PublishedDate = new DateTime(2017, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 9 · Variant 1)"
@@ -4335,6 +4843,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001145",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 283,
                             PublishedDate = new DateTime(1995, 10, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 9 · Variant 2)"
@@ -4349,6 +4859,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001146",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 290,
                             PublishedDate = new DateTime(1998, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 9 · Variant 3)"
@@ -4363,6 +4875,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001147",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 289,
                             PublishedDate = new DateTime(2003, 10, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 10 · Variant 1)"
@@ -4377,6 +4891,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001148",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 296,
                             PublishedDate = new DateTime(2006, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 10 · Variant 2)"
@@ -4391,6 +4907,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001149",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 303,
                             PublishedDate = new DateTime(2009, 12, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 10 · Variant 3)"
@@ -4405,6 +4923,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001150",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 302,
                             PublishedDate = new DateTime(2014, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 11 · Variant 1)"
@@ -4419,6 +4939,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001151",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 309,
                             PublishedDate = new DateTime(2017, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 11 · Variant 2)"
@@ -4433,6 +4955,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001152",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 316,
                             PublishedDate = new DateTime(1995, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 11 · Variant 3)"
@@ -4447,6 +4971,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001153",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 315,
                             PublishedDate = new DateTime(2000, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 12 · Variant 1)"
@@ -4461,6 +4987,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001154",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 322,
                             PublishedDate = new DateTime(2003, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 12 · Variant 2)"
@@ -4475,6 +5003,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001155",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 329,
                             PublishedDate = new DateTime(2006, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 12 · Variant 3)"
@@ -4489,6 +5019,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001156",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 328,
                             PublishedDate = new DateTime(2011, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 13 · Variant 1)"
@@ -4503,6 +5035,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001157",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 335,
                             PublishedDate = new DateTime(2014, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 13 · Variant 2)"
@@ -4517,6 +5051,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001158",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 342,
                             PublishedDate = new DateTime(2017, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 13 · Variant 3)"
@@ -4531,6 +5067,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001159",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 341,
                             PublishedDate = new DateTime(1997, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 14 · Variant 1)"
@@ -4545,6 +5083,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001160",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 348,
                             PublishedDate = new DateTime(2000, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 14 · Variant 2)"
@@ -4559,6 +5099,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001161",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 355,
                             PublishedDate = new DateTime(2003, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 14 · Variant 3)"
@@ -4573,6 +5115,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001162",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 354,
                             PublishedDate = new DateTime(2008, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 15 · Variant 1)"
@@ -4587,6 +5131,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001163",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 361,
                             PublishedDate = new DateTime(2011, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 15 · Variant 2)"
@@ -4601,6 +5147,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001164",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 368,
                             PublishedDate = new DateTime(2014, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mrs. Dalloway (Edition 15 · Variant 3)"
@@ -4615,6 +5163,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001165",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 235,
                             PublishedDate = new DateTime(2005, 6, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 6 · Variant 1)"
@@ -4629,6 +5179,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001166",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 242,
                             PublishedDate = new DateTime(2008, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 6 · Variant 2)"
@@ -4643,6 +5195,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001167",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 249,
                             PublishedDate = new DateTime(2011, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 6 · Variant 3)"
@@ -4657,6 +5211,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001168",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 248,
                             PublishedDate = new DateTime(2016, 7, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 7 · Variant 1)"
@@ -4671,6 +5227,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001169",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 255,
                             PublishedDate = new DateTime(2019, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 7 · Variant 2)"
@@ -4685,6 +5243,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001170",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 262,
                             PublishedDate = new DateTime(1997, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 7 · Variant 3)"
@@ -4699,6 +5259,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001171",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 261,
                             PublishedDate = new DateTime(2002, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 8 · Variant 1)"
@@ -4713,6 +5275,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001172",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 268,
                             PublishedDate = new DateTime(2005, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 8 · Variant 2)"
@@ -4727,6 +5291,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001173",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 275,
                             PublishedDate = new DateTime(2008, 10, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 8 · Variant 3)"
@@ -4741,6 +5307,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001174",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 274,
                             PublishedDate = new DateTime(2013, 9, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 9 · Variant 1)"
@@ -4755,6 +5323,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001175",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 281,
                             PublishedDate = new DateTime(2016, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 9 · Variant 2)"
@@ -4769,6 +5339,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001176",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 288,
                             PublishedDate = new DateTime(2019, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 9 · Variant 3)"
@@ -4783,6 +5355,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001177",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 287,
                             PublishedDate = new DateTime(1999, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 10 · Variant 1)"
@@ -4797,6 +5371,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001178",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 294,
                             PublishedDate = new DateTime(2002, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 10 · Variant 2)"
@@ -4811,6 +5387,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001179",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 301,
                             PublishedDate = new DateTime(2005, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 10 · Variant 3)"
@@ -4825,6 +5403,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001180",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 300,
                             PublishedDate = new DateTime(2010, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 11 · Variant 1)"
@@ -4839,6 +5419,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001181",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 307,
                             PublishedDate = new DateTime(2013, 12, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 11 · Variant 2)"
@@ -4853,6 +5435,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001182",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 314,
                             PublishedDate = new DateTime(2016, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 11 · Variant 3)"
@@ -4867,6 +5451,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001183",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 313,
                             PublishedDate = new DateTime(1996, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 12 · Variant 1)"
@@ -4881,6 +5467,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001184",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 320,
                             PublishedDate = new DateTime(1999, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 12 · Variant 2)"
@@ -4895,6 +5483,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001185",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 327,
                             PublishedDate = new DateTime(2002, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 12 · Variant 3)"
@@ -4909,6 +5499,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001186",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 326,
                             PublishedDate = new DateTime(2007, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 13 · Variant 1)"
@@ -4923,6 +5515,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001187",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 333,
                             PublishedDate = new DateTime(2010, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 13 · Variant 2)"
@@ -4937,6 +5531,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001188",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 340,
                             PublishedDate = new DateTime(2013, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 13 · Variant 3)"
@@ -4951,6 +5547,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001189",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 339,
                             PublishedDate = new DateTime(2018, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 14 · Variant 1)"
@@ -4965,6 +5563,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001190",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 346,
                             PublishedDate = new DateTime(1996, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 14 · Variant 2)"
@@ -4979,6 +5579,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001191",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 353,
                             PublishedDate = new DateTime(1999, 4, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 14 · Variant 3)"
@@ -4993,6 +5595,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001192",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 352,
                             PublishedDate = new DateTime(2004, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 15 · Variant 1)"
@@ -5007,6 +5611,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001193",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 359,
                             PublishedDate = new DateTime(2007, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 15 · Variant 2)"
@@ -5021,6 +5627,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001194",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 366,
                             PublishedDate = new DateTime(2010, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 15 · Variant 3)"
@@ -5035,6 +5643,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001195",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 365,
                             PublishedDate = new DateTime(2015, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 16 · Variant 1)"
@@ -5049,6 +5659,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001196",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 372,
                             PublishedDate = new DateTime(2018, 5, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 16 · Variant 2)"
@@ -5063,6 +5675,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001197",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 379,
                             PublishedDate = new DateTime(1996, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Wizard of Oz (Edition 16 · Variant 3)"
@@ -5077,6 +5691,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001198",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 246,
                             PublishedDate = new DateTime(2012, 7, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 7 · Variant 1)"
@@ -5091,6 +5707,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001199",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 253,
                             PublishedDate = new DateTime(2015, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 7 · Variant 2)"
@@ -5105,6 +5723,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001200",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 260,
                             PublishedDate = new DateTime(2018, 9, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 7 · Variant 3)"
@@ -5119,6 +5739,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001201",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 259,
                             PublishedDate = new DateTime(1998, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 8 · Variant 1)"
@@ -5133,6 +5755,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001202",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 266,
                             PublishedDate = new DateTime(2001, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 8 · Variant 2)"
@@ -5147,6 +5771,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001203",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 273,
                             PublishedDate = new DateTime(2004, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 8 · Variant 3)"
@@ -5161,6 +5787,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001204",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 272,
                             PublishedDate = new DateTime(2009, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 9 · Variant 1)"
@@ -5175,6 +5803,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001205",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 279,
                             PublishedDate = new DateTime(2012, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 9 · Variant 2)"
@@ -5189,6 +5819,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001206",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 286,
                             PublishedDate = new DateTime(2015, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 9 · Variant 3)"
@@ -5203,6 +5835,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001207",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 285,
                             PublishedDate = new DateTime(1995, 10, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 10 · Variant 1)"
@@ -5217,6 +5851,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001208",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 292,
                             PublishedDate = new DateTime(1998, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 10 · Variant 2)"
@@ -5231,6 +5867,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001209",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 299,
                             PublishedDate = new DateTime(2001, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 10 · Variant 3)"
@@ -5245,6 +5883,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001210",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 298,
                             PublishedDate = new DateTime(2006, 11, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 11 · Variant 1)"
@@ -5259,6 +5899,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001211",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 305,
                             PublishedDate = new DateTime(2009, 12, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 11 · Variant 2)"
@@ -5273,6 +5915,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001212",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 312,
                             PublishedDate = new DateTime(2012, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 11 · Variant 3)"
@@ -5287,6 +5931,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001213",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 311,
                             PublishedDate = new DateTime(2017, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 12 · Variant 1)"
@@ -5301,6 +5947,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001214",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 318,
                             PublishedDate = new DateTime(1995, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 12 · Variant 2)"
@@ -5315,6 +5963,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001215",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 325,
                             PublishedDate = new DateTime(1998, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 12 · Variant 3)"
@@ -5329,6 +5979,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001216",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 324,
                             PublishedDate = new DateTime(2003, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 13 · Variant 1)"
@@ -5343,6 +5995,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001217",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 331,
                             PublishedDate = new DateTime(2006, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 13 · Variant 2)"
@@ -5357,6 +6011,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001218",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 338,
                             PublishedDate = new DateTime(2009, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 13 · Variant 3)"
@@ -5371,6 +6027,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001219",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 337,
                             PublishedDate = new DateTime(2014, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 14 · Variant 1)"
@@ -5385,6 +6043,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001220",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 344,
                             PublishedDate = new DateTime(2017, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 14 · Variant 2)"
@@ -5399,6 +6059,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001221",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 351,
                             PublishedDate = new DateTime(1995, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 14 · Variant 3)"
@@ -5413,6 +6075,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001222",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 350,
                             PublishedDate = new DateTime(2000, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 15 · Variant 1)"
@@ -5427,6 +6091,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001223",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 357,
                             PublishedDate = new DateTime(2003, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 15 · Variant 2)"
@@ -5441,6 +6107,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001224",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 364,
                             PublishedDate = new DateTime(2006, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 15 · Variant 3)"
@@ -5455,6 +6123,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001225",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 363,
                             PublishedDate = new DateTime(2011, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 16 · Variant 1)"
@@ -5469,6 +6139,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001226",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 370,
                             PublishedDate = new DateTime(2014, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 16 · Variant 2)"
@@ -5483,6 +6155,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001227",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 377,
                             PublishedDate = new DateTime(2017, 6, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 16 · Variant 3)"
@@ -5497,6 +6171,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001228",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 376,
                             PublishedDate = new DateTime(1997, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 17 · Variant 1)"
@@ -5511,6 +6187,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001229",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 383,
                             PublishedDate = new DateTime(2000, 6, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 17 · Variant 2)"
@@ -5525,6 +6203,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001230",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 390,
                             PublishedDate = new DateTime(2003, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Lord of the Rings (Edition 17 · Variant 3)"
@@ -5539,6 +6219,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001231",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 257,
                             PublishedDate = new DateTime(2019, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 8 · Variant 1)"
@@ -5553,6 +6235,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001232",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 264,
                             PublishedDate = new DateTime(1997, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 8 · Variant 2)"
@@ -5567,6 +6251,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001233",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 271,
                             PublishedDate = new DateTime(2000, 10, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 8 · Variant 3)"
@@ -5581,6 +6267,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001234",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 270,
                             PublishedDate = new DateTime(2005, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 9 · Variant 1)"
@@ -5595,6 +6283,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001235",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 277,
                             PublishedDate = new DateTime(2008, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 9 · Variant 2)"
@@ -5609,6 +6299,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001236",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 284,
                             PublishedDate = new DateTime(2011, 11, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 9 · Variant 3)"
@@ -5623,6 +6315,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001237",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 283,
                             PublishedDate = new DateTime(2016, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 10 · Variant 1)"
@@ -5637,6 +6331,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001238",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 290,
                             PublishedDate = new DateTime(2019, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 10 · Variant 2)"
@@ -5651,6 +6347,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001239",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 297,
                             PublishedDate = new DateTime(1997, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 10 · Variant 3)"
@@ -5665,6 +6363,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001240",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 296,
                             PublishedDate = new DateTime(2002, 11, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 11 · Variant 1)"
@@ -5679,6 +6379,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001241",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 303,
                             PublishedDate = new DateTime(2005, 12, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 11 · Variant 2)"
@@ -5693,6 +6395,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001242",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 310,
                             PublishedDate = new DateTime(2008, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 11 · Variant 3)"
@@ -5707,6 +6411,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001243",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 309,
                             PublishedDate = new DateTime(2013, 12, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 12 · Variant 1)"
@@ -5721,6 +6427,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001244",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 316,
                             PublishedDate = new DateTime(2016, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 12 · Variant 2)"
@@ -5735,6 +6443,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001245",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 323,
                             PublishedDate = new DateTime(2019, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 12 · Variant 3)"
@@ -5749,6 +6459,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001246",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 322,
                             PublishedDate = new DateTime(1999, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 13 · Variant 1)"
@@ -5763,6 +6475,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001247",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 329,
                             PublishedDate = new DateTime(2002, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 13 · Variant 2)"
@@ -5777,6 +6491,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001248",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 336,
                             PublishedDate = new DateTime(2005, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 13 · Variant 3)"
@@ -5791,6 +6507,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001249",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 335,
                             PublishedDate = new DateTime(2010, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 14 · Variant 1)"
@@ -5805,6 +6523,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001250",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 342,
                             PublishedDate = new DateTime(2013, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 14 · Variant 2)"
@@ -5819,6 +6539,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001251",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 349,
                             PublishedDate = new DateTime(2016, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 14 · Variant 3)"
@@ -5833,6 +6555,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001252",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 348,
                             PublishedDate = new DateTime(1996, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 15 · Variant 1)"
@@ -5847,6 +6571,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001253",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 355,
                             PublishedDate = new DateTime(1999, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 15 · Variant 2)"
@@ -5861,6 +6587,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001254",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 362,
                             PublishedDate = new DateTime(2002, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 15 · Variant 3)"
@@ -5875,6 +6603,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001255",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 361,
                             PublishedDate = new DateTime(2007, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 16 · Variant 1)"
@@ -5889,6 +6619,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001256",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 368,
                             PublishedDate = new DateTime(2010, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 16 · Variant 2)"
@@ -5903,6 +6635,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001257",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 375,
                             PublishedDate = new DateTime(2013, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 16 · Variant 3)"
@@ -5917,6 +6651,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001258",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 374,
                             PublishedDate = new DateTime(2018, 5, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 17 · Variant 1)"
@@ -5931,6 +6667,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001259",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 381,
                             PublishedDate = new DateTime(1996, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 17 · Variant 2)"
@@ -5945,6 +6683,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001260",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 388,
                             PublishedDate = new DateTime(1999, 7, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 17 · Variant 3)"
@@ -5959,6 +6699,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001261",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 387,
                             PublishedDate = new DateTime(2004, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 18 · Variant 1)"
@@ -5973,6 +6715,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001262",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 394,
                             PublishedDate = new DateTime(2007, 7, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 18 · Variant 2)"
@@ -5987,6 +6731,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001263",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 401,
                             PublishedDate = new DateTime(2010, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Da Vinci Code (Edition 18 · Variant 3)"
@@ -6001,6 +6747,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001264",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 268,
                             PublishedDate = new DateTime(2001, 9, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 9 · Variant 1)"
@@ -6015,6 +6763,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001265",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 275,
                             PublishedDate = new DateTime(2004, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 9 · Variant 2)"
@@ -6029,6 +6779,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001266",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 282,
                             PublishedDate = new DateTime(2007, 11, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 9 · Variant 3)"
@@ -6043,6 +6795,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001267",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 281,
                             PublishedDate = new DateTime(2012, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 10 · Variant 1)"
@@ -6057,6 +6811,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001268",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 288,
                             PublishedDate = new DateTime(2015, 11, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 10 · Variant 2)"
@@ -6071,6 +6827,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001269",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 295,
                             PublishedDate = new DateTime(2018, 12, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 10 · Variant 3)"
@@ -6085,6 +6843,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001270",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 294,
                             PublishedDate = new DateTime(1998, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 11 · Variant 1)"
@@ -6099,6 +6859,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001271",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 301,
                             PublishedDate = new DateTime(2001, 12, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 11 · Variant 2)"
@@ -6113,6 +6875,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001272",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 308,
                             PublishedDate = new DateTime(2004, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 11 · Variant 3)"
@@ -6127,6 +6891,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001273",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 307,
                             PublishedDate = new DateTime(2009, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 12 · Variant 1)"
@@ -6141,6 +6907,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001274",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 314,
                             PublishedDate = new DateTime(2012, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 12 · Variant 2)"
@@ -6155,6 +6923,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001275",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 321,
                             PublishedDate = new DateTime(2015, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 12 · Variant 3)"
@@ -6169,6 +6939,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001276",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 320,
                             PublishedDate = new DateTime(1995, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 13 · Variant 1)"
@@ -6183,6 +6955,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001277",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 327,
                             PublishedDate = new DateTime(1998, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 13 · Variant 2)"
@@ -6197,6 +6971,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001278",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 334,
                             PublishedDate = new DateTime(2001, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 13 · Variant 3)"
@@ -6211,6 +6987,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001279",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 333,
                             PublishedDate = new DateTime(2006, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 14 · Variant 1)"
@@ -6225,6 +7003,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001280",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 340,
                             PublishedDate = new DateTime(2009, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 14 · Variant 2)"
@@ -6239,6 +7019,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001281",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 347,
                             PublishedDate = new DateTime(2012, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 14 · Variant 3)"
@@ -6253,6 +7035,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001282",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 346,
                             PublishedDate = new DateTime(2017, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 15 · Variant 1)"
@@ -6267,6 +7051,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001283",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 353,
                             PublishedDate = new DateTime(1995, 4, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 15 · Variant 2)"
@@ -6281,6 +7067,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001284",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 360,
                             PublishedDate = new DateTime(1998, 5, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 15 · Variant 3)"
@@ -6295,6 +7083,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001285",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 359,
                             PublishedDate = new DateTime(2003, 4, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 16 · Variant 1)"
@@ -6309,6 +7099,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001286",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 366,
                             PublishedDate = new DateTime(2006, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 16 · Variant 2)"
@@ -6323,6 +7115,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001287",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 373,
                             PublishedDate = new DateTime(2009, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 16 · Variant 3)"
@@ -6337,6 +7131,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001288",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 372,
                             PublishedDate = new DateTime(2014, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 17 · Variant 1)"
@@ -6351,6 +7147,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001289",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 379,
                             PublishedDate = new DateTime(2017, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 17 · Variant 2)"
@@ -6365,6 +7163,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001290",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 386,
                             PublishedDate = new DateTime(1995, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 17 · Variant 3)"
@@ -6379,6 +7179,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001291",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 385,
                             PublishedDate = new DateTime(2000, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 18 · Variant 1)"
@@ -6393,6 +7195,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001292",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 392,
                             PublishedDate = new DateTime(2003, 7, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 18 · Variant 2)"
@@ -6407,6 +7211,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001293",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 399,
                             PublishedDate = new DateTime(2006, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 18 · Variant 3)"
@@ -6421,6 +7227,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001294",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 398,
                             PublishedDate = new DateTime(2011, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 19 · Variant 1)"
@@ -6435,6 +7243,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001295",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 405,
                             PublishedDate = new DateTime(2014, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 19 · Variant 2)"
@@ -6449,6 +7259,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001296",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 412,
                             PublishedDate = new DateTime(2017, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Crime and Punishment (Edition 19 · Variant 3)"
@@ -6463,6 +7275,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001297",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 279,
                             PublishedDate = new DateTime(2008, 10, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 10 · Variant 1)"
@@ -6477,6 +7291,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001298",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 286,
                             PublishedDate = new DateTime(2011, 11, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 10 · Variant 2)"
@@ -6491,6 +7307,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001299",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 293,
                             PublishedDate = new DateTime(2014, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 10 · Variant 3)"
@@ -6505,6 +7323,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001300",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 292,
                             PublishedDate = new DateTime(2019, 11, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 11 · Variant 1)"
@@ -6519,6 +7339,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001301",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 299,
                             PublishedDate = new DateTime(1997, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 11 · Variant 2)"
@@ -6533,6 +7355,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001302",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 306,
                             PublishedDate = new DateTime(2000, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 11 · Variant 3)"
@@ -6547,6 +7371,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001303",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 305,
                             PublishedDate = new DateTime(2005, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 12 · Variant 1)"
@@ -6561,6 +7387,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001304",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 312,
                             PublishedDate = new DateTime(2008, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 12 · Variant 2)"
@@ -6575,6 +7403,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001305",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 319,
                             PublishedDate = new DateTime(2011, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 12 · Variant 3)"
@@ -6589,6 +7419,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001306",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 318,
                             PublishedDate = new DateTime(2016, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 13 · Variant 1)"
@@ -6603,6 +7435,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001307",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 325,
                             PublishedDate = new DateTime(2019, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 13 · Variant 2)"
@@ -6617,6 +7451,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001308",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 332,
                             PublishedDate = new DateTime(1997, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 13 · Variant 3)"
@@ -6631,6 +7467,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001309",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 331,
                             PublishedDate = new DateTime(2002, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 14 · Variant 1)"
@@ -6645,6 +7483,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001310",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 338,
                             PublishedDate = new DateTime(2005, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 14 · Variant 2)"
@@ -6659,6 +7499,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001311",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 345,
                             PublishedDate = new DateTime(2008, 4, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 14 · Variant 3)"
@@ -6673,6 +7515,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001312",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 344,
                             PublishedDate = new DateTime(2013, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 15 · Variant 1)"
@@ -6687,6 +7531,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001313",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 351,
                             PublishedDate = new DateTime(2016, 4, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 15 · Variant 2)"
@@ -6701,6 +7547,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001314",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 358,
                             PublishedDate = new DateTime(2019, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 15 · Variant 3)"
@@ -6715,6 +7563,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001315",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 357,
                             PublishedDate = new DateTime(1999, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 16 · Variant 1)"
@@ -6729,6 +7579,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001316",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 364,
                             PublishedDate = new DateTime(2002, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 16 · Variant 2)"
@@ -6743,6 +7595,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001317",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 371,
                             PublishedDate = new DateTime(2005, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 16 · Variant 3)"
@@ -6757,6 +7611,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001318",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 370,
                             PublishedDate = new DateTime(2010, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 17 · Variant 1)"
@@ -6771,6 +7627,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001319",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 377,
                             PublishedDate = new DateTime(2013, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 17 · Variant 2)"
@@ -6785,6 +7643,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001320",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 384,
                             PublishedDate = new DateTime(2016, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 17 · Variant 3)"
@@ -6799,6 +7659,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001321",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 383,
                             PublishedDate = new DateTime(1996, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 18 · Variant 1)"
@@ -6813,6 +7675,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001322",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 390,
                             PublishedDate = new DateTime(1999, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 18 · Variant 2)"
@@ -6827,6 +7691,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001323",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 397,
                             PublishedDate = new DateTime(2002, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 18 · Variant 3)"
@@ -6841,6 +7707,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001324",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 396,
                             PublishedDate = new DateTime(2007, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 19 · Variant 1)"
@@ -6855,6 +7723,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001325",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 403,
                             PublishedDate = new DateTime(2010, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 19 · Variant 2)"
@@ -6869,6 +7739,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001326",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 410,
                             PublishedDate = new DateTime(2013, 9, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 19 · Variant 3)"
@@ -6883,6 +7755,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001327",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 409,
                             PublishedDate = new DateTime(2018, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 20 · Variant 1)"
@@ -6897,6 +7771,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001328",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 416,
                             PublishedDate = new DateTime(1996, 9, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 20 · Variant 2)"
@@ -6911,6 +7787,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001329",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 423,
                             PublishedDate = new DateTime(1999, 10, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Eat, Pray, Love (Edition 20 · Variant 3)"
@@ -6925,6 +7803,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001330",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 290,
                             PublishedDate = new DateTime(2015, 11, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 11 · Variant 1)"
@@ -6939,6 +7819,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001331",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 297,
                             PublishedDate = new DateTime(2018, 12, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 11 · Variant 2)"
@@ -6953,6 +7835,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001332",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 304,
                             PublishedDate = new DateTime(1996, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 11 · Variant 3)"
@@ -6967,6 +7851,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001333",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 303,
                             PublishedDate = new DateTime(2001, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 12 · Variant 1)"
@@ -6981,6 +7867,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001334",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 310,
                             PublishedDate = new DateTime(2004, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 12 · Variant 2)"
@@ -6995,6 +7883,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001335",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 317,
                             PublishedDate = new DateTime(2007, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 12 · Variant 3)"
@@ -7009,6 +7899,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001336",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 316,
                             PublishedDate = new DateTime(2012, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 13 · Variant 1)"
@@ -7023,6 +7915,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001337",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 323,
                             PublishedDate = new DateTime(2015, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 13 · Variant 2)"
@@ -7037,6 +7931,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001338",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 330,
                             PublishedDate = new DateTime(2018, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 13 · Variant 3)"
@@ -7051,6 +7947,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001339",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 329,
                             PublishedDate = new DateTime(1998, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 14 · Variant 1)"
@@ -7065,6 +7963,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001340",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 336,
                             PublishedDate = new DateTime(2001, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 14 · Variant 2)"
@@ -7079,6 +7979,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001341",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 343,
                             PublishedDate = new DateTime(2004, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 14 · Variant 3)"
@@ -7093,6 +7995,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001342",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 342,
                             PublishedDate = new DateTime(2009, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 15 · Variant 1)"
@@ -7107,6 +8011,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001343",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 349,
                             PublishedDate = new DateTime(2012, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 15 · Variant 2)"
@@ -7121,6 +8027,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001344",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 356,
                             PublishedDate = new DateTime(2015, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 15 · Variant 3)"
@@ -7135,6 +8043,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001345",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 355,
                             PublishedDate = new DateTime(1995, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 16 · Variant 1)"
@@ -7149,6 +8059,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001346",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 362,
                             PublishedDate = new DateTime(1998, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 16 · Variant 2)"
@@ -7163,6 +8075,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001347",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 369,
                             PublishedDate = new DateTime(2001, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 16 · Variant 3)"
@@ -7177,6 +8091,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001348",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 368,
                             PublishedDate = new DateTime(2006, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 17 · Variant 1)"
@@ -7191,6 +8107,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001349",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 375,
                             PublishedDate = new DateTime(2009, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 17 · Variant 2)"
@@ -7205,6 +8123,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001350",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 382,
                             PublishedDate = new DateTime(2012, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 17 · Variant 3)"
@@ -7219,6 +8139,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001351",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 381,
                             PublishedDate = new DateTime(2017, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 18 · Variant 1)"
@@ -7233,6 +8155,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001352",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 388,
                             PublishedDate = new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 18 · Variant 2)"
@@ -7247,6 +8171,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001353",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 395,
                             PublishedDate = new DateTime(1998, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 18 · Variant 3)"
@@ -7261,6 +8187,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001354",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 394,
                             PublishedDate = new DateTime(2003, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 19 · Variant 1)"
@@ -7275,6 +8203,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001355",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 401,
                             PublishedDate = new DateTime(2006, 8, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 19 · Variant 2)"
@@ -7289,6 +8219,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001356",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 408,
                             PublishedDate = new DateTime(2009, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 19 · Variant 3)"
@@ -7303,6 +8235,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001357",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 407,
                             PublishedDate = new DateTime(2014, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 20 · Variant 1)"
@@ -7317,6 +8251,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001358",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 414,
                             PublishedDate = new DateTime(2017, 9, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 20 · Variant 2)"
@@ -7331,6 +8267,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001359",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 421,
                             PublishedDate = new DateTime(1995, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 20 · Variant 3)"
@@ -7345,6 +8283,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001360",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 420,
                             PublishedDate = new DateTime(2000, 9, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 21 · Variant 1)"
@@ -7359,6 +8299,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001361",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 427,
                             PublishedDate = new DateTime(2003, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 21 · Variant 2)"
@@ -7373,6 +8315,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001362",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 434,
                             PublishedDate = new DateTime(2006, 11, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Science for All Americans (Edition 21 · Variant 3)"
@@ -7387,6 +8331,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001363",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 301,
                             PublishedDate = new DateTime(1997, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 12 · Variant 1)"
@@ -7401,6 +8347,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001364",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 308,
                             PublishedDate = new DateTime(2000, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 12 · Variant 2)"
@@ -7415,6 +8363,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001365",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 315,
                             PublishedDate = new DateTime(2003, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 12 · Variant 3)"
@@ -7429,6 +8379,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001366",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 314,
                             PublishedDate = new DateTime(2008, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 13 · Variant 1)"
@@ -7443,6 +8395,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001367",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 321,
                             PublishedDate = new DateTime(2011, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 13 · Variant 2)"
@@ -7457,6 +8411,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001368",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 328,
                             PublishedDate = new DateTime(2014, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 13 · Variant 3)"
@@ -7471,6 +8427,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001369",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 327,
                             PublishedDate = new DateTime(2019, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 14 · Variant 1)"
@@ -7485,6 +8443,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001370",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 334,
                             PublishedDate = new DateTime(1997, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 14 · Variant 2)"
@@ -7499,6 +8459,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001371",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 341,
                             PublishedDate = new DateTime(2000, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 14 · Variant 3)"
@@ -7513,6 +8475,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001372",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 340,
                             PublishedDate = new DateTime(2005, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 15 · Variant 1)"
@@ -7527,6 +8491,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001373",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 347,
                             PublishedDate = new DateTime(2008, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 15 · Variant 2)"
@@ -7541,6 +8507,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001374",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 354,
                             PublishedDate = new DateTime(2011, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 15 · Variant 3)"
@@ -7555,6 +8523,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001375",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 353,
                             PublishedDate = new DateTime(2016, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 16 · Variant 1)"
@@ -7569,6 +8539,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001376",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 360,
                             PublishedDate = new DateTime(2019, 5, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 16 · Variant 2)"
@@ -7583,6 +8555,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001377",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 367,
                             PublishedDate = new DateTime(1997, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 16 · Variant 3)"
@@ -7597,6 +8571,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001378",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 366,
                             PublishedDate = new DateTime(2002, 5, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 17 · Variant 1)"
@@ -7611,6 +8587,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001379",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 373,
                             PublishedDate = new DateTime(2005, 6, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 17 · Variant 2)"
@@ -7625,6 +8603,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001380",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 380,
                             PublishedDate = new DateTime(2008, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 17 · Variant 3)"
@@ -7639,6 +8619,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001381",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 379,
                             PublishedDate = new DateTime(2013, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 18 · Variant 1)"
@@ -7653,6 +8635,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001382",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 386,
                             PublishedDate = new DateTime(2016, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 18 · Variant 2)"
@@ -7667,6 +8651,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001383",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 393,
                             PublishedDate = new DateTime(2019, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 18 · Variant 3)"
@@ -7681,6 +8667,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001384",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 392,
                             PublishedDate = new DateTime(1999, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 19 · Variant 1)"
@@ -7695,6 +8683,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001385",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 399,
                             PublishedDate = new DateTime(2002, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 19 · Variant 2)"
@@ -7709,6 +8699,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001386",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 406,
                             PublishedDate = new DateTime(2005, 9, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 19 · Variant 3)"
@@ -7723,6 +8715,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001387",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 405,
                             PublishedDate = new DateTime(2010, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 20 · Variant 1)"
@@ -7737,6 +8731,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001388",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 412,
                             PublishedDate = new DateTime(2013, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 20 · Variant 2)"
@@ -7751,6 +8747,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001389",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 419,
                             PublishedDate = new DateTime(2016, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 20 · Variant 3)"
@@ -7765,6 +8763,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001390",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 418,
                             PublishedDate = new DateTime(1996, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 21 · Variant 1)"
@@ -7779,6 +8779,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001391",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 425,
                             PublishedDate = new DateTime(1999, 10, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 21 · Variant 2)"
@@ -7793,6 +8795,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001392",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 432,
                             PublishedDate = new DateTime(2002, 11, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 21 · Variant 3)"
@@ -7807,6 +8811,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001393",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 431,
                             PublishedDate = new DateTime(2007, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 22 · Variant 1)"
@@ -7821,6 +8827,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001394",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 438,
                             PublishedDate = new DateTime(2010, 11, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 22 · Variant 2)"
@@ -7835,6 +8843,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001395",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 445,
                             PublishedDate = new DateTime(2013, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Discarded Image (Edition 22 · Variant 3)"
@@ -7849,6 +8859,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001396",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 312,
                             PublishedDate = new DateTime(2004, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 13 · Variant 1)"
@@ -7863,6 +8875,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001397",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 319,
                             PublishedDate = new DateTime(2007, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 13 · Variant 2)"
@@ -7877,6 +8891,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001398",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 326,
                             PublishedDate = new DateTime(2010, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 13 · Variant 3)"
@@ -7891,6 +8907,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001399",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 325,
                             PublishedDate = new DateTime(2015, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 14 · Variant 1)"
@@ -7905,6 +8923,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001400",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 332,
                             PublishedDate = new DateTime(2018, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 14 · Variant 2)"
@@ -7919,6 +8939,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001401",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 339,
                             PublishedDate = new DateTime(1996, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 14 · Variant 3)"
@@ -7933,6 +8955,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001402",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 338,
                             PublishedDate = new DateTime(2001, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 15 · Variant 1)"
@@ -7947,6 +8971,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001403",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 345,
                             PublishedDate = new DateTime(2004, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 15 · Variant 2)"
@@ -7961,6 +8987,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001404",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 352,
                             PublishedDate = new DateTime(2007, 5, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 15 · Variant 3)"
@@ -7975,6 +9003,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001405",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 351,
                             PublishedDate = new DateTime(2012, 4, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 16 · Variant 1)"
@@ -7989,6 +9019,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001406",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 358,
                             PublishedDate = new DateTime(2015, 5, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 16 · Variant 2)"
@@ -8003,6 +9035,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001407",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 365,
                             PublishedDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 16 · Variant 3)"
@@ -8017,6 +9051,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001408",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 364,
                             PublishedDate = new DateTime(1998, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 17 · Variant 1)"
@@ -8031,6 +9067,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001409",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 371,
                             PublishedDate = new DateTime(2001, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 17 · Variant 2)"
@@ -8045,6 +9083,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001410",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 378,
                             PublishedDate = new DateTime(2004, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 17 · Variant 3)"
@@ -8059,6 +9099,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001411",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 377,
                             PublishedDate = new DateTime(2009, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 18 · Variant 1)"
@@ -8073,6 +9115,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001412",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 384,
                             PublishedDate = new DateTime(2012, 7, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 18 · Variant 2)"
@@ -8087,6 +9131,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001413",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 391,
                             PublishedDate = new DateTime(2015, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 18 · Variant 3)"
@@ -8101,6 +9147,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001414",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 390,
                             PublishedDate = new DateTime(1995, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 19 · Variant 1)"
@@ -8115,6 +9163,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001415",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 397,
                             PublishedDate = new DateTime(1998, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 19 · Variant 2)"
@@ -8129,6 +9179,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001416",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 404,
                             PublishedDate = new DateTime(2001, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 19 · Variant 3)"
@@ -8143,6 +9195,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001417",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 403,
                             PublishedDate = new DateTime(2006, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 20 · Variant 1)"
@@ -8157,6 +9211,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001418",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 410,
                             PublishedDate = new DateTime(2009, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 20 · Variant 2)"
@@ -8171,6 +9227,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001419",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 417,
                             PublishedDate = new DateTime(2012, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 20 · Variant 3)"
@@ -8185,6 +9243,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001420",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 416,
                             PublishedDate = new DateTime(2017, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 21 · Variant 1)"
@@ -8199,6 +9259,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001421",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 423,
                             PublishedDate = new DateTime(1995, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 21 · Variant 2)"
@@ -8213,6 +9275,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001422",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 430,
                             PublishedDate = new DateTime(1998, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 21 · Variant 3)"
@@ -8227,6 +9291,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001423",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 429,
                             PublishedDate = new DateTime(2003, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 22 · Variant 1)"
@@ -8241,6 +9307,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001424",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 436,
                             PublishedDate = new DateTime(2006, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 22 · Variant 2)"
@@ -8255,6 +9323,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001425",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 443,
                             PublishedDate = new DateTime(2009, 12, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 22 · Variant 3)"
@@ -8269,6 +9339,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001426",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 442,
                             PublishedDate = new DateTime(2014, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 23 · Variant 1)"
@@ -8283,6 +9355,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001427",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 449,
                             PublishedDate = new DateTime(2017, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 23 · Variant 2)"
@@ -8297,6 +9371,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001428",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 456,
                             PublishedDate = new DateTime(1995, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Bloodmarked (Edition 23 · Variant 3)"
@@ -8311,6 +9387,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001429",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 323,
                             PublishedDate = new DateTime(2011, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 14 · Variant 1)"
@@ -8325,6 +9403,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001430",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 330,
                             PublishedDate = new DateTime(2014, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 14 · Variant 2)"
@@ -8339,6 +9419,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001431",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 337,
                             PublishedDate = new DateTime(2017, 4, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 14 · Variant 3)"
@@ -8353,6 +9435,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001432",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 336,
                             PublishedDate = new DateTime(1997, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 15 · Variant 1)"
@@ -8367,6 +9451,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001433",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 343,
                             PublishedDate = new DateTime(2000, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 15 · Variant 2)"
@@ -8381,6 +9467,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001434",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 350,
                             PublishedDate = new DateTime(2003, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 15 · Variant 3)"
@@ -8395,6 +9483,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001435",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 349,
                             PublishedDate = new DateTime(2008, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 16 · Variant 1)"
@@ -8409,6 +9499,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001436",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 356,
                             PublishedDate = new DateTime(2011, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 16 · Variant 2)"
@@ -8423,6 +9515,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001437",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 363,
                             PublishedDate = new DateTime(2014, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 16 · Variant 3)"
@@ -8437,6 +9531,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001438",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 362,
                             PublishedDate = new DateTime(2019, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 17 · Variant 1)"
@@ -8451,6 +9547,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001439",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 369,
                             PublishedDate = new DateTime(1997, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 17 · Variant 2)"
@@ -8465,6 +9563,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001440",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 376,
                             PublishedDate = new DateTime(2000, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 17 · Variant 3)"
@@ -8479,6 +9579,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001441",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 375,
                             PublishedDate = new DateTime(2005, 6, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 18 · Variant 1)"
@@ -8493,6 +9595,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001442",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 382,
                             PublishedDate = new DateTime(2008, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 18 · Variant 2)"
@@ -8507,6 +9611,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001443",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 389,
                             PublishedDate = new DateTime(2011, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 18 · Variant 3)"
@@ -8521,6 +9627,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001444",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 388,
                             PublishedDate = new DateTime(2016, 7, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 19 · Variant 1)"
@@ -8535,6 +9643,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001445",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 395,
                             PublishedDate = new DateTime(2019, 8, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 19 · Variant 2)"
@@ -8549,6 +9659,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001446",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 402,
                             PublishedDate = new DateTime(1997, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 19 · Variant 3)"
@@ -8563,6 +9675,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001447",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 401,
                             PublishedDate = new DateTime(2002, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 20 · Variant 1)"
@@ -8577,6 +9691,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001448",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 408,
                             PublishedDate = new DateTime(2005, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 20 · Variant 2)"
@@ -8591,6 +9707,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001449",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 415,
                             PublishedDate = new DateTime(2008, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 20 · Variant 3)"
@@ -8605,6 +9723,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001450",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 414,
                             PublishedDate = new DateTime(2013, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 21 · Variant 1)"
@@ -8619,6 +9739,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001451",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 421,
                             PublishedDate = new DateTime(2016, 10, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 21 · Variant 2)"
@@ -8633,6 +9755,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001452",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 428,
                             PublishedDate = new DateTime(2019, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 21 · Variant 3)"
@@ -8647,6 +9771,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001453",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 427,
                             PublishedDate = new DateTime(1999, 10, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 22 · Variant 1)"
@@ -8661,6 +9787,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001454",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 434,
                             PublishedDate = new DateTime(2002, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 22 · Variant 2)"
@@ -8675,6 +9803,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001455",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 441,
                             PublishedDate = new DateTime(2005, 12, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 22 · Variant 3)"
@@ -8689,6 +9819,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001456",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 440,
                             PublishedDate = new DateTime(2010, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 23 · Variant 1)"
@@ -8703,6 +9835,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001457",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 447,
                             PublishedDate = new DateTime(2013, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 23 · Variant 2)"
@@ -8717,6 +9851,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001458",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 454,
                             PublishedDate = new DateTime(2016, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 23 · Variant 3)"
@@ -8731,6 +9867,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001459",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 453,
                             PublishedDate = new DateTime(1996, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 24 · Variant 1)"
@@ -8745,6 +9883,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001460",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 460,
                             PublishedDate = new DateTime(1999, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 24 · Variant 2)"
@@ -8759,6 +9899,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001461",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 467,
                             PublishedDate = new DateTime(2002, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Portrait of the Artist as a Young Man (Edition 24 · Variant 3)"
@@ -8773,6 +9915,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001462",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 334,
                             PublishedDate = new DateTime(2018, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 15 · Variant 1)"
@@ -8787,6 +9931,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001463",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 341,
                             PublishedDate = new DateTime(1996, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 15 · Variant 2)"
@@ -8801,6 +9947,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001464",
                             ImageURL = "https://m.media-amazon.com/images/I/712UYtmr7IL._UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 348,
                             PublishedDate = new DateTime(1999, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 15 · Variant 3)"
@@ -8815,6 +9963,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001465",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 347,
                             PublishedDate = new DateTime(2004, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 16 · Variant 1)"
@@ -8829,6 +9979,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001466",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 354,
                             PublishedDate = new DateTime(2007, 5, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 16 · Variant 2)"
@@ -8843,6 +9995,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001467",
                             ImageURL = "https://m.media-amazon.com/images/I/71naXXQqs6L._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 361,
                             PublishedDate = new DateTime(2010, 6, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 16 · Variant 3)"
@@ -8857,6 +10011,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001468",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 360,
                             PublishedDate = new DateTime(2015, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 17 · Variant 1)"
@@ -8871,6 +10027,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001469",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 367,
                             PublishedDate = new DateTime(2018, 6, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 17 · Variant 2)"
@@ -8885,6 +10043,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001470",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNrbgGKC7bY46PW56AIvpLH45OwGJT9uqpg&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 374,
                             PublishedDate = new DateTime(1996, 7, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 17 · Variant 3)"
@@ -8899,6 +10059,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001471",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 373,
                             PublishedDate = new DateTime(2001, 6, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 18 · Variant 1)"
@@ -8913,6 +10075,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001472",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 380,
                             PublishedDate = new DateTime(2004, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 18 · Variant 2)"
@@ -8927,6 +10091,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001473",
                             ImageURL = "https://m.media-amazon.com/images/I/914woZe6eBL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 387,
                             PublishedDate = new DateTime(2007, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 18 · Variant 3)"
@@ -8941,6 +10107,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001474",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 386,
                             PublishedDate = new DateTime(2012, 7, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 19 · Variant 1)"
@@ -8955,6 +10123,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001475",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 393,
                             PublishedDate = new DateTime(2015, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 19 · Variant 2)"
@@ -8969,6 +10139,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001476",
                             ImageURL = "https://cdn.kobo.com/book-images/2293d740-178e-4da1-a849-b11d6308fbaa/1200/1200/False/crime-and-punishment-35.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 400,
                             PublishedDate = new DateTime(2018, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 19 · Variant 3)"
@@ -8983,6 +10155,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001477",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 399,
                             PublishedDate = new DateTime(1998, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 20 · Variant 1)"
@@ -8997,6 +10171,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001478",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 406,
                             PublishedDate = new DateTime(2001, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 20 · Variant 2)"
@@ -9011,6 +10187,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001479",
                             ImageURL = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_DVCYA_book-cover.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 413,
                             PublishedDate = new DateTime(2004, 10, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 20 · Variant 3)"
@@ -9025,6 +10203,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001480",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 412,
                             PublishedDate = new DateTime(2009, 9, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 21 · Variant 1)"
@@ -9039,6 +10219,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001481",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 419,
                             PublishedDate = new DateTime(2012, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 21 · Variant 2)"
@@ -9053,6 +10235,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001482",
                             ImageURL = "https://m.media-amazon.com/images/I/71XuGD2BIsL._AC_UF1000,1000_QL80_.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 426,
                             PublishedDate = new DateTime(2015, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 21 · Variant 3)"
@@ -9067,6 +10251,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001483",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 425,
                             PublishedDate = new DateTime(1995, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 22 · Variant 1)"
@@ -9081,6 +10267,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001484",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 432,
                             PublishedDate = new DateTime(1998, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 22 · Variant 2)"
@@ -9095,6 +10283,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001485",
                             ImageURL = "https://cdn.kobo.com/book-images/dc043919-597a-4d28-bfe7-f2638a464ce1/1200/1200/False/mrs-dalloway-141.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 439,
                             PublishedDate = new DateTime(2001, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 22 · Variant 3)"
@@ -9109,6 +10299,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001486",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 438,
                             PublishedDate = new DateTime(2006, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 23 · Variant 1)"
@@ -9123,6 +10315,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001487",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 445,
                             PublishedDate = new DateTime(2009, 12, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 23 · Variant 2)"
@@ -9137,6 +10331,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001488",
                             ImageURL = "https://online.fliphtml5.com/fazjo/bzig/files/large/1.webp?1611245094&1611245094",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 452,
                             PublishedDate = new DateTime(2012, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 23 · Variant 3)"
@@ -9151,6 +10347,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001489",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 451,
                             PublishedDate = new DateTime(2017, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 24 · Variant 1)"
@@ -9165,6 +10363,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001490",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 458,
                             PublishedDate = new DateTime(1995, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 24 · Variant 2)"
@@ -9179,6 +10379,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001491",
                             ImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYddngMuOus0j4dRoKcdZaEMLN6LZE9cKKBA&s",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 465,
                             PublishedDate = new DateTime(1998, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 24 · Variant 3)"
@@ -9193,6 +10395,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001492",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 464,
                             PublishedDate = new DateTime(2003, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 25 · Variant 1)"
@@ -9207,6 +10411,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001493",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 471,
                             PublishedDate = new DateTime(2006, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 25 · Variant 2)"
@@ -9221,6 +10427,8 @@ namespace Library.DAL.Migrations
                             ISBN = "9789000001494",
                             ImageURL = "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1391566685i/191355.jpg",
                             IsApproved = true,
+                            IsBookOnS3 = false,
+                            IsImageOnS3 = false,
                             Pages = 478,
                             PublishedDate = new DateTime(2009, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The History of the Peloponnesian War (Edition 25 · Variant 3)"

@@ -6,6 +6,7 @@ using Library.DAL.Models;
 using Library.DAL.Repositories;
 using LibraryAPI.Hubs;
 using LibraryAPI.Extension;
+using LibraryAPI.Middleware;
 using LibraryAPI.Models;
 using LibraryAPI.Services;
 using LibraryAPI.Services.IServices;
@@ -84,6 +85,7 @@ builder.Services.AddSingleton<IAmazonS3>(sp =>
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<IRateLimiter, RateLimiter>();
 #endregion
 
 #region ========================== Controller & JSON Settings ==========================
@@ -135,6 +137,7 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseCors("AllowAll");
+app.UseMiddleware<RateLimitingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
