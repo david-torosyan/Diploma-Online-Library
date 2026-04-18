@@ -1,4 +1,4 @@
 {
   "developmentBaseUrl": "http://localhost:5000",
-  "productionBaseUrl": "http://54.226.20.136:5000"
+  "productionBaseUrl": "https://bibloslibrary.online"
 }
