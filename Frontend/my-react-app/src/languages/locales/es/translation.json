@@ -69,7 +69,7 @@
   "loading": "Cargando...",
   "allRightsReserved": "Todos los derechos reservados.",
   "alreadyHaveAccount": "¿Ya tienes una cuenta?",
-  "appName": "Biblios",
+  "appName": "Biblos",
   "askMeAnything": "¡Hazme cualquier pregunta!",
   "author": "Autor",
   "authorName": "Nombre del autor",
@@ -206,5 +206,5 @@
   "exploreNoBooksMatch": "No hay libros que coincidan con tus filtros actuales. Prueba criterios de búsqueda más amplios.",
   "previous": "Anterior",
   "next": "Siguiente",
-  "welcome": "Bienvenido a Biblios"
+  "welcome": "Bienvenido a Biblos"
 }
