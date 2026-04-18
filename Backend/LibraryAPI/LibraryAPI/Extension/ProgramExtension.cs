@@ -13,12 +13,11 @@ public static class ProgramExtension
     {
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowFrontend", policy =>
+            options.AddPolicy("AllowAll", policy =>
             {
-                policy.WithOrigins("http://localhost:3000", "http://127.0.0.1:3000")
+                policy.AllowAnyOrigin()
                       .AllowAnyHeader()
-                      .AllowAnyMethod()
-                      .AllowCredentials();
+                      .AllowAnyMethod();
             });
         });
     }
