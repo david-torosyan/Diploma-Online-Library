@@ -114,7 +114,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/media"
 });
 
-app.UseCors("AllowFrontend");
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
