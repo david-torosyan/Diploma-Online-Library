@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { LibraryClient } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
-import config from "../config/config.json";
+import config from "../config/config";
 import ReactMarkdown from "react-markdown";
 
 interface ChatMessage {

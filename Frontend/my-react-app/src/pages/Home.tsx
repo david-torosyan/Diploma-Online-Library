@@ -10,7 +10,7 @@ import {
   getMostRatedBooks,
   getNewArrivals,
 } from "../services/discoveryService";
-import config from "../config/config.json";
+import config from "../config/config";
 import { orderCategoriesForHome } from "../utils/categoryOrdering";
 
 const Home: React.FC = () => {

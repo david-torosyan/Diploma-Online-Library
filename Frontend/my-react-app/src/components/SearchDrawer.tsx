@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { LibraryClient, BookWithDetailsDto } from "../api/LibraryClient";
 import { Offcanvas } from "bootstrap";
 import { useTranslation } from "react-i18next";
-import config from "../config/config.json";
+import config from "../config/config";
 import BookDetailFromAi from "../pages/BookDetailFromAi";
 import { getSearchSuggestions } from "../services/discoveryService";
 

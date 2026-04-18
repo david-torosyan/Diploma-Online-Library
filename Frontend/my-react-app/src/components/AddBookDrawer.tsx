@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LibraryClient, CategoryDto } from "../api/LibraryClient";
-import config from "../config/config.json";
+import config from "../config/config";
 import { useNavigate } from "react-router-dom";
 import { Offcanvas } from "bootstrap";
 import Cookies from "js-cookie";

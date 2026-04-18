@@ -14,7 +14,7 @@ import { getAuthToken, isAdminUser } from "../utils/auth";
 import { Offcanvas } from "bootstrap";
 import { LibraryClient } from "../api/LibraryClient";
 import { createChatHubConnection, getUnreadCount } from "../services/chatService";
-import config from "../config/config.json";
+import config from "../config/config";
 
 const Header: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

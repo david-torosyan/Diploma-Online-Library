@@ -8,7 +8,7 @@ import {
   UpsertReviewDto,
 } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
-import config from "../config/config.json";
+import config from "../config/config";
 import Cookies from "js-cookie";
 import { getCurrentUserId, isAdminUser } from "../utils/auth";
 import { getRelatedBooks } from "../services/discoveryService";

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { BookDto, CategoryDto, LibraryClient } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
-import config from "../config/config.json";
+import config from "../config/config";
 import {
   browseBooks,
 } from "../services/browseService";

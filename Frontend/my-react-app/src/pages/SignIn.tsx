@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { LibraryClient, LoginModel } from "../api/LibraryClient";
 import { handleLoginResponse } from "../services/loginService.tsx";
 import { useTranslation } from "react-i18next";
-import config from "../config/config.json";
+import config from "../config/config";
 
 const SignIn: React.FC = () => {
   const { t } = useTranslation();

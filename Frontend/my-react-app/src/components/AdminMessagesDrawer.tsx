@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LibraryClient, BookDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
-import config from "../config/config.json";
+import config from "../config/config";
 import { getAuthToken } from "../utils/auth";
 
 const AdminMessagesDrawer: React.FC = () => {

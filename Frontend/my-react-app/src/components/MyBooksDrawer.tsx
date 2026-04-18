@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 import { LibraryClient, BookDto } from "../api/LibraryClient";
-import config from "../config/config.json";
+import config from "../config/config";
 
 const MyBooksDrawer: React.FC = () => {
   const { t } = useTranslation();

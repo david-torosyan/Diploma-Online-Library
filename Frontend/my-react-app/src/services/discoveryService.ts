@@ -1,5 +1,5 @@
 import { BookDto, LibraryClient } from "../api/LibraryClient";
-import config from "../config/config.json";
+import config from "../config/config";
 
 const normalizeBaseUrl = (value: string): string => value.replace(/\/+$/, "");
 

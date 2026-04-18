@@ -1,5 +1,5 @@
 import { BookDto } from "../api/LibraryClient";
-import config from "../config/config.json";
+import config from "../config/config";
 
 export type BrowseSort =
   | "newest"

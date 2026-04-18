@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as signalR from "@microsoft/signalr";
-import config from "../config/config.json";
+import config from "../config/config";
 import type { ChatMessage, ChatUser, ConversationSummary } from "../types/chat";
 
 const api = axios.create({

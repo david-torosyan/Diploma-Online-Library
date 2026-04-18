@@ -1,7 +1,7 @@
 import React from "react";
 import { BookWithDetailsDto } from "../api/LibraryClient";
 import { useTranslation } from "react-i18next";
-import config from "../config/config.json";
+import config from "../config/config";
 
 const isLocalMediaUrl = (url?: string) => !!url && url.includes("/media/");
 
