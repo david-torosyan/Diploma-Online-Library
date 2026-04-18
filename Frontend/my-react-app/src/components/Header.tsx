@@ -25,6 +25,54 @@ const Header: React.FC = () => {
   const [isNavbarExpanded, setIsNavbarExpanded] = useState(false);
   const { t } = useTranslation();
   const isSwitchingOffcanvasRef = useRef(false);
+  const cleanupTimeoutRef = useRef<number | null>(null);
+  const cleanupRafRef = useRef<number | null>(null);
+
+  const cancelScheduledCleanup = () => {
+    if (cleanupTimeoutRef.current !== null) {
+      window.clearTimeout(cleanupTimeoutRef.current);
+      cleanupTimeoutRef.current = null;
+    }
+    if (cleanupRafRef.current !== null) {
+      window.cancelAnimationFrame(cleanupRafRef.current);
+      cleanupRafRef.current = null;
+    }
+  };
+
+  const cleanupOffcanvasUiState = () => {
+    if (document.querySelector(".offcanvas.show, .offcanvas.showing, .offcanvas.hiding")) {
+      return;
+    }
+
+    document.querySelectorAll(".offcanvas-backdrop").forEach((backdrop) => {
+      backdrop.remove();
+    });
+    document.body.classList.remove("overflow-hidden", "modal-open");
+    document.body.style.removeProperty("overflow");
+    document.body.style.removeProperty("padding-right");
+  };
+
+  const scheduleCleanupOffcanvasUiState = (delayMs = 0) => {
+    cancelScheduledCleanup();
+
+    if (delayMs > 0) {
+      cleanupTimeoutRef.current = window.setTimeout(() => {
+        cleanupOffcanvasUiState();
+        cleanupRafRef.current = window.requestAnimationFrame(() => {
+          cleanupOffcanvasUiState();
+          cleanupRafRef.current = null;
+        });
+        cleanupTimeoutRef.current = null;
+      }, delayMs);
+      return;
+    }
+
+    cleanupOffcanvasUiState();
+    cleanupRafRef.current = window.requestAnimationFrame(() => {
+      cleanupOffcanvasUiState();
+      cleanupRafRef.current = null;
+    });
+  };
 
   const hideNavbarMenu = () => {
     const navbar = document.getElementById("navbarNav");
@@ -57,6 +105,9 @@ const Header: React.FC = () => {
       const instance = Offcanvas.getOrCreateInstance(drawer);
       instance.hide();
     });
+
+    // Delay a bit to let Bootstrap complete hide transition and avoid reopen race.
+    scheduleCleanupOffcanvasUiState(160);
   };
 
   useEffect(() => {
@@ -191,6 +242,15 @@ const Header: React.FC = () => {
       loadChatUnreadCount();
     };
 
+    const handleAnyOffcanvasShow = () => {
+      // Prevent a stale delayed cleanup from removing backdrop during a new open.
+      cancelScheduledCleanup();
+    };
+
+    const handleAnyOffcanvasHidden = () => {
+      scheduleCleanupOffcanvasUiState(0);
+    };
+
     syncAuthState();
     loadUnapprovedCount();
     loadChatUnreadCount();
@@ -219,6 +279,8 @@ const Header: React.FC = () => {
 
     window.addEventListener("focus", handleWindowFocus);
     document.addEventListener("click", handleOffcanvasSwitch);
+    document.addEventListener("show.bs.offcanvas", handleAnyOffcanvasShow as EventListener);
+    document.addEventListener("hidden.bs.offcanvas", handleAnyOffcanvasHidden as EventListener);
     window.addEventListener("admin-unapproved-count-changed", handleUnapprovedCountChanged as EventListener);
     window.addEventListener("chat-unread-count-changed", handleChatUnreadCountChanged as EventListener);
 
@@ -231,8 +293,11 @@ const Header: React.FC = () => {
       }
       window.removeEventListener("focus", handleWindowFocus);
       document.removeEventListener("click", handleOffcanvasSwitch);
+      document.removeEventListener("show.bs.offcanvas", handleAnyOffcanvasShow as EventListener);
+      document.removeEventListener("hidden.bs.offcanvas", handleAnyOffcanvasHidden as EventListener);
       window.removeEventListener("admin-unapproved-count-changed", handleUnapprovedCountChanged as EventListener);
       window.removeEventListener("chat-unread-count-changed", handleChatUnreadCountChanged as EventListener);
+      cancelScheduledCleanup();
       if (navbar) {
         navbar.removeEventListener("shown.bs.collapse", handleNavbarShown);
         navbar.removeEventListener("hidden.bs.collapse", handleNavbarHidden);

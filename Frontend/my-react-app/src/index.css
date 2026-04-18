@@ -609,8 +609,14 @@ a {
 
 /* Major UI update: offcanvas panels share one modern visual language and better form affordances. */
 .offcanvas {
+  --bs-offcanvas-transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1);
   border-left: 1px solid var(--border-1);
   background: linear-gradient(180deg, #f8fbff 0%, #f2f7ff 100%);
+  will-change: transform;
+}
+
+.offcanvas-backdrop {
+  transition: opacity 0.1s linear !important;
 }
 
 .offcanvas-header {
@@ -757,7 +763,7 @@ a {
 }
 
 .app-drawer {
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(2px);
 }
 
 .app-drawer .offcanvas-header {
