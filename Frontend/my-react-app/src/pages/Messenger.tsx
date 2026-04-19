@@ -44,6 +44,7 @@ const Messenger = () => {
   const hubRef = useRef<HubConnection | null>(null);
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const activeConversationIdRef = useRef<string | null>(null);
+  const conversationsRef = useRef<ConversationSummary[]>([]);
   const privatePickerRef = useRef<HTMLDivElement | null>(null);
   const typingTimeoutsRef = useRef<Record<string, Record<string, ReturnType<typeof setTimeout>>>>({});
   const didApplyRouteStateRef = useRef(false);
@@ -75,6 +76,10 @@ const Messenger = () => {
   useEffect(() => {
     activeConversationIdRef.current = activeConversationId;
   }, [activeConversationId]);
+
+  useEffect(() => {
+    conversationsRef.current = conversations;
+  }, [conversations]);
 
   useEffect(() => {
     setIsParticipantsPanelOpen(false);
@@ -254,6 +259,21 @@ const Messenger = () => {
     const hub = createChatHubConnection(token);
     hubRef.current = hub;
 
+    const joinConversations = async () => {
+      const currentHub = hubRef.current;
+      if (!currentHub) {
+        return;
+      }
+
+      for (const conversation of conversationsRef.current) {
+        try {
+          await currentHub.invoke("JoinConversation", conversation.id);
+        } catch {
+          // Conversation-level subscription failures should not break the page.
+        }
+      }
+    };
+
     hub.on("MessageReceived", (incoming: ChatMessage) => {
       const isActiveConversation = activeConversationIdRef.current === incoming.conversationId;
 
@@ -379,6 +399,10 @@ const Messenger = () => {
           ),
         }))
       );
+    });
+
+    hub.onreconnected(() => {
+      joinConversations().catch(() => undefined);
     });
 
     hub

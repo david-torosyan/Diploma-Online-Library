@@ -100,6 +100,7 @@ export function createChatHubConnection(token: string): signalR.HubConnection {
   return new signalR.HubConnectionBuilder()
     .withUrl(`${config.baseUrl}/hubs/chat`, {
       accessTokenFactory: () => token,
+      withCredentials: false,
     })
     .withAutomaticReconnect()
     .build();
