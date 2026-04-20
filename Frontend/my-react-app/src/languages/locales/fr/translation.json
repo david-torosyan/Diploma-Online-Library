@@ -152,6 +152,7 @@
   "writeReview": "Noter ce livre",
   "writeReviewHint": "Choisissez de 1 à 5 étoiles et partagez un court commentaire sur votre expérience de lecture.",
   "submitReview": "Publier l'avis",
+  "updateReview": "Mettre à jour l'avis",
   "reviewPlaceholder": "Qu'avez-vous aimé ou moins aimé dans ce livre ?",
   "romance": "Romance",
   "saveBook": "Enregistrer le livre",
