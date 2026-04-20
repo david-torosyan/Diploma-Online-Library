@@ -261,7 +261,10 @@ const BooksGrid: React.FC<BooksGridProps> = ({
 
                   <button
                     className="btn btn-sm btn-outline-primary w-100 mt-1 book-action-btn"
-                    onClick={() => openBookDetail(book.id)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      openBookDetail(book.id);
+                    }}
                   >
                     {t("read")}
                   </button>
@@ -340,7 +343,10 @@ const BooksGrid: React.FC<BooksGridProps> = ({
 
                   <button
                     className="btn btn-sm btn-outline-primary w-100 mt-1 book-action-btn"
-                    onClick={() => openBookDetail(book.id)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      openBookDetail(book.id);
+                    }}
                   >
                     {t("read")}
                   </button>

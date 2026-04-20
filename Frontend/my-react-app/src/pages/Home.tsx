@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import BooksGrid from "../components/BooksGrid";
 import SearchDrawer from "../components/SearchDrawer";
 import CuratedBooksShelf from "../components/CuratedBooksShelf";
+import GenreBooksShelf from "../components/GenreBooksShelf";
 import {
   getFeaturedBooks,
   getMostRatedBooks,
@@ -100,11 +101,7 @@ const Home: React.FC = () => {
       />
 
       {genres.length > 0 ? (
-        genres.map((genre) => (
-          <section key={genre} className="app-section">
-            <BooksGrid genre={genre} />
-          </section>
-        ))
+        genres.map((genre) => <GenreBooksShelf key={genre} genre={genre} />)
       ) : (
         <p className="text-center my-4 empty-state">{t("fetchError")}</p>
       )}

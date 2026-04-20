@@ -373,10 +373,15 @@ a {
 }
 
 .category-shell .book-action-btn {
-  color: var(--brand-1);
-  border-color: color-mix(in srgb, var(--brand-1) 72%, var(--brand-2) 28%);
-  background: rgba(255, 255, 255, 0.82);
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(
+    135deg,
+    var(--brand-1),
+    var(--brand-2)
+  );
   font-weight: 700;
+  box-shadow: 0 8px 18px rgba(255, 95, 109, 0.24);
 }
 
 .category-shell .book-action-btn:hover,
@@ -384,7 +389,7 @@ a {
   color: #fff;
   border-color: transparent;
   background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
-  box-shadow: 0 10px 20px rgba(255, 95, 109, 0.24);
+  box-shadow: 0 12px 22px rgba(255, 95, 109, 0.3);
 }
 
 .genre-section .slider-nav-btn {

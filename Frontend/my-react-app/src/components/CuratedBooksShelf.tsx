@@ -164,7 +164,12 @@ const CuratedBooksShelf: React.FC<CuratedBooksShelfProps> = ({
                   <button
                     type="button"
                     className="btn btn-sm btn-primary rounded-pill mt-auto"
-                    onClick={() => book.id && navigate(`/bookdetails/${book.id}`)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      if (book.id) {
+                        navigate(`/bookdetails/${book.id}`);
+                      }
+                    }}
                     disabled={!book.id}
                   >
                     {t("read")}
