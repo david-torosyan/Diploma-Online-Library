@@ -1,7 +1,9 @@
 ﻿using LibraryAPI.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
+using Polly;
 using System.Net.Http.Headers;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -13,6 +15,19 @@ public class AIAssistantHelper
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;
     private readonly string _model;
+    private static readonly AsyncPolicy<HttpResponseMessage> AiRetryPolicy = Policy<HttpResponseMessage>
+        .HandleResult(response =>
+            response.StatusCode == HttpStatusCode.TooManyRequests ||
+            response.StatusCode == HttpStatusCode.ServiceUnavailable)
+        .Or<HttpRequestException>(ex =>
+            ex.StatusCode == HttpStatusCode.TooManyRequests ||
+            ex.StatusCode == HttpStatusCode.ServiceUnavailable)
+        .WaitAndRetryAsync(
+            3,
+            retryAttempt =>
+                TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) +
+                TimeSpan.FromMilliseconds(Random.Shared.Next(0, 1000))
+        );
 
     public AIAssistantHelper(HttpClient httpClient, IOptions<AIAssistantOptions> options)
     {
@@ -142,15 +157,21 @@ public class AIAssistantHelper
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         });
 
-        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
         _httpClient.DefaultRequestHeaders.Clear();
         _httpClient.DefaultRequestHeaders.Add("x-goog-api-key", _apiKey);
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
         string requestUri = $"https://generativelanguage.googleapis.com/v1beta/models/{_model}:generateContent";
 
-        var response = await _httpClient.PostAsync(requestUri, content);
+        var response = await AiRetryPolicy.ExecuteAsync(async () =>
+        {
+            using var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUri)
+            {
+                Content = new StringContent(jsonBody, Encoding.UTF8, "application/json")
+            };
+
+            return await _httpClient.SendAsync(requestMessage);
+        });
 
         var responseBody = await response.Content.ReadAsStringAsync();
 
