@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 import { LibraryClient, BookDto } from "../api/LibraryClient";
 import config from "../config/config";
+import { getApiClientWithAuth } from "../utils/apiClient";
 
 const MyBooksDrawer: React.FC = () => {
   const { t } = useTranslation();
@@ -28,7 +29,8 @@ const MyBooksDrawer: React.FC = () => {
     setError(null);
 
     try {
-      const api = new LibraryClient(config.baseUrl);
+      const axiosInstance = getApiClientWithAuth();
+      const api = new LibraryClient(config.baseUrl, axiosInstance);
       const result = await api.myFavoritesAll();
       setBooks(Array.isArray(result) ? result : []);
     } catch {

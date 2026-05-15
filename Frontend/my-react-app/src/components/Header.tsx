@@ -13,6 +13,7 @@ import AdminMessagesDrawer from "../components/AdminMessagesDrawer";
 import { getAuthToken, isAdminUser } from "../utils/auth";
 import { Collapse, Offcanvas } from "bootstrap";
 import { LibraryClient } from "../api/LibraryClient";
+import { getApiClientWithAuth } from "../utils/apiClient";
 import { createChatHubConnection, getUnreadCount } from "../services/chatService";
 import config from "../config/config";
 
@@ -135,8 +136,8 @@ const Header: React.FC = () => {
       }
 
       try {
-        const api = new LibraryClient(config.baseUrl);
-        const result = await api.unapproved(token);
+        const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
+        const result = await api.unapproved();
         setUnapprovedCount(Array.isArray(result) ? result.length : 0);
       } catch {
         setUnapprovedCount(0);

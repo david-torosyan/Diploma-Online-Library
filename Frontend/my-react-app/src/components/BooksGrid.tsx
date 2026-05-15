@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import config from "../config/config";
 import Cookies from "js-cookie";
 import { createGenreTheme } from "../utils/genreTheme";
+import { getApiClientWithAuth } from "../utils/apiClient";
 
 interface Book {
   id: string;
@@ -77,7 +78,8 @@ const BooksGrid: React.FC<BooksGridProps> = ({
     if (!token) return;
     setIsAuthenticated(true);
     try {
-      const api = new LibraryClient(config.baseUrl);
+      const axiosInstance = getApiClientWithAuth();
+      const api = new LibraryClient(config.baseUrl, axiosInstance);
       const favorites = await api.myFavoritesAll();
       const ids = new Set(
         favorites
@@ -103,7 +105,8 @@ const BooksGrid: React.FC<BooksGridProps> = ({
 
     setTogglingId(bookId);
     try {
-      const api = new LibraryClient(config.baseUrl);
+      const axiosInstance = getApiClientWithAuth();
+      const api = new LibraryClient(config.baseUrl, axiosInstance);
       await api.myFavorites(bookId, nextFavoriteState);
       setFavoriteIds((prev) => {
         const updated = new Set(prev);

@@ -330,6 +330,42 @@ namespace LibraryAPI.Controllers
         }
 
         /// <summary>
+        /// Deletes a review comment. Only admin can delete any review.
+        /// </summary>
+        /// <param name="reviewId">The ID of the review to delete.</param>
+        /// <returns>204 NoContent if successfully deleted.</returns>
+        [Authorize(Roles = RoleConstans.Admin)]
+        [HttpDelete("reviews/{reviewId:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteReview(int reviewId)
+        {
+            if (reviewId <= 0)
+                return BadRequest("Invalid review ID.");
+
+            try
+            {
+                await _reviewService.DeleteReviewAsync(reviewId);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// Adds a new book to the library.
         /// </summary>
         /// <param name="bookDto">The book details to create.</param>

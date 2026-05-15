@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import config from "../config/config";
 import BookDetailFromAi from "../pages/BookDetailFromAi";
 import { getSearchSuggestions } from "../services/discoveryService";
+import { getApiClientWithAuth } from "../utils/apiClient";
 
 import backgroundImage from "../assets/grand-library.jpg";
 
@@ -63,7 +64,7 @@ const SearchDrawer: React.FC = () => {
     async (text: string, force = true) => {
       if (!text || text.length < 3) return;
 
-      const api = new LibraryClient(config.baseUrl);
+      const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
 
       setLoading(true);
       setError(null);

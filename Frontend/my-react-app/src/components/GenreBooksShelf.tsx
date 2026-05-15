@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BookDto, LibraryClient } from "../api/LibraryClient";
+import { getApiClientWithAuth } from "../utils/apiClient";
 import { useTranslation } from "react-i18next";
 import config from "../config/config";
 import CuratedBooksShelf from "./CuratedBooksShelf";
@@ -20,7 +21,7 @@ const GenreBooksShelf: React.FC<GenreBooksShelfProps> = ({ genre }) => {
       setLoading(true);
 
       try {
-        const api = new LibraryClient(config.baseUrl);
+        const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
         const result = await api.category(genre);
 
         if (!isMounted) {

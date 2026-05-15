@@ -74,4 +74,19 @@ public class ReviewService : IReviewService
         return await _unitOfWork.Reviews.GetUserReviewAsync(userId, bookId)
             ?? existingReview;
     }
+
+    public async Task DeleteReviewAsync(int reviewId)
+    {
+        if (reviewId <= 0)
+            throw new ArgumentException("Invalid review ID.");
+
+        var review = await _unitOfWork.Reviews.GetByIdAsync(reviewId);
+        if (review is null)
+            throw new KeyNotFoundException($"Review with ID {reviewId} was not found.");
+
+        _unitOfWork.Reviews.Delete(review);
+        await _unitOfWork.CommitAsync();
+
+        _logger.LogInformation("Review {ReviewId} deleted by admin.", reviewId);
+    }
 }

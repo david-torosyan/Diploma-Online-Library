@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import config from "../config/config";
 import Cookies from "js-cookie";
 import { getCurrentUserId, isAdminUser } from "../utils/auth";
+import { getApiClientWithAuth } from "../utils/apiClient";
 import { getRelatedBooks } from "../services/discoveryService";
 import { startPrivateConversation } from "../services/chatService";
 import { improveText } from "../services/aiWritingService.ts";
@@ -56,6 +57,8 @@ const BookDetail: React.FC = () => {
   const [reviewForm, setReviewForm] = useState({ rating: 0, content: "" });
   const [aiImproving, setAiImproving] = useState(false);
   const [aiWriting, setAiWriting] = useState(false);
+  const [reviewDeleting, setReviewDeleting] = useState<number | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const { t, i18n } = useTranslation();
   const currentUserId = getCurrentUserId();
 
@@ -124,8 +127,8 @@ const BookDetail: React.FC = () => {
     }
 
     try {
-      const api = new LibraryClient(config.baseUrl);
-      const unapprovedBooks = await api.unapproved(token);
+      const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
+      const unapprovedBooks = await api.unapproved();
       const currentBookId = Number(id);
       setIsPendingApproval(
         unapprovedBooks.some((item) => item.id === currentBookId)
@@ -148,7 +151,7 @@ const BookDetail: React.FC = () => {
     setIsAuthenticated(true);
 
     try {
-      const api = new LibraryClient(config.baseUrl);
+      const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
       const favorites = await api.myFavoritesAll();
       const currentBookId = Number(id);
       const exists = favorites.some((item) => item.id === currentBookId);
@@ -247,7 +250,7 @@ const BookDetail: React.FC = () => {
 
     setFavoriteLoading(true);
     try {
-      const api = new LibraryClient(config.baseUrl);
+      const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
       await api.myFavorites(bookId, nextFavoriteState);
       setIsFavorite(nextFavoriteState);
 
@@ -282,12 +285,12 @@ const BookDetail: React.FC = () => {
 
     setApprovalLoading(true);
     try {
-      const api = new LibraryClient(config.baseUrl);
-      await api.approve(Number(id), token);
+      const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
+      await api.approve(Number(id));
       setIsPendingApproval(false);
 
       try {
-        const unapprovedBooks = await api.unapproved(token);
+        const unapprovedBooks = await api.unapproved();
         const nextCount = Array.isArray(unapprovedBooks) ? unapprovedBooks.length : 0;
         window.dispatchEvent(
           new CustomEvent("admin-unapproved-count-changed", {
@@ -314,10 +317,10 @@ const BookDetail: React.FC = () => {
 
     setDeclineLoading(true);
     try {
-      const api = new LibraryClient(config.baseUrl);
-      await api.decline(Number(id), token);
+      const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
+      await api.decline(Number(id));
 
-      const unapprovedBooks = await api.unapproved(token);
+      const unapprovedBooks = await api.unapproved();
       const nextCount = Array.isArray(unapprovedBooks) ? unapprovedBooks.length : 0;
       window.dispatchEvent(
         new CustomEvent("admin-unapproved-count-changed", {
@@ -362,8 +365,8 @@ const BookDetail: React.FC = () => {
     setReviewSuccess(null);
 
     try {
-      const api = new LibraryClient(config.baseUrl);
-      await api.reviews(
+      const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
+      await api.reviewsPOST2(
         Number(id),
         new UpsertReviewDto({
           rating: reviewForm.rating,
@@ -406,6 +409,32 @@ const BookDetail: React.FC = () => {
       });
     } catch {
       setReviewError(t("chatStartFailed", "Could not start chat. Please try again."));
+    }
+  };
+
+  const handleDeleteReview = async (reviewId: number) => {
+    if (!isAdmin || reviewDeleting) return;
+
+    const token = Cookies.get("auth_token");
+    if (!token) {
+      setDeleteError(t("signInRequired", "Sign in to delete reviews."));
+      return;
+    }
+
+    setReviewDeleting(reviewId);
+    setDeleteError(null);
+
+    try {
+      const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
+      await api.reviewsDELETE2(reviewId);
+      await loadBook(false);
+    } catch (err) {
+      console.error(err);
+      setDeleteError(
+        t("reviewDeleteFailed", "Could not delete the review. Please try again.")
+      );
+    } finally {
+      setReviewDeleting(null);
     }
   };
 
@@ -827,6 +856,16 @@ const BookDetail: React.FC = () => {
                             ? new Date(review.createdAt).toLocaleDateString()
                             : ""}
                         </span>
+                        {isAdmin && (
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-outline-danger rounded-pill"
+                            onClick={() => review.id && handleDeleteReview(review.id)}
+                            disabled={reviewDeleting === review.id}
+                          >
+                            {reviewDeleting === review.id ? t("deleting", "Deleting...") : t("delete", "Delete")}
+                          </button>
+                        )}
                       </div>
                     </div>
 

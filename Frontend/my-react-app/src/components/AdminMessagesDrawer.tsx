@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LibraryClient, BookDto } from "../api/LibraryClient";
+import { getApiClientWithAuth } from "../utils/apiClient";
 import { useTranslation } from "react-i18next";
 import config from "../config/config";
 import { getAuthToken } from "../utils/auth";
@@ -24,8 +25,8 @@ const AdminMessagesDrawer: React.FC = () => {
     setError(null);
 
     try {
-      const api = new LibraryClient(config.baseUrl);
-      const result = await api.unapproved(token);
+      const api = new LibraryClient(config.baseUrl, getApiClientWithAuth());
+      const result = await api.unapproved();
       const nextBooks = Array.isArray(result) ? result : [];
       setBooks(nextBooks);
       window.dispatchEvent(

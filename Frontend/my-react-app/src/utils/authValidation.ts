@@ -30,6 +30,7 @@ const registerFieldByTranslationKey: Partial<Record<string, RegisterFieldKey>> =
   validationEmailRequired: "email",
   validationEmailInvalid: "email",
   authEmailAlreadyTaken: "email",
+  authUsernameAlreadyTaken: "email",
   validationPasswordRequired: "password",
   validationPasswordMinLength: "password",
   validationPasswordLatinLowercase: "password",
@@ -248,6 +249,13 @@ function mapAuthMessageToTranslationKey(message: string): string | null {
     (normalized.includes("already") || normalized.includes("exists") || normalized.includes("taken"))
   ) {
     return "authEmailAlreadyTaken";
+  }
+
+  if (
+    normalized.includes("username") &&
+    (normalized.includes("already") || normalized.includes("exists") || normalized.includes("taken"))
+  ) {
+    return "authUsernameAlreadyTaken";
   }
 
   if (normalized.includes("first name") && normalized.includes("required")) {
